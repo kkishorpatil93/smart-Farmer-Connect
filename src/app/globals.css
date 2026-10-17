@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #1B5E20;
+  --primary-light: #2E7D32;
+  --fresh: #4CAF50;
+  --amber: #FFB300;
+  --background: #FFF8E1;
+  --surface: #FFFFFF;
+  --text-main: #1F2937;
+  --text-muted: #4B5563;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-main);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure accessible touch target sizes across rural mobile devices */
+button, a, input, select, textarea {
+  min-height: 48px;
+  touch-action: manipulation;
+}
+
+/* Prevent unwanted layout shift on mobile */
+html, body {
+  overflow-x: hidden;
+}
+
+/* High contrast outline for keyboard accessibility */
+:focus-visible {
+  outline: 3px solid #FFB300;
+  outline-offset: 2px;
+}

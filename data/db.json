@@ -1,0 +1,689 @@
+{
+  "markets": [
+    {
+      "id": "m0000001-0000-0000-0000-000000000001",
+      "name_en": "Hubballi APMC (Amaragol)",
+      "name_kn": "ಹುಬ್ಬಳ್ಳಿ ಎಪಿಎಂಸಿ (ಅಮರಗೋಳ)",
+      "district": "Dharwad",
+      "lat": 15.3921,
+      "lng": 75.1054,
+      "is_active": true
+    },
+    {
+      "id": "m0000001-0000-0000-0000-000000000002",
+      "name_en": "Belagavi APMC",
+      "name_kn": "ಬೆಳಗಾವಿ ಎಪಿಎಂಸಿ",
+      "district": "Belagavi",
+      "lat": 15.8497,
+      "lng": 74.4977,
+      "is_active": true
+    },
+    {
+      "id": "m0000001-0000-0000-0000-000000000003",
+      "name_en": "Bengaluru Yeshwanthpur APMC",
+      "name_kn": "ಬೆಂಗಳೂರು ಯಶವಂತಪುರ ಎಪಿಎಂಸಿ",
+      "district": "Bengaluru Urban",
+      "lat": 13.0238,
+      "lng": 77.5529,
+      "is_active": true
+    },
+    {
+      "id": "m0000001-0000-0000-0000-000000000004",
+      "name_en": "Mysuru Bandipalya APMC",
+      "name_kn": "ಮೈಸೂರು ಬಂಡಿಪಾಳ್ಯ ಎಪಿಎಂಸಿ",
+      "district": "Mysuru",
+      "lat": 12.2829,
+      "lng": 76.6663,
+      "is_active": true
+    },
+    {
+      "id": "m0000001-0000-0000-0000-000000000005",
+      "name_en": "Gadag APMC",
+      "name_kn": "ಗದಗ ಎಪಿಎಂಸಿ",
+      "district": "Gadag",
+      "lat": 15.4312,
+      "lng": 75.6358,
+      "is_active": true
+    },
+    {
+      "id": "m0000001-0000-0000-0000-000000000006",
+      "name_en": "Davanagere APMC",
+      "name_kn": "ದಾವಣಗೆರೆ ಎಪಿಎಂಸಿ",
+      "district": "Davanagere",
+      "lat": 14.4644,
+      "lng": 75.9218,
+      "is_active": true
+    },
+    {
+      "id": "m0000001-0000-0000-0000-000000000007",
+      "name_en": "Shivamogga APMC",
+      "name_kn": "ಶಿವಮೊಗ್ಗ ಎಪಿಎಂಸಿ",
+      "district": "Shivamogga",
+      "lat": 13.9299,
+      "lng": 75.5681,
+      "is_active": true
+    },
+    {
+      "id": "m0000001-0000-0000-0000-000000000008",
+      "name_en": "Kalaburagi APMC",
+      "name_kn": "ಕಲಬುರಗಿ ಎಪಿಎಂಸಿ",
+      "district": "Kalaburagi",
+      "lat": 17.3297,
+      "lng": 76.8343,
+      "is_active": true
+    }
+  ],
+  "crops": [
+    {
+      "id": "c0000001-0000-0000-0000-000000000001",
+      "name_en": "Tomato",
+      "name_kn": "ಟೊಮೆಟೊ",
+      "default_unit": "quintal",
+      "icon_name": "🍅",
+      "category": "vegetable"
+    },
+    {
+      "id": "c0000001-0000-0000-0000-000000000002",
+      "name_en": "Onion",
+      "name_kn": "ಈರುಳ್ಳಿ",
+      "default_unit": "quintal",
+      "icon_name": "🧅",
+      "category": "vegetable"
+    },
+    {
+      "id": "c0000001-0000-0000-0000-000000000003",
+      "name_en": "Potato",
+      "name_kn": "ಆಲೂಗಡ್ಡೆ",
+      "default_unit": "quintal",
+      "icon_name": "🥔",
+      "category": "vegetable"
+    },
+    {
+      "id": "c0000001-0000-0000-0000-000000000004",
+      "name_en": "Rice (Paddy)",
+      "name_kn": "ಭತ್ತ / ಅಕ್ಕಿ",
+      "default_unit": "quintal",
+      "icon_name": "🌾",
+      "category": "grain"
+    },
+    {
+      "id": "c0000001-0000-0000-0000-000000000005",
+      "name_en": "Maize",
+      "name_kn": "ಮೆಕ್ಕೆಜೋಳ",
+      "default_unit": "quintal",
+      "icon_name": "🌽",
+      "category": "grain"
+    },
+    {
+      "id": "c0000001-0000-0000-0000-000000000006",
+      "name_en": "Green Chilli",
+      "name_kn": "ಹಸಿ ಮೆಣಸಿನಕಾಯಿ",
+      "default_unit": "kg",
+      "icon_name": "🌶️",
+      "category": "vegetable"
+    },
+    {
+      "id": "c0000001-0000-0000-0000-000000000007",
+      "name_en": "Cotton",
+      "name_kn": "ಹತ್ತಿ",
+      "default_unit": "quintal",
+      "icon_name": "☁️",
+      "category": "commercial"
+    },
+    {
+      "id": "c0000001-0000-0000-0000-000000000008",
+      "name_en": "Groundnut",
+      "name_kn": "ಕಡಲೆಕಾಯಿ",
+      "default_unit": "quintal",
+      "icon_name": "🥜",
+      "category": "oilseed"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "u0000001-0000-0000-0000-000000000001",
+      "role": "farmer",
+      "full_name": "Basavaraj Patil (ಬಸವರಾಜ ಪಾಟೀಲ)",
+      "phone": "+919845011111",
+      "language": "kn",
+      "is_verified": true,
+      "is_suspended": false,
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    },
+    {
+      "id": "u0000001-0000-0000-0000-000000000002",
+      "role": "farmer",
+      "full_name": "Ningappa Gowda (ನಿಂಗಪ್ಪ ಗೌಡ)",
+      "phone": "+919845022222",
+      "language": "kn",
+      "is_verified": true,
+      "is_suspended": false,
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    },
+    {
+      "id": "u0000002-0000-0000-0000-000000000001",
+      "role": "seller",
+      "full_name": "Suresh Kumar",
+      "phone": "+919845044444",
+      "language": "kn",
+      "is_verified": true,
+      "is_suspended": false,
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    },
+    {
+      "id": "u0000002-0000-0000-0000-000000000002",
+      "role": "seller",
+      "full_name": "Anand Kulkarni",
+      "phone": "+919845055555",
+      "language": "kn",
+      "is_verified": true,
+      "is_suspended": false,
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    }
+  ],
+  "farmerProfiles": [
+    {
+      "id": "f0000001-0000-0000-0000-000000000001",
+      "user_id": "u0000001-0000-0000-0000-000000000001",
+      "village": "Konnur",
+      "taluk": "Gokak",
+      "district": "Belagavi",
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    },
+    {
+      "id": "f0000001-0000-0000-0000-000000000002",
+      "user_id": "u0000001-0000-0000-0000-000000000002",
+      "village": "Annigeri",
+      "taluk": "Navalgund",
+      "district": "Dharwad",
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    }
+  ],
+  "sellerProfiles": [
+    {
+      "id": "s0000001-0000-0000-0000-000000000001",
+      "user_id": "u0000002-0000-0000-0000-000000000001",
+      "shop_name": "Suresh Agro Traders",
+      "license_no": "APMC-HUB-2024-88",
+      "preferred_crops": [
+        "Tomato",
+        "Onion",
+        "Potato"
+      ],
+      "rating_avg": 4.8,
+      "rating_count": 24,
+      "subscribedMarkets": [
+        "m0000001-0000-0000-0000-000000000001"
+      ],
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    },
+    {
+      "id": "s0000001-0000-0000-0000-000000000002",
+      "user_id": "u0000002-0000-0000-0000-000000000002",
+      "shop_name": "Annapurna Veg Syndicate",
+      "license_no": "APMC-HUB-2023-14",
+      "preferred_crops": [
+        "Tomato",
+        "Green Chilli"
+      ],
+      "rating_avg": 4.65,
+      "rating_count": 18,
+      "subscribedMarkets": [
+        "m0000001-0000-0000-0000-000000000001"
+      ],
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z"
+    }
+  ],
+  "listings": [
+    {
+      "id": "l0000001-0000-0000-0000-000000000001",
+      "farmer_id": "f0000001-0000-0000-0000-000000000001",
+      "crop_id": "c0000001-0000-0000-0000-000000000001",
+      "market_id": "m0000001-0000-0000-0000-000000000001",
+      "quantity_kg": 500,
+      "quantity_remaining_kg": 500,
+      "price_per_kg": 22,
+      "entered_quantity": 5,
+      "entered_unit": "quintal",
+      "entered_price": 2200,
+      "entered_price_unit": "quintal",
+      "harvest_date": "2026-10-17",
+      "description": "Grade-A fresh red round tomatoes harvested this morning. Firm and clean.",
+      "status": "posted",
+      "idempotency_key": "i0000001-0000-0000-0000-000000000001",
+      "created_at": "2026-10-17T18:16:24.132Z",
+      "updated_at": "2026-10-17T18:16:24.132Z",
+      "images": [
+        {
+          "id": "img-1",
+          "listing_id": "l0000001-0000-0000-0000-000000000001",
+          "storage_path": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop&q=80",
+          "position": 1,
+          "created_at": "2026-10-17T18:16:24.132Z"
+        }
+      ]
+    },
+    {
+      "farmer_id": "f0000001-0000-0000-0000-000000000001",
+      "crop_id": "c0000001-0000-0000-0000-000000000002",
+      "market_id": "m0000001-0000-0000-0000-000000000001",
+      "entered_quantity": 10,
+      "entered_unit": "quintal",
+      "entered_price": 2800,
+      "entered_price_unit": "quintal",
+      "quantity_kg": 1000,
+      "price_per_kg": 28,
+      "harvest_date": "2026-10-17",
+      "description": "Quality Bellary Pink Onions harvested today. Clean and packed in gunny bags.",
+      "idempotency_key": "key-1792261116171-wdqo8l",
+      "images": [],
+      "id": "l-1792261116172-95of8",
+      "status": "partially_sold",
+      "quantity_remaining_kg": 400,
+      "created_at": "2026-10-17T18:18:36.172Z",
+      "updated_at": "2026-10-17T18:18:36.444Z"
+    },
+    {
+      "farmer_id": "f0000001-0000-0000-0000-000000000001",
+      "crop_id": "c0000001-0000-0000-0000-000000000003",
+      "market_id": "m0000001-0000-0000-0000-000000000001",
+      "entered_quantity": 10,
+      "entered_unit": "quintal",
+      "entered_price": 1900,
+      "entered_price_unit": "quintal",
+      "quantity_kg": 1000,
+      "price_per_kg": 19,
+      "harvest_date": "2026-10-17",
+      "description": "Jyoti variety table potato, uniform medium size, minimal mud.",
+      "idempotency_key": "key-1792261163081-s0mrc0",
+      "images": [],
+      "id": "l-1792261163082-a5atc",
+      "status": "partially_sold",
+      "quantity_remaining_kg": 400,
+      "created_at": "2026-10-17T18:19:23.082Z",
+      "updated_at": "2026-10-17T18:19:23.163Z"
+    },
+    {
+      "farmer_id": "f0000001-0000-0000-0000-000000000001",
+      "crop_id": "c0000001-0000-0000-0000-000000000001",
+      "market_id": "m0000001-0000-0000-0000-000000000001",
+      "entered_quantity": 500,
+      "entered_unit": "kg",
+      "entered_price": 22,
+      "entered_price_unit": "kg",
+      "quantity_kg": 500,
+      "price_per_kg": 22,
+      "min_price_per_kg": 20,
+      "is_negotiable": true,
+      "harvest_date": "2026-10-17",
+      "description": "Grade-A fresh red round tomatoes harvested this morning. Firm, clean, packed in crates.",
+      "idempotency_key": "key-1792261510948-pgcf49",
+      "images": [
+        {
+          "id": "img-1792261510948-0",
+          "listing_id": "",
+          "storage_path": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop&q=80",
+          "position": 1,
+          "created_at": "2026-10-17T18:25:10.948Z"
+        },
+        {
+          "id": "img-1792261510948-1",
+          "listing_id": "",
+          "storage_path": "https://images.unsplash.com/photo-1546470427-e26264be0b11?w=600&auto=format&fit=crop&q=80",
+          "position": 2,
+          "created_at": "2026-10-17T18:25:10.948Z"
+        }
+      ],
+      "quality_assessment": {
+        "grade": "Grade B",
+        "freshness": "Deep red to pinkish-red, skin taut with good firmness",
+        "uniformity": "Medium round/oval country tomatoes, fairly uniform sizing",
+        "defects": "Light natural stem scars, no visible soft rot or fungal blotches",
+        "explanation": "Healthy commercial table quality. Ready for immediate transport to Hubballi or Belagavi yards.",
+        "is_preliminary": true,
+        "assessed_by": "Visual Assessment Assistant (Preliminary)",
+        "confirmed_by_farmer": true
+      },
+      "market_reference": {
+        "modal_price_per_kg": 20,
+        "min_price_per_kg": 18,
+        "max_price_per_kg": 23.5,
+        "price_date": "2026-10-17",
+        "source_market": "Hubballi APMC (Amaragol) (Agmarknet Karnataka Mandi Bulletin)",
+        "is_available": true
+      },
+      "id": "l-1792261510949-bbnl1",
+      "status": "partially_sold",
+      "quantity_remaining_kg": 200,
+      "created_at": "2026-10-17T18:25:10.949Z",
+      "updated_at": "2026-10-17T18:25:11.791Z"
+    }
+  ],
+  "offers": [
+    {
+      "listing_id": "l-1792261116172-95of8",
+      "seller_id": "s0000001-0000-0000-0000-000000000001",
+      "quantity_kg": 600,
+      "price_per_kg": 29,
+      "proposed_visit_at": "2026-10-18T18:18:36.334Z",
+      "message": "Can pick up tomorrow morning from Hubballi yard with our transport.",
+      "id": "offer-1792261116432-167p",
+      "status": "accepted",
+      "created_at": "2026-10-17T18:18:36.432Z",
+      "updated_at": "2026-10-17T18:18:36.444Z"
+    },
+    {
+      "listing_id": "l-1792261116172-95of8",
+      "seller_id": "s0000001-0000-0000-0000-000000000002",
+      "quantity_kg": 500,
+      "price_per_kg": 28.5,
+      "message": "",
+      "id": "offer-1792261117492-gl01",
+      "status": "pending",
+      "created_at": "2026-10-17T18:18:37.492Z",
+      "updated_at": "2026-10-17T18:18:37.492Z"
+    },
+    {
+      "listing_id": "l-1792261163082-a5atc",
+      "seller_id": "s0000001-0000-0000-0000-000000000001",
+      "quantity_kg": 600,
+      "price_per_kg": 29,
+      "proposed_visit_at": "2026-10-18T18:19:23.135Z",
+      "message": "Can pick up tomorrow morning from Hubballi yard with our transport.",
+      "id": "offer-1792261163150-a110",
+      "status": "accepted",
+      "created_at": "2026-10-17T18:19:23.150Z",
+      "updated_at": "2026-10-17T18:19:23.163Z"
+    },
+    {
+      "listing_id": "l-1792261163082-a5atc",
+      "seller_id": "s0000001-0000-0000-0000-000000000002",
+      "quantity_kg": 500,
+      "price_per_kg": 28.5,
+      "message": "",
+      "id": "offer-1792261163802-wmxf",
+      "status": "pending",
+      "created_at": "2026-10-17T18:19:23.802Z",
+      "updated_at": "2026-10-17T18:19:23.802Z"
+    },
+    {
+      "listing_id": "l-1792261510949-bbnl1",
+      "seller_id": "s0000001-0000-0000-0000-000000000001",
+      "quantity_kg": 300,
+      "price_per_kg": 23,
+      "proposed_visit_at": "2026-10-18T18:25:11.695Z",
+      "message": "Quality looks good from photos. We can take 300 kg tomorrow morning at Hubballi yard.",
+      "id": "offer-1792261511778-hfx2",
+      "status": "accepted",
+      "created_at": "2026-10-17T18:25:11.778Z",
+      "updated_at": "2026-10-17T18:25:11.791Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-1792261116172-0rjc",
+      "user_id": "u0000002-0000-0000-0000-000000000001",
+      "type": "new_crop_listing",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:18:36.172Z",
+      "payload": {
+        "listing_id": "l-1792261116172-95of8",
+        "crop_name": "Onion",
+        "crop_name_kn": "ಈರುಳ್ಳಿ",
+        "quantity": 10,
+        "unit": "quintal",
+        "expected_price": 2800,
+        "market_name": "Hubballi APMC (Amaragol)",
+        "farmer_name": "Basavaraj",
+        "village": "Konnur",
+        "is_preferred_crop": true
+      }
+    },
+    {
+      "id": "notif-1792261116172-4p9i",
+      "user_id": "u0000002-0000-0000-0000-000000000002",
+      "type": "new_crop_listing",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:18:36.172Z",
+      "payload": {
+        "listing_id": "l-1792261116172-95of8",
+        "crop_name": "Onion",
+        "crop_name_kn": "ಈರುಳ್ಳಿ",
+        "quantity": 10,
+        "unit": "quintal",
+        "expected_price": 2800,
+        "market_name": "Hubballi APMC (Amaragol)",
+        "farmer_name": "Basavaraj",
+        "village": "Konnur",
+        "is_preferred_crop": false
+      }
+    },
+    {
+      "id": "notif-1792261116432-meok",
+      "user_id": "u0000001-0000-0000-0000-000000000001",
+      "type": "offer_received",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:18:36.432Z",
+      "payload": {
+        "listing_id": "l-1792261116172-95of8",
+        "offer_id": "offer-1792261116432-167p",
+        "shop_name": "Suresh Agro Traders",
+        "offered_price_per_kg": 29,
+        "quantity_kg": 600,
+        "proposed_visit_at": "2026-10-18T18:18:36.334Z"
+      }
+    },
+    {
+      "id": "notif-1792261116444-ffwg",
+      "user_id": "u0000002-0000-0000-0000-000000000001",
+      "type": "offer_accepted",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:18:36.444Z",
+      "payload": {
+        "listing_id": "l-1792261116172-95of8",
+        "offer_id": "offer-1792261116432-167p",
+        "accepted_kg": 600,
+        "price_per_kg": 29
+      }
+    },
+    {
+      "id": "notif-1792261117492-b1uy",
+      "user_id": "u0000001-0000-0000-0000-000000000001",
+      "type": "offer_received",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:18:37.492Z",
+      "payload": {
+        "listing_id": "l-1792261116172-95of8",
+        "offer_id": "offer-1792261117492-gl01",
+        "shop_name": "Annapurna Veg Syndicate",
+        "offered_price_per_kg": 28.5,
+        "quantity_kg": 500
+      }
+    },
+    {
+      "id": "notif-1792261163082-j5fs",
+      "user_id": "u0000002-0000-0000-0000-000000000001",
+      "type": "new_crop_listing",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:19:23.082Z",
+      "payload": {
+        "listing_id": "l-1792261163082-a5atc",
+        "crop_name": "Potato",
+        "crop_name_kn": "ಆಲೂಗಡ್ಡೆ",
+        "quantity": 10,
+        "unit": "quintal",
+        "expected_price": 1900,
+        "market_name": "Hubballi APMC (Amaragol)",
+        "farmer_name": "Basavaraj",
+        "village": "Konnur",
+        "is_preferred_crop": true
+      }
+    },
+    {
+      "id": "notif-1792261163082-0je3",
+      "user_id": "u0000002-0000-0000-0000-000000000002",
+      "type": "new_crop_listing",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:19:23.082Z",
+      "payload": {
+        "listing_id": "l-1792261163082-a5atc",
+        "crop_name": "Potato",
+        "crop_name_kn": "ಆಲೂಗಡ್ಡೆ",
+        "quantity": 10,
+        "unit": "quintal",
+        "expected_price": 1900,
+        "market_name": "Hubballi APMC (Amaragol)",
+        "farmer_name": "Basavaraj",
+        "village": "Konnur",
+        "is_preferred_crop": false
+      }
+    },
+    {
+      "id": "notif-1792261163150-3fhc",
+      "user_id": "u0000001-0000-0000-0000-000000000001",
+      "type": "offer_received",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:19:23.150Z",
+      "payload": {
+        "listing_id": "l-1792261163082-a5atc",
+        "offer_id": "offer-1792261163150-a110",
+        "shop_name": "Suresh Agro Traders",
+        "offered_price_per_kg": 29,
+        "quantity_kg": 600,
+        "proposed_visit_at": "2026-10-18T18:19:23.135Z"
+      }
+    },
+    {
+      "id": "notif-1792261163163-ozys",
+      "user_id": "u0000002-0000-0000-0000-000000000001",
+      "type": "offer_accepted",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:19:23.163Z",
+      "payload": {
+        "listing_id": "l-1792261163082-a5atc",
+        "offer_id": "offer-1792261163150-a110",
+        "accepted_kg": 600,
+        "price_per_kg": 29
+      }
+    },
+    {
+      "id": "notif-1792261163802-7etd",
+      "user_id": "u0000001-0000-0000-0000-000000000001",
+      "type": "offer_received",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:19:23.802Z",
+      "payload": {
+        "listing_id": "l-1792261163082-a5atc",
+        "offer_id": "offer-1792261163802-wmxf",
+        "shop_name": "Annapurna Veg Syndicate",
+        "offered_price_per_kg": 28.5,
+        "quantity_kg": 500
+      }
+    },
+    {
+      "id": "notif-1792261510949-oqpi",
+      "user_id": "u0000002-0000-0000-0000-000000000001",
+      "type": "new_crop_listing",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:25:10.949Z",
+      "payload": {
+        "listing_id": "l-1792261510949-bbnl1",
+        "crop_name": "Tomato",
+        "crop_name_kn": "ಟೊಮೆಟೊ",
+        "quantity": 500,
+        "unit": "kg",
+        "expected_price": 22,
+        "market_name": "Hubballi APMC (Amaragol)",
+        "farmer_name": "Basavaraj",
+        "village": "Konnur",
+        "is_preferred_crop": true
+      }
+    },
+    {
+      "id": "notif-1792261510949-ngt0",
+      "user_id": "u0000002-0000-0000-0000-000000000002",
+      "type": "new_crop_listing",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:25:10.949Z",
+      "payload": {
+        "listing_id": "l-1792261510949-bbnl1",
+        "crop_name": "Tomato",
+        "crop_name_kn": "ಟೊಮೆಟೊ",
+        "quantity": 500,
+        "unit": "kg",
+        "expected_price": 22,
+        "market_name": "Hubballi APMC (Amaragol)",
+        "farmer_name": "Basavaraj",
+        "village": "Konnur",
+        "is_preferred_crop": true
+      }
+    },
+    {
+      "id": "notif-1792261511778-9lw3",
+      "user_id": "u0000001-0000-0000-0000-000000000001",
+      "type": "offer_received",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:25:11.778Z",
+      "payload": {
+        "listing_id": "l-1792261510949-bbnl1",
+        "offer_id": "offer-1792261511778-hfx2",
+        "shop_name": "Suresh Agro Traders",
+        "offered_price_per_kg": 23,
+        "quantity_kg": 300,
+        "proposed_visit_at": "2026-10-18T18:25:11.695Z"
+      }
+    },
+    {
+      "id": "notif-1792261511791-dqo4",
+      "user_id": "u0000002-0000-0000-0000-000000000001",
+      "type": "offer_accepted",
+      "channel": "in_app",
+      "delivery_status": "sent",
+      "read_at": null,
+      "created_at": "2026-10-17T18:25:11.791Z",
+      "payload": {
+        "listing_id": "l-1792261510949-bbnl1",
+        "offer_id": "offer-1792261511778-hfx2",
+        "accepted_kg": 300,
+        "price_per_kg": 23
+      }
+    }
+  ],
+  "visitBookings": [],
+  "transactions": [],
+  "ratings": []
+}
