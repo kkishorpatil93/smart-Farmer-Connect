@@ -109,8 +109,16 @@ export default function SellerDashboard() {
             </div>
           </div>
 
-          <div className="bg-green-50 border border-green-200 px-3 py-2 rounded-xl text-xs font-semibold text-green-900">
-            {matchingListings.length} {language === 'en' ? 'active lots in your mandi' : 'ಲಭ್ಯವಿರುವ ಬೆಳೆಗಳು'}
+          <div className="flex items-center space-x-2">
+            <Link
+              href="/visits"
+              className="bg-[#1B5E20] hover:bg-green-900 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm transition flex items-center space-x-1"
+            >
+              <span>{language === 'en' ? 'Confirmed Deals & Visits →' : 'ದೃಢಪಡಿಸಿದ ಭೇಟಿಗಳು →'}</span>
+            </Link>
+            <div className="bg-green-50 border border-green-200 px-3 py-2 rounded-xl text-xs font-semibold text-green-900">
+              {matchingListings.length} {language === 'en' ? 'lots' : 'ಬೆಳೆಗಳು'}
+            </div>
           </div>
         </div>
 

@@ -151,14 +151,20 @@ export default function FarmerDashboard() {
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-sm text-center">
-            <div className="text-xs text-gray-500 font-semibold">
+          <Link
+            href="/farmer/offers"
+            className="group bg-white p-4 rounded-xl border border-stone-200 shadow-sm text-center hover:border-amber-500 hover:shadow transition block cursor-pointer"
+          >
+            <div className="text-xs text-gray-500 font-semibold group-hover:text-amber-800 transition">
               {language === 'en' ? 'Bids / Offers' : 'ಬಂದಿರುವ ಆಫರ್‌ಗಳು'}
             </div>
             <div className="text-2xl font-extrabold text-amber-600 mt-1">
               {totalOffersCount}
             </div>
-          </div>
+            <span className="text-[10px] text-amber-700 font-bold block pt-0.5 group-hover:underline">
+              {language === 'en' ? 'Compare Offers →' : 'ಆಫರ್ ಹೋಲಿಸಿ →'}
+            </span>
+          </Link>
 
           <div className="col-span-2 sm:col-span-1 bg-white p-4 rounded-xl border border-stone-200 shadow-sm text-center">
             <div className="text-xs text-gray-500 font-semibold">

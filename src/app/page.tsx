@@ -56,12 +56,16 @@ export default function HomePage() {
       howTitle: 'How It Works in 4 Simple Steps',
       step1Title: '1. Take Photo & Post',
       step1Desc: 'Upload 1-3 photos, enter quantity & expected price from your farm.',
+      step1Action: 'Post Crop Lot →',
       step2Title: '2. Traders Get Alerted',
       step2Desc: 'Registered buyers in your target APMC market receive instant alerts.',
+      step2Action: 'Trader Dashboard →',
       step3Title: '3. Compare Real Offers',
       step3Desc: 'Receive bids, compare prices side-by-side, and choose the best offer.',
+      step3Action: 'Compare Offers →',
       step4Title: '4. Confirmed Visit & Pay',
       step4Desc: 'Unlock trader phone number, verify QR pass at the mandi, and receive payment.',
+      step4Action: 'Visits & Payments →',
       sampleCardHeader: 'Live Crop Lot from Database',
       sampleBadge: 'Real Active Lot • Database Synced',
       viewOffersBtn: 'View Matching Offers',
@@ -84,12 +88,16 @@ export default function HomePage() {
       howTitle: 'ಕೇವಲ 4 ಸುಲಭ ಹಂತಗಳಲ್ಲಿ ಕಾರ್ಯನಿರ್ವಹಣೆ',
       step1Title: '1. ಫೋಟೋ ತೆಗೆದು ಪೋಸ್ಟ್ ಮಾಡಿ',
       step1Desc: 'ಹೊಲದಲ್ಲೇ 1-3 ಫೋಟೋ ತೆಗೆದು, ಪ್ರಮಾಣ ಮತ್ತು ನಿರೀಕ್ಷಿತ ಬೆಲೆ ನಮೂದಿಸಿ.',
+      step1Action: 'ಬೆಳೆ ಪೋಸ್ಟ್ ಮಾಡಿ →',
       step2Title: '2. ವ್ಯಾಪಾರಿಗಳಿಗೆ ತಕ್ಷಣ ಮಾಹಿತಿ',
       step2Desc: 'ನಿಮ್ಮ ಮಾರುಕಟ್ಟೆಯ ನೊಂದಾಯಿತ ವ್ಯಾಪಾರಿಗಳಿಗೆ ಕೂಡಲೇ ಸಂದೇಶ ತಲುಪುತ್ತದೆ.',
+      step2Action: 'ವ್ಯಾಪಾರಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ →',
       step3Title: '3. ಆಫರ್‌ಗಳನ್ನು ಹೋಲಿಸಿ',
       step3Desc: 'ಬಂದಿರುವ ಬೆಲೆಗಳನ್ನು ಹೋಲಿಸಿ, ನಿಮಗೆ ಇಷ್ಟವಾದ ವ್ಯಾಪಾರಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ.',
+      step3Action: 'ಆಫರ್‌ಗಳನ್ನು ಹೋಲಿಸಿ →',
       step4Title: '4. ಭೇಟಿ ಖಚಿತ & ಹಣ ಪಾವತಿ',
       step4Desc: 'ವ್ಯಾಪಾರಿಯ ಫೋನ್ ನಂಬರ್ ಪಡೆದು, ಮಂಡಿಯಲ್ಲಿ ತೂಕ ಮಾಡಿ ಹಣ ಪಡೆಯಿರಿ.',
+      step4Action: 'ಭೇಟಿ & ಪಾವತಿ →',
       sampleCardHeader: 'ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿರುವ ನೇರ ಬೆಳೆ',
       sampleBadge: 'ನೈಜ ಸಕ್ರಿಯ ಬೆಳೆ • ಡೇಟಾಬೇಸ್ ಸಿಂಕ್ ಆಗಿದೆ',
       viewOffersBtn: 'ಬಂದಿರುವ ಆಫರ್ ನೋಡಿ',
@@ -346,40 +354,83 @@ export default function HomePage() {
 
         {/* 4-Step How It Works */}
         <section className="bg-white rounded-2xl p-6 shadow-sm border border-stone-200 space-y-5">
-          <h3 className="text-xl font-bold text-gray-900 text-center">{t.howTitle}</h3>
+          <div className="text-center space-y-1">
+            <h3 className="text-xl font-bold text-gray-900">{t.howTitle}</h3>
+            <p className="text-xs text-gray-500">
+              {language === 'en'
+                ? 'Click any step below to launch the workflow or view live data.'
+                : 'ನೇರವಾಗಿ ಕಾರ್ಯವಿಧಾನವನ್ನು ತೆರೆಯಲು ಕೆಳಗಿನ ಯಾವುದೇ ಹಂತದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.'}
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2 text-center">
-              <div className="w-12 h-12 mx-auto rounded-full bg-green-100 text-[#1B5E20] flex items-center justify-center font-bold">
+            {/* Step 1: Take Photo & Post */}
+            <Link
+              href={user?.profile?.role === 'farmer' ? '/farmer/add-crop' : '/auth/login?role=farmer&redirect=/farmer/add-crop'}
+              className="group block p-4 rounded-xl bg-stone-50 border border-stone-200 hover:border-[#1B5E20] hover:bg-emerald-50/40 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer text-center space-y-2.5"
+            >
+              <div className="w-12 h-12 mx-auto rounded-full bg-green-100 group-hover:bg-[#1B5E20] group-hover:text-amber-300 text-[#1B5E20] flex items-center justify-center font-bold transition">
                 <Camera className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-gray-900">{t.step1Title}</h4>
-              <p className="text-xs text-gray-600">{t.step1Desc}</p>
-            </div>
+              <h4 className="font-bold text-gray-900 group-hover:text-[#1B5E20] transition">{t.step1Title}</h4>
+              <p className="text-xs text-gray-600 leading-relaxed">{t.step1Desc}</p>
+              <div className="pt-1">
+                <span className="inline-flex items-center text-[11px] font-bold text-[#1B5E20] group-hover:underline">
+                  {t.step1Action}
+                </span>
+              </div>
+            </Link>
 
-            <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2 text-center">
-              <div className="w-12 h-12 mx-auto rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+            {/* Step 2: Traders Get Alerted */}
+            <Link
+              href={user?.profile?.role === 'seller' ? '/seller/dashboard' : '/auth/login?role=seller&redirect=/seller/dashboard'}
+              className="group block p-4 rounded-xl bg-stone-50 border border-stone-200 hover:border-amber-500 hover:bg-amber-50/40 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer text-center space-y-2.5"
+            >
+              <div className="w-12 h-12 mx-auto rounded-full bg-amber-100 group-hover:bg-amber-500 group-hover:text-white text-amber-700 flex items-center justify-center font-bold transition">
                 <BellRing className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-gray-900">{t.step2Title}</h4>
-              <p className="text-xs text-gray-600">{t.step2Desc}</p>
-            </div>
+              <h4 className="font-bold text-gray-900 group-hover:text-amber-800 transition">{t.step2Title}</h4>
+              <p className="text-xs text-gray-600 leading-relaxed">{t.step2Desc}</p>
+              <div className="pt-1">
+                <span className="inline-flex items-center text-[11px] font-bold text-amber-800 group-hover:underline">
+                  {t.step2Action}
+                </span>
+              </div>
+            </Link>
 
-            <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2 text-center">
-              <div className="w-12 h-12 mx-auto rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+            {/* Step 3: Compare Real Offers */}
+            <Link
+              href={user?.profile?.role === 'farmer' ? '/farmer/offers' : '/auth/login?role=farmer&redirect=/farmer/offers'}
+              className="group block p-4 rounded-xl bg-stone-50 border border-stone-200 hover:border-blue-600 hover:bg-blue-50/40 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer text-center space-y-2.5"
+            >
+              <div className="w-12 h-12 mx-auto rounded-full bg-blue-100 group-hover:bg-blue-600 group-hover:text-white text-blue-700 flex items-center justify-center font-bold transition">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-gray-900">{t.step3Title}</h4>
-              <p className="text-xs text-gray-600">{t.step3Desc}</p>
-            </div>
+              <h4 className="font-bold text-gray-900 group-hover:text-blue-800 transition">{t.step3Title}</h4>
+              <p className="text-xs text-gray-600 leading-relaxed">{t.step3Desc}</p>
+              <div className="pt-1">
+                <span className="inline-flex items-center text-[11px] font-bold text-blue-800 group-hover:underline">
+                  {t.step3Action}
+                </span>
+              </div>
+            </Link>
 
-            <div className="p-4 rounded-xl bg-stone-50 border border-stone-200 space-y-2 text-center">
-              <div className="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+            {/* Step 4: Confirmed Visit & Pay */}
+            <Link
+              href={user ? '/visits' : '/auth/login?redirect=/visits'}
+              className="group block p-4 rounded-xl bg-stone-50 border border-stone-200 hover:border-emerald-700 hover:bg-emerald-50/40 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer text-center space-y-2.5"
+            >
+              <div className="w-12 h-12 mx-auto rounded-full bg-emerald-100 group-hover:bg-emerald-700 group-hover:text-white text-emerald-800 flex items-center justify-center font-bold transition">
                 <CalendarDays className="w-6 h-6" />
               </div>
-              <h4 className="font-bold text-gray-900">{t.step4Title}</h4>
-              <p className="text-xs text-gray-600">{t.step4Desc}</p>
-            </div>
+              <h4 className="font-bold text-gray-900 group-hover:text-emerald-900 transition">{t.step4Title}</h4>
+              <p className="text-xs text-gray-600 leading-relaxed">{t.step4Desc}</p>
+              <div className="pt-1">
+                <span className="inline-flex items-center text-[11px] font-bold text-emerald-800 group-hover:underline">
+                  {t.step4Action}
+                </span>
+              </div>
+            </Link>
           </div>
         </section>
 

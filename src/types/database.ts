@@ -160,11 +160,12 @@ export interface BuyerOffer {
     shop_name: string;
     rating_avg: number;
     rating_count: number;
-    profile: {
+    profile?: {
       full_name: string;
       phone?: string;
     };
   };
+  listing?: CropListing;
 }
 
 export interface VisitBooking {
@@ -176,6 +177,9 @@ export interface VisitBooking {
   notes?: string;
   created_at: string;
   updated_at: string;
+  offer?: BuyerOffer;
+  listing?: CropListing;
+  transaction?: Transaction;
 }
 
 export interface NotificationItem {

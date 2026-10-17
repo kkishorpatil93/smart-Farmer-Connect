@@ -33,7 +33,10 @@ function LoginFormContent() {
     setSubmitting(false);
 
     if (success) {
-      if (role === 'farmer') {
+      const redirectUrl = searchParams.get('redirect');
+      if (redirectUrl) {
+        router.push(redirectUrl);
+      } else if (role === 'farmer') {
         router.push('/farmer/dashboard');
       } else {
         router.push('/seller/dashboard');
@@ -46,7 +49,10 @@ function LoginFormContent() {
     const success = await quickLogin(targetRole);
     setSubmitting(false);
     if (success) {
-      if (targetRole === 'farmer') {
+      const redirectUrl = searchParams.get('redirect');
+      if (redirectUrl) {
+        router.push(redirectUrl);
+      } else if (targetRole === 'farmer') {
         router.push('/farmer/dashboard');
       } else {
         router.push('/seller/dashboard');

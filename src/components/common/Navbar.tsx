@@ -167,6 +167,11 @@ export function Navbar() {
                                   {(n.payload as any)?.expected_price} in{' '}
                                   {(n.payload as any)?.market_name}.
                                 </>
+                              ) : n.type === 'offer_accepted' ? (
+                                <>
+                                  Deal confirmed! Your offer for {(n.payload as any)?.accepted_kg} kg at ₹
+                                  {(n.payload as any)?.price_per_kg}/kg was accepted by the farmer.
+                                </>
                               ) : (
                                 <>
                                   <strong>{(n.payload as any)?.shop_name}</strong> offered ₹
@@ -175,6 +180,33 @@ export function Navbar() {
                                 </>
                               )}
                             </p>
+                            <div className="pt-1">
+                              {n.type === 'new_crop_listing' ? (
+                                <Link
+                                  href="/seller/dashboard"
+                                  onClick={() => setShowNotifications(false)}
+                                  className="text-[11px] font-bold text-[#1B5E20] hover:underline inline-flex items-center space-x-1"
+                                >
+                                  <span>View in Mandi Feed →</span>
+                                </Link>
+                              ) : n.type === 'offer_accepted' ? (
+                                <Link
+                                  href="/visits"
+                                  onClick={() => setShowNotifications(false)}
+                                  className="text-[11px] font-bold text-[#1B5E20] hover:underline inline-flex items-center space-x-1"
+                                >
+                                  <span>View Confirmed Visit & Pay →</span>
+                                </Link>
+                              ) : (
+                                <Link
+                                  href="/farmer/offers"
+                                  onClick={() => setShowNotifications(false)}
+                                  className="text-[11px] font-bold text-[#1B5E20] hover:underline inline-flex items-center space-x-1"
+                                >
+                                  <span>Compare Offers & Accept →</span>
+                                </Link>
+                              )}
+                            </div>
                           </div>
                         ))
                       )}

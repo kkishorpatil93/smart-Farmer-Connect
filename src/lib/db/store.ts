@@ -617,6 +617,22 @@ export const dbStore = {
       }
       listing.updated_at = new Date().toISOString();
 
+      // Create Visit Booking if not already present
+      if (!db.visitBookings) db.visitBookings = [];
+      const existingVisit = db.visitBookings.find((v) => v.offer_id === offer.id);
+      if (!existingVisit) {
+        db.visitBookings.push({
+          id: `visit-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          offer_id: offer.id,
+          scheduled_at: offer.proposed_visit_at || new Date(Date.now() + 86400000).toISOString(),
+          verification_code: `APMC-${Math.floor(1000 + Math.random() * 9000)}`,
+          status: 'confirmed',
+          notes: 'APMC market yard weighment and inspection scheduled.',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+      }
+
       // Notify the accepted seller
       const sellerProf = db.sellerProfiles.find((s) => s.id === offer.seller_id);
       if (sellerProf) {
@@ -643,6 +659,199 @@ export const dbStore = {
 
     saveDb(db);
     return offer;
+  },
+
+  // Offers
+  getOffers(filter?: { farmer_id?: string; seller_id?: string; listing_id?: string; status?: string }): BuyerOffer[] {
+    const db = ensureDbFile();
+    let offers = [...db.offers];
+
+    if (filter?.listing_id) {
+      offers = offers.filter((o) => o.listing_id === filter.listing_id);
+    }
+    if (filter?.seller_id) {
+      offers = offers.filter((o) => o.seller_id === filter.seller_id);
+    }
+    if (filter?.status) {
+      offers = offers.filter((o) => o.status === filter.status);
+    }
+
+    const populated = offers.map((o) => {
+      const listing = db.listings.find((l) => l.id === o.listing_id);
+      const seller = db.sellerProfiles.find((s) => s.id === o.seller_id);
+      const sellerUser = seller ? db.profiles.find((p) => p.id === seller.user_id) : undefined;
+      const crop = listing ? db.crops.find((c) => c.id === listing.crop_id) : undefined;
+      const market = listing ? db.markets.find((m) => m.id === listing.market_id) : undefined;
+      const farmer = listing ? db.farmerProfiles.find((f) => f.id === listing.farmer_id) : undefined;
+      const farmerUser = farmer ? db.profiles.find((p) => p.id === farmer.user_id) : undefined;
+
+      return {
+        ...o,
+        listing: listing
+          ? {
+              ...listing,
+              crop,
+              market,
+              farmer:
+                farmer && farmerUser
+                  ? {
+                      ...farmer,
+                      profile: {
+                        full_name: farmerUser.full_name,
+                        phone: farmerUser.phone,
+                      },
+                    }
+                  : undefined,
+            }
+          : undefined,
+        seller: seller
+          ? {
+              id: seller.id,
+              shop_name: seller.shop_name,
+              rating_avg: seller.rating_avg,
+              rating_count: seller.rating_count,
+              profile: sellerUser
+                ? {
+                    full_name: sellerUser.full_name,
+                    phone: sellerUser.phone,
+                  }
+                : undefined,
+            }
+          : undefined,
+      };
+    });
+
+    let result = populated;
+    if (filter?.farmer_id) {
+      result = result.filter((o) => o.listing?.farmer_id === filter.farmer_id);
+    }
+
+    return result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  },
+
+  // Visits & Bookings
+  getVisits(filter?: { farmer_id?: string; seller_id?: string; status?: string }): VisitBooking[] {
+    const db = ensureDbFile();
+    if (!db.visitBookings) db.visitBookings = [];
+
+    // Ensure every accepted offer has a visit booking
+    db.offers
+      .filter((o) => o.status === 'accepted')
+      .forEach((offer) => {
+        let booking = db.visitBookings.find((v) => v.offer_id === offer.id);
+        if (!booking) {
+          booking = {
+            id: `visit-${offer.id}`,
+            offer_id: offer.id,
+            scheduled_at: offer.proposed_visit_at || new Date(Date.now() + 86400000).toISOString(),
+            verification_code: `APMC-${Math.abs(
+              offer.id.split('').reduce((a, b) => (a << 5) - a + b.charCodeAt(0), 0) % 9000
+            ) + 1000}`,
+            status: 'confirmed',
+            notes: 'APMC market yard weighment and inspection scheduled.',
+            created_at: offer.updated_at || offer.created_at,
+            updated_at: offer.updated_at || offer.created_at,
+          };
+          db.visitBookings.push(booking);
+        }
+      });
+    saveDb(db);
+
+    const populated: VisitBooking[] = db.visitBookings.map((v) => {
+      const offer = db.offers.find((o) => o.id === v.offer_id);
+      const listing = offer ? db.listings.find((l) => l.id === offer.listing_id) : undefined;
+      const crop = listing ? db.crops.find((c) => c.id === listing.crop_id) : undefined;
+      const market = listing ? db.markets.find((m) => m.id === listing.market_id) : undefined;
+      const seller = offer ? db.sellerProfiles.find((s) => s.id === offer.seller_id) : undefined;
+      const sellerUser = seller ? db.profiles.find((p) => p.id === seller.user_id) : undefined;
+      const farmer = listing ? db.farmerProfiles.find((f) => f.id === listing.farmer_id) : undefined;
+      const farmerUser = farmer ? db.profiles.find((p) => p.id === farmer.user_id) : undefined;
+      const transaction = db.transactions ? db.transactions.find((t) => t.offer_id === v.offer_id) : undefined;
+
+      return {
+        ...v,
+        offer: offer
+          ? {
+              ...offer,
+              seller: seller
+                ? {
+                    id: seller.id,
+                    shop_name: seller.shop_name,
+                    rating_avg: seller.rating_avg,
+                    rating_count: seller.rating_count,
+                    profile: sellerUser
+                      ? {
+                          full_name: sellerUser.full_name,
+                          phone: sellerUser.phone,
+                        }
+                      : undefined,
+                  }
+                : undefined,
+            }
+          : undefined,
+        listing: listing
+          ? {
+              ...listing,
+              crop,
+              market,
+              farmer:
+                farmer && farmerUser
+                  ? {
+                      ...farmer,
+                      profile: {
+                        full_name: farmerUser.full_name,
+                        phone: farmerUser.phone,
+                      },
+                    }
+                  : undefined,
+            }
+          : undefined,
+        transaction,
+      };
+    });
+
+    let result = populated;
+    if (filter?.farmer_id) {
+      result = result.filter((v) => v.listing?.farmer_id === filter.farmer_id);
+    }
+    if (filter?.seller_id) {
+      result = result.filter((v) => v.offer?.seller_id === filter.seller_id);
+    }
+    if (filter?.status) {
+      result = result.filter((v) => v.status === filter.status);
+    }
+
+    return result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  },
+
+  confirmPayment(visitId: string, paymentMethod: 'cash' | 'upi' | 'bank_transfer' = 'cash'): Transaction {
+    const db = ensureDbFile();
+    if (!db.transactions) db.transactions = [];
+
+    const visit = db.visitBookings.find((v) => v.id === visitId);
+    if (!visit) throw new Error('Visit booking not found');
+
+    const offer = db.offers.find((o) => o.id === visit.offer_id);
+    if (!offer) throw new Error('Associated offer not found');
+
+    let transaction = db.transactions.find((t) => t.offer_id === offer.id);
+    if (!transaction) {
+      transaction = {
+        id: `tx-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        offer_id: offer.id,
+        final_quantity_kg: offer.quantity_kg,
+        final_price_per_kg: offer.price_per_kg,
+        total_amount: Number((offer.quantity_kg * offer.price_per_kg).toFixed(2)),
+        payment_method: paymentMethod,
+        completed_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+      };
+      db.transactions.push(transaction);
+      visit.status = 'completed';
+      visit.updated_at = new Date().toISOString();
+      saveDb(db);
+    }
+    return transaction;
   },
 
   // Notifications

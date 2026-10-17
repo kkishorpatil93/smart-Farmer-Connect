@@ -1,6 +1,21 @@
 import { NextResponse } from 'next/server';
 import { dbStore } from '@/lib/db/store';
 
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const farmer_id = searchParams.get('farmer_id') || undefined;
+    const seller_id = searchParams.get('seller_id') || undefined;
+    const listing_id = searchParams.get('listing_id') || undefined;
+    const status = searchParams.get('status') || undefined;
+
+    const offers = dbStore.getOffers({ farmer_id, seller_id, listing_id, status });
+    return NextResponse.json({ success: true, offers });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message || 'Failed to retrieve offers' }, { status: 500 });
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
