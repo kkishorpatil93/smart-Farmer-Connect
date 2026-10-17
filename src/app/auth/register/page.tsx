@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
@@ -9,7 +9,7 @@ import { Navbar } from '@/components/common/Navbar';
 import { Market, Crop } from '@/types/database';
 import { Sprout, Store, ArrowRight, ShieldCheck } from 'lucide-react';
 
-export default function RegisterPage() {
+function RegisterFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialRole = searchParams.get('role') || 'farmer';
@@ -323,5 +323,13 @@ export default function RegisterPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FFF8E1] flex items-center justify-center p-8 text-gray-500 font-semibold">Loading...</div>}>
+      <RegisterFormContent />
+    </Suspense>
   );
 }

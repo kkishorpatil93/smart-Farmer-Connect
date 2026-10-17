@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
@@ -8,7 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
 import { Sprout, Store, ShieldCheck, KeyRound, Phone, ArrowRight, UserCheck } from 'lucide-react';
 
-export default function LoginPage() {
+function LoginFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialRole = searchParams.get('role') || 'farmer';
@@ -207,5 +207,13 @@ export default function LoginPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FFF8E1] flex items-center justify-center p-8 text-gray-500 font-semibold">Loading...</div>}>
+      <LoginFormContent />
+    </Suspense>
   );
 }
