@@ -218,14 +218,14 @@ WITH CHECK (bucket_id = 'crop-photos');
 
 -- 16. SEED DATA (Karnataka APMC Markets)
 INSERT INTO markets (id, name_en, name_kn, district, lat, lng, is_active) VALUES
-('m0000001-0000-0000-0000-000000000001', 'Hubballi APMC (Amaragol)', 'ಹುಬ್ಬಳ್ಳಿ ಎಪಿಎಂಸಿ (ಅಮರಗೋಳ)', 'Dharwad', 15.3921, 75.1054, true),
-('m0000001-0000-0000-0000-000000000002', 'Belagavi APMC', 'ಬೆಳಗಾವಿ ಎಪಿಎಂಸಿ', 'Belagavi', 15.8497, 74.4977, true),
-('m0000001-0000-0000-0000-000000000003', 'Bengaluru Yeshwanthpur APMC', 'ಬೆಂಗಳೂರು ಯಶವಂತಪುರ ಎಪಿಎಂಸಿ', 'Bengaluru Urban', 13.0238, 77.5529, true),
-('m0000001-0000-0000-0000-000000000004', 'Mysuru Bandipalya APMC', 'ಮೈಸೂರು ಬಂಡಿಪಾಳ್ಯ ಎಪಿಎಂಸಿ', 'Mysuru', 12.2829, 76.6663, true),
-('m0000001-0000-0000-0000-000000000005', 'Gadag APMC', 'ಗದಗ ಎಪಿಎಂಸಿ', 'Gadag', 15.4312, 75.6358, true),
-('m0000001-0000-0000-0000-000000000006', 'Davanagere APMC', 'ದಾವಣಗೆರೆ ಎಪಿಎಂಸಿ', 'Davanagere', 14.4644, 75.9218, true),
-('m0000001-0000-0000-0000-000000000007', 'Shivamogga APMC', 'ಶಿವಮೊಗ್ಗ ಎಪಿಎಂಸಿ', 'Shivamogga', 13.9299, 75.5681, true),
-('m0000001-0000-0000-0000-000000000008', 'Kalaburagi APMC', 'ಕಲಬುರಗಿ ಎಪಿಎಂಸಿ', 'Kalaburagi', 17.3297, 76.8343, true)
+('a0000001-0000-0000-0000-000000000001', 'Hubballi APMC (Amaragol)', 'ಹುಬ್ಬಳ್ಳಿ ಎಪಿಎಂಸಿ (ಅಮರಗೋಳ)', 'Dharwad', 15.3921, 75.1054, true),
+('a0000001-0000-0000-0000-000000000002', 'Belagavi APMC', 'ಬೆಳಗಾವಿ ಎಪಿಎಂಸಿ', 'Belagavi', 15.8497, 74.4977, true),
+('a0000001-0000-0000-0000-000000000003', 'Bengaluru Yeshwanthpur APMC', 'ಬೆಂಗಳೂರು ಯಶವಂತಪುರ ಎಪಿಎಂಸಿ', 'Bengaluru Urban', 13.0238, 77.5529, true),
+('a0000001-0000-0000-0000-000000000004', 'Mysuru Bandipalya APMC', 'ಮೈಸೂರು ಬಂಡಿಪಾಳ್ಯ ಎಪಿಎಂಸಿ', 'Mysuru', 12.2829, 76.6663, true),
+('a0000001-0000-0000-0000-000000000005', 'Gadag APMC', 'ಗದಗ ಎಪಿಎಂಸಿ', 'Gadag', 15.4312, 75.6358, true),
+('a0000001-0000-0000-0000-000000000006', 'Davanagere APMC', 'ದಾವಣಗೆರೆ ಎಪಿಎಂಸಿ', 'Davanagere', 14.4644, 75.9218, true),
+('a0000001-0000-0000-0000-000000000007', 'Shivamogga APMC', 'ಶಿವಮೊಗ್ಗ ಎಪಿಎಂಸಿ', 'Shivamogga', 13.9299, 75.5681, true),
+('a0000001-0000-0000-0000-000000000008', 'Kalaburagi APMC', 'ಕಲಬುರಗಿ ಎಪಿಎಂಸಿ', 'Kalaburagi', 17.3297, 76.8343, true)
 ON CONFLICT (id) DO NOTHING;
 
 -- 17. SEED DATA (Karnataka Crops)
@@ -242,18 +242,18 @@ ON CONFLICT (name_en) DO NOTHING;
 
 -- 18. SEED TEST USERS (Basavaraj Patil & Suresh Agro Traders)
 INSERT INTO profiles (id, role, full_name, phone, language, is_verified) VALUES
-('u0000001-0000-0000-0000-000000000001', 'farmer', 'Basavaraj Patil (ಬಸವರಾಜ ಪಾಟೀಲ)', '+919845011111', 'kn', true),
-('u0000002-0000-0000-0000-000000000001', 'seller', 'Suresh Kumar (Suresh Agro Traders)', '+919845044444', 'kn', true)
+('b0000001-0000-0000-0000-000000000001', 'farmer', 'Basavaraj Patil (ಬಸವರಾಜ ಪಾಟೀಲ)', '+919845011111', 'kn', true),
+('b0000002-0000-0000-0000-000000000001', 'seller', 'Suresh Kumar (Suresh Agro Traders)', '+919845044444', 'kn', true)
 ON CONFLICT (phone) DO NOTHING;
 
 INSERT INTO farmer_profiles (id, user_id, village, taluk, district, lat, lng) VALUES
-('f0000001-0000-0000-0000-000000000001', 'u0000001-0000-0000-0000-000000000001', 'Konnur', 'Gokak', 'Belagavi', 16.1952, 74.8340)
+('f0000001-0000-0000-0000-000000000001', 'b0000001-0000-0000-0000-000000000001', 'Konnur', 'Gokak', 'Belagavi', 16.1952, 74.8340)
 ON CONFLICT (user_id) DO NOTHING;
 
 INSERT INTO seller_profiles (id, user_id, shop_name, license_no, preferred_crops, rating_avg, rating_count) VALUES
-('s0000001-0000-0000-0000-000000000001', 'u0000002-0000-0000-0000-000000000001', 'Suresh Agro Traders', 'APMC-HUB-2024-88', ARRAY['Tomato', 'Onion'], 4.80, 24)
+('e0000001-0000-0000-0000-000000000001', 'b0000002-0000-0000-0000-000000000001', 'Suresh Agro Traders', 'APMC-HUB-2024-88', ARRAY['Tomato', 'Onion'], 4.80, 24)
 ON CONFLICT (user_id) DO NOTHING;
 
 INSERT INTO seller_markets (seller_id, market_id) VALUES
-('s0000001-0000-0000-0000-000000000001', 'm0000001-0000-0000-0000-000000000001')
+('e0000001-0000-0000-0000-000000000001', 'a0000001-0000-0000-0000-000000000001')
 ON CONFLICT (seller_id, market_id) DO NOTHING;
