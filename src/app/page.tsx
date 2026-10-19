@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { WhyConnectSection } from '@/components/home/WhyConnectSection';
 import { CropListing } from '@/types/database';
 import {
   Sprout,
@@ -475,74 +476,7 @@ export default function HomePage() {
         </section>
 
         {/* 4. "Why Connect Before Mandi Travel?" (Cost & Transport Savings Section) */}
-        <section className="bg-gradient-to-br from-[#17652B] via-[#1F7D37] to-[#114D20] text-white rounded-3xl p-6 sm:p-10 shadow-lg relative overflow-hidden">
-          <div className="max-w-3xl space-y-2">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-black bg-[#FFBF24] text-stone-950 uppercase tracking-wider">
-              <Truck className="w-3.5 h-3.5" />
-              <span>{language === 'en' ? 'Farmer Financial Protection' : 'ರೈತರ ಆರ್ಥಿಕ ರಕ್ಷಣೆ'}</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-              {t.savingsTitle}
-            </h2>
-            <p className="text-green-100 text-sm sm:text-base leading-relaxed">
-              {t.savingsSub}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 pt-8">
-            {/* Card 1: Lorry Freight */}
-            <div className="bg-white/10 backdrop-blur-sm p-5 rounded-2xl border border-white/15 space-y-3 hover:bg-white/15 transition">
-              <div className="w-12 h-12 rounded-xl bg-[#FFBF24] text-stone-950 flex items-center justify-center font-bold text-lg shadow">
-                <Truck className="w-6 h-6 text-[#17652B]" />
-              </div>
-              <h3 className="font-extrabold text-white text-base leading-snug">
-                {t.savingsCard1Title}
-              </h3>
-              <p className="text-xs text-green-100 leading-relaxed">
-                {t.savingsCard1Desc}
-              </p>
-            </div>
-
-            {/* Card 2: Distress Pricing */}
-            <div className="bg-white/10 backdrop-blur-sm p-5 rounded-2xl border border-white/15 space-y-3 hover:bg-white/15 transition">
-              <div className="w-12 h-12 rounded-xl bg-[#FFBF24] text-stone-950 flex items-center justify-center font-bold text-lg shadow">
-                <IndianRupee className="w-6 h-6 text-[#17652B]" />
-              </div>
-              <h3 className="font-extrabold text-white text-base leading-snug">
-                {t.savingsCard2Title}
-              </h3>
-              <p className="text-xs text-green-100 leading-relaxed">
-                {t.savingsCard2Desc}
-              </p>
-            </div>
-
-            {/* Card 3: Mandi Gate Pass */}
-            <div className="bg-white/10 backdrop-blur-sm p-5 rounded-2xl border border-white/15 space-y-3 hover:bg-white/15 transition">
-              <div className="w-12 h-12 rounded-xl bg-[#FFBF24] text-stone-950 flex items-center justify-center font-bold text-lg shadow">
-                <ShieldCheck className="w-6 h-6 text-[#17652B]" />
-              </div>
-              <h3 className="font-extrabold text-white text-base leading-snug">
-                {t.savingsCard3Title}
-              </h3>
-              <p className="text-xs text-green-100 leading-relaxed">
-                {t.savingsCard3Desc}
-              </p>
-            </div>
-
-            {/* Card 4: Transparent Settlement */}
-            <div className="bg-white/10 backdrop-blur-sm p-5 rounded-2xl border border-white/15 space-y-3 hover:bg-white/15 transition">
-              <div className="w-12 h-12 rounded-xl bg-[#FFBF24] text-stone-950 flex items-center justify-center font-bold text-lg shadow">
-                <Scale className="w-6 h-6 text-[#17652B]" />
-              </div>
-              <h3 className="font-extrabold text-white text-base leading-snug">
-                {t.savingsCard4Title}
-              </h3>
-              <p className="text-xs text-green-100 leading-relaxed">
-                {t.savingsCard4Desc}
-              </p>
-            </div>
-          </div>
-        </section>
+        <WhyConnectSection listings={listings} />
 
         {/* 5. Dual Benefits for Farmers & Sellers */}
         <section className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-stone-200 space-y-6">
