@@ -101,10 +101,10 @@ export default function SellerDashboard() {
 
   if (loading || fetching) {
     return (
-      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
+      <div className="min-h-screen bg-[#FFF8E5] flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
-          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-[#17652B] border-t-transparent rounded-full animate-spin" />
           <p>{language === 'en' ? 'Loading Mandi Trader Feed...' : 'ಮಂಡಿ ಫೀಡ್ ಲೋಡ್ ಆಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
@@ -112,20 +112,20 @@ export default function SellerDashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
+    <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Trader Profile Banner */}
-        <section className="bg-gradient-to-r from-white via-white to-[#FBF8EE] rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <section className="bg-gradient-to-r from-white via-white to-[#FFF8E5] rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0E3911] to-[#1B5E20] text-amber-300 flex items-center justify-center text-2xl shadow">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#17652B] to-[#2E8B43] text-[#FFBF24] flex items-center justify-center text-2xl shadow">
                 🏪
               </div>
               <div>
                 <div className="flex items-center space-x-2">
-                  <h1 className="text-2xl sm:text-3xl font-black text-[#0E3911]">
+                  <h1 className="text-2xl sm:text-3xl font-black text-[#17652B]">
                     {user?.sellerProfile?.shop_name || user?.profile?.full_name || 'APMC Commission Shop'}
                   </h1>
                   <span className="inline-flex items-center space-x-1 bg-amber-100 text-stone-900 text-xs font-black px-2.5 py-0.5 rounded-full border border-amber-300">
@@ -136,7 +136,7 @@ export default function SellerDashboard() {
 
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-600 mt-1">
                   <span className="flex items-center">
-                    <Store className="w-3.5 h-3.5 mr-1 text-[#14532D]" />
+                    <Store className="w-3.5 h-3.5 mr-1 text-[#17652B]" />
                     <span>
                       {language === 'en' ? 'Primary Market:' : 'ಮಾರುಕಟ್ಟೆ:'}{' '}
                       <strong className="text-stone-800">Hubballi APMC (Amaragol)</strong>
@@ -155,13 +155,13 @@ export default function SellerDashboard() {
           <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Link
               href="/visits"
-              className="min-h-[50px] px-5 py-3 rounded-2xl bg-[#0E3911] hover:bg-[#14532D] text-white font-extrabold text-xs sm:text-sm shadow-md flex items-center justify-center space-x-2 transition border border-green-800"
+              className="min-h-[50px] px-5 py-3 rounded-2xl bg-[#17652B] hover:bg-[#1F7D37] text-white font-extrabold text-xs sm:text-sm shadow-md flex items-center justify-center space-x-2 transition border border-[#17652B]"
             >
-              <CalendarDays className="w-4 h-4 text-amber-300" />
+              <CalendarDays className="w-4 h-4 text-[#FFBF24]" />
               <span>
                 {language === 'en' ? 'Confirmed Deals & Gate Pass' : 'ಖಚಿತ ಡೀಲ್‌ಗಳು & ಗೇಟ್ ಪಾಸ್'}
               </span>
-              <ChevronRight className="w-4 h-4 text-amber-300" />
+              <ChevronRight className="w-4 h-4 text-[#FFBF24]" />
             </Link>
           </div>
         </section>
@@ -181,7 +181,7 @@ export default function SellerDashboard() {
                     ? 'Search crop name, village, or farmer name...'
                     : 'ಬೆಳೆ, ಗ್ರಾಮ ಅಥವಾ ರೈತರ ಹೆಸರನ್ನು ಹುಡುಕಿ...'
                 }
-                className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-stone-200 bg-[#FCFAF2] text-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:bg-white transition"
+                className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-stone-200 bg-[#FFF8E5]/50 text-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:bg-white transition"
               />
             </div>
 
@@ -193,7 +193,7 @@ export default function SellerDashboard() {
               <select
                 value={selectedMandiFilter}
                 onChange={(e) => setSelectedMandiFilter(e.target.value)}
-                className="py-2.5 px-3 rounded-xl border border-stone-200 bg-[#FCFAF2] text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-green-600"
+                className="py-2.5 px-3 rounded-xl border border-stone-200 bg-[#FFF8E5]/50 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-green-600"
               >
                 <option value="all">{language === 'en' ? 'All Mandis' : 'ಎಲ್ಲಾ ಮಂಡಿಗಳು'}</option>
                 <option value="Hubballi">Hubballi APMC</option>
@@ -210,7 +210,7 @@ export default function SellerDashboard() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="py-2.5 px-3 rounded-xl border border-stone-200 bg-[#FCFAF2] text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-green-600"
+                className="py-2.5 px-3 rounded-xl border border-stone-200 bg-[#FFF8E5]/50 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-green-600"
               >
                 <option value="date">{language === 'en' ? 'Latest Harvest' : 'ಹೊಸ ಕೊಯ್ಲು'}</option>
                 <option value="price_asc">{language === 'en' ? 'Price: Low to High' : 'ಕಡಿಮೆ ದರ'}</option>
@@ -231,8 +231,8 @@ export default function SellerDashboard() {
                 onClick={() => setSelectedCropFilter(c)}
                 className={`min-h-[38px] px-4 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap cursor-pointer ${
                   selectedCropFilter === c
-                    ? 'bg-[#0E3911] text-amber-300 shadow-sm'
-                    : 'bg-[#FCFAF2] text-stone-700 border border-stone-200 hover:bg-stone-100'
+                    ? 'bg-[#17652B] text-[#FFBF24] shadow-sm'
+                    : 'bg-[#FFF8E5]/50 text-stone-700 border border-stone-200 hover:bg-stone-100'
                 }`}
               >
                 {c === 'all'
@@ -247,7 +247,7 @@ export default function SellerDashboard() {
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-black text-[#0E3911] tracking-tight">
+              <h2 className="text-2xl font-black text-[#17652B] tracking-tight">
                 {language === 'en' ? 'Live Pre-Harvest Mandi Feed' : 'ತಾಜಾ ಬೆಳೆಗಳ ವಿವರ'}
               </h2>
               <p className="text-xs text-stone-500">
@@ -279,7 +279,7 @@ export default function SellerDashboard() {
                   setSelectedMandiFilter('all');
                   setSearchQuery('');
                 }}
-                className="px-5 py-2.5 rounded-xl bg-[#0E3911] text-white text-xs font-bold hover:bg-[#14532D]"
+                className="px-5 py-2.5 rounded-xl bg-[#17652B] text-white text-xs font-bold hover:bg-[#1F7D37]"
               >
                 {language === 'en' ? 'Reset Filters' : 'ಫಿಲ್ಟರ್ ಮರುಹೊಂದಿಸಿ'}
               </button>
@@ -316,8 +316,8 @@ export default function SellerDashboard() {
 
                         {/* Top Badges */}
                         <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                          <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#0E3911]/90 text-amber-300 backdrop-blur-sm border border-green-700/50 shadow">
-                            <Sparkles className="w-3 h-3 text-amber-300" />
+                          <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#17652B]/90 text-[#FFBF24] backdrop-blur-sm border border-green-700/50 shadow">
+                            <Sparkles className="w-3 h-3 text-[#FFBF24]" />
                             <span>{grade}</span>
                           </span>
 
@@ -344,11 +344,11 @@ export default function SellerDashboard() {
                       <div className="p-5 space-y-4">
                         <div className="flex items-start justify-between gap-2">
                           <div>
-                            <h3 className="text-xl font-black text-stone-900 group-hover:text-[#14532D] transition">
+                            <h3 className="text-xl font-black text-stone-900 group-hover:text-[#17652B] transition">
                               {cropName}
                             </h3>
                             <div className="flex items-center space-x-1 text-xs text-stone-500 mt-0.5">
-                              <MapPin className="w-3.5 h-3.5 text-[#14532D]" />
+                              <MapPin className="w-3.5 h-3.5 text-[#17652B]" />
                               <span>
                                 {listing.farmer?.profile?.full_name?.split(' ')[0] || 'Farmer'},{' '}
                                 {listing.farmer?.village || 'Karnataka'}
@@ -360,14 +360,14 @@ export default function SellerDashboard() {
                             <div className="text-[10px] text-stone-500 font-bold uppercase">
                               {language === 'en' ? 'Asking Price' : 'ನಿರೀಕ್ಷಿತ ದರ'}
                             </div>
-                            <div className="text-lg font-black text-[#0E3911]">
+                            <div className="text-lg font-black text-[#17652B]">
                               ₹{listing.price_per_kg}/kg
                             </div>
                           </div>
                         </div>
 
                         {/* Quantity & Lot Size */}
-                        <div className="grid grid-cols-2 gap-2 bg-[#FCFAF2] p-3 rounded-2xl border border-stone-200/80 text-xs">
+                        <div className="grid grid-cols-2 gap-2 bg-[#FFF8E5] p-3 rounded-2xl border border-stone-200 text-xs">
                           <div>
                             <span className="text-stone-500 block text-[10px] uppercase font-bold">
                               {language === 'en' ? 'Available Lot' : 'ಲಭ್ಯವಿರುವ ಪ್ರಮಾಣ'}
@@ -380,7 +380,7 @@ export default function SellerDashboard() {
                             <span className="text-stone-500 block text-[10px] uppercase font-bold">
                               Total Quintals
                             </span>
-                            <span className="font-extrabold text-[#14532D] text-sm">
+                            <span className="font-extrabold text-[#17652B] text-sm">
                               {((listing.quantity_remaining_kg ?? listing.quantity_kg) / 100).toFixed(1)} qtl
                             </span>
                           </div>
@@ -388,7 +388,7 @@ export default function SellerDashboard() {
 
                         {/* APMC Reference Comparison */}
                         {listing.market_reference && (
-                          <div className="flex items-center space-x-1.5 text-[11px] text-stone-700 bg-amber-50/90 px-2.5 py-1.5 rounded-xl border border-amber-200">
+                          <div className="flex items-center space-x-1.5 text-[11px] text-stone-700 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200">
                             <TrendingUp className="w-3.5 h-3.5 text-amber-700 shrink-0" />
                             <span>
                               APMC Daily Modal Rate: <strong>₹{listing.market_reference.modal_price_per_kg}/kg</strong>
@@ -410,10 +410,10 @@ export default function SellerDashboard() {
 
                       <Link
                         href={`/seller/listings/${listing.id}`}
-                        className="min-h-[46px] w-full bg-[#0E3911] hover:bg-[#14532D] text-white rounded-xl font-bold text-xs flex items-center justify-center space-x-1 transition shadow-sm"
+                        className="min-h-[46px] w-full bg-[#17652B] hover:bg-[#1F7D37] text-white rounded-xl font-bold text-xs flex items-center justify-center space-x-1 transition shadow-sm"
                       >
                         <span>{language === 'en' ? 'Submit Bid' : 'ಆಫರ್ ಸಲ್ಲಿಸಿ'}</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
+                        <ArrowRight className="w-3.5 h-3.5 text-[#FFBF24]" />
                       </Link>
                     </div>
                   </div>

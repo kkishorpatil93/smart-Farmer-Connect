@@ -3,14 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --primary: #0E3911;
-  --primary-light: #1B5E20;
-  --fresh: #16A34A;
-  --amber: #F59E0B;
-  --background: #FCFAF2;
+  --forest: #17652B;
+  --fresh: #2E8B43;
+  --harvest: #FFBF24;
+  --cream: #FFF8E5;
+  --white: #FFFFFF;
+  --dark: #17251B;
+  
+  --primary: #17652B;
+  --primary-light: #2E8B43;
+  --background: #FFF8E5;
   --surface: #FFFFFF;
-  --text-main: #1C1917;
-  --text-muted: #57534E;
+  --text-main: #17251B;
+  --text-muted: #4A5B4E;
 }
 
 body {
@@ -35,6 +40,6 @@ html, body {
 
 /* High contrast outline for keyboard accessibility */
 :focus-visible {
-  outline: 3px solid #FFB300;
+  outline: 3px solid #FFBF24;
   outline-offset: 2px;
 }

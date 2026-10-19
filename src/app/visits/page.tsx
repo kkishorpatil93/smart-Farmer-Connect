@@ -107,10 +107,10 @@ export default function VisitsPage() {
 
   if (loading || fetching) {
     return (
-      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
+      <div className="min-h-screen bg-[#FFF8E5] flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
-          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-[#17652B] border-t-transparent rounded-full animate-spin" />
           <p>{language === 'en' ? 'Loading Mandi visit confirmations...' : 'ಮಂಡಿ ಭೇಟಿ ವಿವರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default function VisitsPage() {
   const dashboardLink = isFarmer ? '/farmer/dashboard' : '/seller/dashboard';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
+    <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -130,7 +130,7 @@ export default function VisitsPage() {
           <div className="space-y-1">
             <Link
               href={dashboardLink}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#14532D] hover:underline"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#17652B] hover:underline"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>
@@ -141,7 +141,7 @@ export default function VisitsPage() {
                   : 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಿ'}
               </span>
             </Link>
-            <h1 className="text-2xl sm:text-3xl font-black text-[#0E3911]">
+            <h1 className="text-2xl sm:text-3xl font-black text-[#17652B]">
               {language === 'en' ? 'Confirmed Mandi Visits & Payments' : 'ದೃಢಪಡಿಸಿದ ಭೇಟಿ ಮತ್ತು ಪಾವತಿ ಸ್ಥಿತಿ'}
             </h1>
             <p className="text-xs sm:text-sm text-stone-600">
@@ -152,8 +152,8 @@ export default function VisitsPage() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-xs font-black bg-green-100 text-[#0E3911] px-4 py-2 rounded-2xl border border-green-300 flex items-center space-x-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#14532D]" />
+            <span className="text-xs font-black bg-green-100 text-[#17652B] px-4 py-2 rounded-2xl border border-green-300 flex items-center space-x-1.5">
+              <ShieldCheck className="w-4 h-4 text-[#17652B]" />
               <span>{visits.length} {language === 'en' ? 'Confirmed Deals' : 'ದೃಢೀಕೃತ ವ್ಯವಹಾರಗಳು'}</span>
             </span>
           </div>
@@ -173,7 +173,7 @@ export default function VisitsPage() {
             </p>
             <Link
               href={isFarmer ? '/farmer/offers' : '/seller/dashboard'}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-white bg-[#0E3911] px-5 py-2.5 rounded-xl hover:bg-[#14532D] transition shadow"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-white bg-gradient-to-r from-[#17652B] to-[#2E8B43] hover:from-[#1F7D37] hover:to-[#3FA657] px-5 py-2.5 rounded-xl transition shadow border border-green-800"
             >
               <span>{language === 'en' ? 'Go to Active Bids' : 'ಆಫರ್‌ಗಳಿಗೆ ಹೋಗಿ'}</span>
             </Link>
@@ -196,14 +196,14 @@ export default function VisitsPage() {
                   {/* Top Bar: Verification Code & Status */}
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-stone-100 pb-4">
                     <div className="flex items-center space-x-3">
-                      <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-200 text-[#0E3911] flex items-center justify-center font-bold shadow-xs">
-                        <QrCode className="w-6 h-6 text-[#0E3911]" />
+                      <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-200 text-[#17652B] flex items-center justify-center font-bold shadow-xs">
+                        <QrCode className="w-6 h-6 text-[#17652B]" />
                       </div>
                       <div>
                         <span className="text-[10px] text-stone-500 block uppercase font-bold tracking-wider">
                           Mandi Gate Verification Pass
                         </span>
-                        <span className="text-lg font-black font-mono text-[#0E3911] tracking-wider">
+                        <span className="text-lg font-black font-mono text-[#17652B] tracking-wider">
                           {visit.verification_code}
                         </span>
                       </div>
@@ -234,7 +234,7 @@ export default function VisitsPage() {
                   {/* Main Grid: Crop + Trader + Farmer */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                     {/* 1. Crop & Financials */}
-                    <div className="bg-[#FCFAF2] p-4 rounded-2xl border border-stone-200 space-y-2.5">
+                    <div className="bg-[#FFF8E5] p-4 rounded-2xl border border-stone-200 space-y-2.5">
                       <div className="flex items-center space-x-2.5">
                         <span className="text-3xl">{listing?.crop?.icon_name || '🌾'}</span>
                         <div>
@@ -250,7 +250,7 @@ export default function VisitsPage() {
                       <div className="space-y-1.5 pt-2 border-t border-stone-200/80">
                         <div className="flex justify-between">
                           <span className="text-stone-600 font-medium">Agreed Rate:</span>
-                          <span className="font-black text-[#0E3911] text-sm">
+                          <span className="font-black text-[#17652B] text-sm">
                             ₹{offer?.price_per_kg}/kg
                           </span>
                         </div>
@@ -258,7 +258,7 @@ export default function VisitsPage() {
                           <span className="text-stone-600 font-medium">Confirmed Quantity:</span>
                           <span className="font-extrabold text-stone-900">{offer?.quantity_kg} kg</span>
                         </div>
-                        <div className="flex justify-between pt-1.5 border-t border-stone-200 text-sm font-black text-[#0E3911]">
+                        <div className="flex justify-between pt-1.5 border-t border-stone-200 text-sm font-black text-[#17652B]">
                           <span>Total Amount:</span>
                           <span>₹{totalAmount.toLocaleString('en-IN')}</span>
                         </div>
@@ -266,7 +266,7 @@ export default function VisitsPage() {
                     </div>
 
                     {/* 2. Partner Details */}
-                    <div className="bg-[#FCFAF2] p-4 rounded-2xl border border-stone-200 space-y-2.5">
+                    <div className="bg-[#FFF8E5] p-4 rounded-2xl border border-stone-200 space-y-2.5">
                       <span className="text-[10px] uppercase font-bold text-stone-500 block">
                         {isFarmer ? 'Buyer (APMC Commission Trader)' : 'Farmer (Producer)'}
                       </span>
@@ -274,7 +274,7 @@ export default function VisitsPage() {
                       {isFarmer ? (
                         <div className="space-y-1.5">
                           <div className="flex items-center space-x-1.5 font-bold text-stone-900 text-sm">
-                            <Store className="w-4 h-4 text-[#0E3911]" />
+                            <Store className="w-4 h-4 text-[#17652B]" />
                             <span>{offer?.seller?.shop_name || 'APMC Commission Trader'}</span>
                           </div>
                           <p className="text-stone-600 text-[11px]">
@@ -282,7 +282,7 @@ export default function VisitsPage() {
                           </p>
                           <a
                             href={`tel:${offer?.seller?.profile?.phone || '+919845044444'}`}
-                            className="inline-flex items-center space-x-1.5 font-bold text-[#0E3911] hover:underline pt-1"
+                            className="inline-flex items-center space-x-1.5 font-bold text-[#17652B] hover:underline pt-1"
                           >
                             <Phone className="w-3.5 h-3.5 text-green-700" />
                             <span>{offer?.seller?.profile?.phone || '+91 98450 44444'}</span>
@@ -291,7 +291,7 @@ export default function VisitsPage() {
                       ) : (
                         <div className="space-y-1.5">
                           <div className="flex items-center space-x-1.5 font-bold text-stone-900 text-sm">
-                            <User className="w-4 h-4 text-[#0E3911]" />
+                            <User className="w-4 h-4 text-[#17652B]" />
                             <span>{listing?.farmer?.profile?.full_name || 'Basavaraj Patil'}</span>
                           </div>
                           <p className="text-stone-600 text-[11px]">
@@ -299,7 +299,7 @@ export default function VisitsPage() {
                           </p>
                           <a
                             href={`tel:${listing?.farmer?.profile?.phone || '+919845011111'}`}
-                            className="inline-flex items-center space-x-1.5 font-bold text-[#0E3911] hover:underline pt-1"
+                            className="inline-flex items-center space-x-1.5 font-bold text-[#17652B] hover:underline pt-1"
                           >
                             <Phone className="w-3.5 h-3.5 text-green-700" />
                             <span>{listing?.farmer?.profile?.phone || '+91 98450 11111'}</span>
@@ -309,7 +309,7 @@ export default function VisitsPage() {
                     </div>
 
                     {/* 3. Visit Schedule & Yard Location */}
-                    <div className="bg-[#FCFAF2] p-4 rounded-2xl border border-stone-200 space-y-2.5">
+                    <div className="bg-[#FFF8E5] p-4 rounded-2xl border border-stone-200 space-y-2.5">
                       <span className="text-[10px] uppercase font-bold text-stone-500 block">
                         Schedule & Yard Location
                       </span>
@@ -323,7 +323,7 @@ export default function VisitsPage() {
                           </span>
                         </div>
                         <div className="flex items-start space-x-1.5 text-stone-600">
-                          <MapPin className="w-4 h-4 text-[#0E3911] shrink-0 mt-0.5" />
+                          <MapPin className="w-4 h-4 text-[#17652B] shrink-0 mt-0.5" />
                           <span>
                             {listing?.market?.name_en || 'Hubballi APMC Main Gate, Amaragol'}
                           </span>
@@ -388,7 +388,7 @@ export default function VisitsPage() {
                                     onClick={() => setSelectedPaymentMethod(method)}
                                     className={`px-3 py-1.5 text-[11px] font-extrabold rounded-xl uppercase transition ${
                                       selectedPaymentMethod === method
-                                        ? 'bg-[#0E3911] text-amber-300'
+                                        ? 'bg-[#17652B] text-[#FFBF24]'
                                         : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                                     }`}
                                   >
@@ -402,7 +402,7 @@ export default function VisitsPage() {
                                   type="button"
                                   disabled={processingPayment}
                                   onClick={() => handleConfirmPayment(visit.id)}
-                                  className="flex-1 py-2 px-3 bg-[#0E3911] hover:bg-[#14532D] text-white text-xs font-bold rounded-xl shadow cursor-pointer disabled:opacity-50"
+                                  className="flex-1 py-2 px-3 bg-[#17652B] hover:bg-[#1F7D37] text-white text-xs font-bold rounded-xl shadow cursor-pointer disabled:opacity-50"
                                 >
                                   {processingPayment ? 'Verifying...' : 'Confirm Receipt'}
                                 </button>
@@ -419,9 +419,9 @@ export default function VisitsPage() {
                             <button
                               type="button"
                               onClick={() => setPayingVisitId(visit.id)}
-                              className="w-full sm:w-auto min-h-[46px] px-5 py-2.5 bg-[#0E3911] hover:bg-[#14532D] text-white text-xs font-bold rounded-2xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer border border-green-800"
+                              className="w-full sm:w-auto min-h-[46px] px-5 py-2.5 bg-gradient-to-r from-[#17652B] to-[#2E8B43] hover:from-[#1F7D37] hover:to-[#3FA657] text-white text-xs font-bold rounded-2xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer border border-green-800"
                             >
-                              <DollarSign className="w-4 h-4 text-amber-300" />
+                              <DollarSign className="w-4 h-4 text-[#FFBF24]" />
                               <span>
                                 {language === 'en'
                                   ? 'Verify Mandi Payment'

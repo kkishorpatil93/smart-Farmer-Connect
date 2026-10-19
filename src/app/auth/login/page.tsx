@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
-import { Sprout, Store, ShieldCheck, KeyRound, Phone, ArrowRight, UserCheck } from 'lucide-react';
+import { Sprout, Store, ShieldCheck, KeyRound, Phone, ArrowRight, UserCheck, AlertCircle } from 'lucide-react';
 
 function LoginFormContent() {
   const router = useRouter();
@@ -20,32 +20,46 @@ function LoginFormContent() {
   const [phone, setPhone] = useState(role === 'farmer' ? '+919845011111' : '+919845044444');
   const [otp, setOtp] = useState('123456');
   const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleRoleChange = (newRole: 'farmer' | 'seller') => {
     setRole(newRole);
     setPhone(newRole === 'farmer' ? '+919845011111' : '+919845044444');
+    setErrorMsg(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg(null);
     setSubmitting(true);
-    const success = await login(phone, otp);
-    setSubmitting(false);
-
-    if (success) {
-      const redirectUrl = searchParams.get('redirect');
-      if (redirectUrl) {
-        router.push(redirectUrl);
-      } else if (role === 'farmer') {
-        router.push('/farmer/dashboard');
+    try {
+      const success = await login(phone, otp);
+      if (success) {
+        const redirectUrl = searchParams.get('redirect');
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        } else if (role === 'farmer') {
+          router.push('/farmer/dashboard');
+        } else {
+          router.push('/seller/dashboard');
+        }
       } else {
-        router.push('/seller/dashboard');
+        setErrorMsg(
+          language === 'en'
+            ? 'Invalid phone number or OTP. Try demo number or quick login below.'
+            : 'ತಪ್ಪಾದ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಅಥವಾ ಒಟಿಪಿ. ದಯವಿಟ್ಟು ಪರಿಶೀಲಿಸಿ.'
+        );
       }
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Login failed');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleQuickLogin = async (targetRole: 'farmer' | 'seller') => {
     setSubmitting(true);
+    setErrorMsg(null);
     const success = await quickLogin(targetRole);
     setSubmitting(false);
     if (success) {
@@ -61,90 +75,98 @@ function LoginFormContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF8E1]">
+    <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-md w-full mx-auto px-4 py-8 space-y-6">
+      <main className="flex-1 max-w-md w-full mx-auto px-4 py-10 space-y-6">
         {/* Role Selector Tabs */}
         <div className="bg-white p-1.5 rounded-2xl shadow-sm border border-stone-200 flex">
           <button
             type="button"
             onClick={() => handleRoleChange('farmer')}
-            className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 transition cursor-pointer ${
+            className={`flex-1 py-3 px-4 rounded-xl font-black text-sm flex items-center justify-center space-x-2 transition cursor-pointer ${
               role === 'farmer'
-                ? 'bg-[#1B5E20] text-white shadow'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-[#17652B] text-white shadow'
+                : 'text-stone-600 hover:text-stone-900'
             }`}
           >
-            <Sprout className="w-4 h-4 text-amber-300" />
+            <Sprout className="w-4 h-4 text-[#FFBF24]" />
             <span>{language === 'en' ? "I'm a Farmer" : 'ನಾನು ರೈತ'}</span>
           </button>
 
           <button
             type="button"
             onClick={() => handleRoleChange('seller')}
-            className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 transition cursor-pointer ${
+            className={`flex-1 py-3 px-4 rounded-xl font-black text-sm flex items-center justify-center space-x-2 transition cursor-pointer ${
               role === 'seller'
-                ? 'bg-[#1B5E20] text-white shadow'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-[#17652B] text-white shadow'
+                : 'text-stone-600 hover:text-stone-900'
             }`}
           >
-            <Store className="w-4 h-4 text-amber-300" />
+            <Store className="w-4 h-4 text-[#FFBF24]" />
             <span>{language === 'en' ? 'APMC Seller' : 'ಎಪಿಎಂಸಿ ವ್ಯಾಪಾರಿ'}</span>
           </button>
         </div>
 
         {/* Login Form Box */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-stone-200 space-y-5">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-6">
           <div className="text-center space-y-1">
-            <h2 className="text-xl font-extrabold text-[#1B5E20]">
+            <h1 className="text-2xl font-black text-[#17652B]">
               {role === 'farmer'
-                ? (language === 'en' ? 'Farmer OTP Login' : 'ರೈತರ ಮೊಬೈಲ್ ಲಾಗಿನ್')
+                ? (language === 'en' ? 'Farmer Mobile Login' : 'ರೈತರ ಮೊಬೈಲ್ ಲಾಗಿನ್')
                 : (language === 'en' ? 'APMC Trader Login' : 'ವ್ಯಾಪಾರಿಗಳ ಲಾಗಿನ್')}
-            </h2>
-            <p className="text-xs text-gray-500">
+            </h1>
+            <p className="text-xs text-stone-500">
               {language === 'en'
-                ? 'Enter your mobile number to receive or enter your OTP.'
-                : 'ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಒಟಿಪಿ ನಮೂದಿಸಿ.'}
+                ? 'Enter your registered mobile number and OTP to continue.'
+                : 'ನಿಮ್ಮ ನೊಂದಾಯಿತ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಒಟಿಪಿ ನಮೂದಿಸಿ.'}
             </p>
           </div>
 
+          {errorMsg && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-start space-x-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-red-600 mt-0.5" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">
+              <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1.5">
                 {language === 'en' ? 'Mobile Phone Number' : 'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ'}
               </label>
               <div className="relative">
-                <Phone className="w-5 h-5 absolute left-3 top-3.5 text-gray-400" />
+                <Phone className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+919845011111"
                   required
-                  placeholder="+91 98450 11111"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl font-mono text-base focus:ring-2 focus:ring-[#1B5E20] focus:border-transparent outline-none"
+                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/50 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B] focus:bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="block text-xs font-bold text-gray-700">
-                  {language === 'en' ? 'OTP Verification Code' : 'ಒಟಿಪಿ ಪರಿಶೀಲನಾ ಕೋಡ್'}
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-black text-stone-800 uppercase tracking-wider">
+                  {language === 'en' ? '6-Digit OTP Code' : '6-ಅಂಕಿಯ ಒಟಿಪಿ'}
                 </label>
-                <span className="text-[11px] font-semibold text-[#1B5E20] bg-green-50 px-2 py-0.5 rounded border border-green-200">
-                  Dev OTP: 123456
+                <span className="text-[11px] text-[#17652B] font-bold">
+                  {language === 'en' ? 'Test OTP: 123456' : 'ಪರೀಕ್ಷಾ ಒಟಿಪಿ: 123456'}
                 </span>
               </div>
               <div className="relative">
-                <KeyRound className="w-5 h-5 absolute left-3 top-3.5 text-gray-400" />
+                <KeyRound className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
                 <input
                   type="text"
+                  maxLength={6}
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  required
                   placeholder="123456"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl font-mono tracking-widest text-base focus:ring-2 focus:ring-[#1B5E20] focus:border-transparent outline-none"
+                  required
+                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/50 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B] focus:bg-white tracking-widest font-mono"
                 />
               </div>
             </div>
@@ -152,62 +174,49 @@ function LoginFormContent() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full min-h-[50px] bg-[#1B5E20] hover:bg-green-900 active:scale-[0.99] text-white font-bold rounded-xl shadow transition flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+              className="w-full min-h-[50px] bg-gradient-to-r from-[#17652B] to-[#2E8B43] hover:from-[#1F7D37] hover:to-[#3FA657] text-white font-black text-sm rounded-2xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer border border-[#17652B] disabled:opacity-50"
             >
-              <span>{submitting ? 'Verifying...' : (language === 'en' ? 'Login with OTP' : 'ಲಾಗಿನ್ ಮಾಡಿ')}</span>
-              <ArrowRight className="w-5 h-5 text-amber-300" />
+              <span>
+                {submitting
+                  ? (language === 'en' ? 'Verifying...' : 'ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ...')
+                  : (language === 'en' ? 'Login with OTP' : 'ಲಾಗಿನ್ ಮಾಡಿ')}
+              </span>
+              <ArrowRight className="w-4 h-4 text-[#FFBF24]" />
             </button>
           </form>
 
-          {/* Quick Demo Switcher Section */}
-          <div className="pt-3 border-t border-gray-100 space-y-2">
-            <div className="text-xs font-bold text-gray-500 uppercase tracking-wider text-center">
-              {language === 'en' ? '⚡ One-Click Test Accounts' : '⚡ ತ್ವರಿತ ಡೆಮೊ ಖಾತೆಗಳು'}
+          {/* 1-Click Quick Login for Reviewers */}
+          <div className="pt-2 border-t border-stone-100 space-y-2.5">
+            <div className="text-[11px] text-stone-500 font-bold uppercase tracking-wider text-center">
+              {language === 'en' ? 'Instant Quick Demo Access' : 'ತ್ವರಿತ ಡೆಮೊ ಪ್ರವೇಶ'}
             </div>
-
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => handleQuickLogin('farmer')}
-                className="w-full p-2.5 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 text-left flex items-center justify-between text-xs font-medium text-emerald-950 transition"
+                className="py-2.5 px-3 rounded-xl bg-green-50 hover:bg-green-100 text-[#17652B] text-xs font-black border border-green-200 transition flex items-center justify-center space-x-1.5 cursor-pointer"
               >
-                <div className="flex items-center space-x-2">
-                  <UserCheck className="w-4 h-4 text-emerald-700" />
-                  <span>
-                    <strong>Basavaraj Patil</strong> (Farmer • Belagavi)
-                  </span>
-                </div>
-                <span className="text-[10px] bg-white px-2 py-0.5 rounded shadow-sm font-bold text-emerald-800">
-                  Login →
-                </span>
+                <Sprout className="w-3.5 h-3.5" />
+                <span>Demo Farmer</span>
               </button>
-
               <button
                 type="button"
                 onClick={() => handleQuickLogin('seller')}
-                className="w-full p-2.5 bg-amber-50 hover:bg-amber-100 rounded-xl border border-amber-200 text-left flex items-center justify-between text-xs font-medium text-amber-950 transition"
+                className="py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-stone-900 text-xs font-black border border-amber-200 transition flex items-center justify-center space-x-1.5 cursor-pointer"
               >
-                <div className="flex items-center space-x-2">
-                  <Store className="w-4 h-4 text-amber-700" />
-                  <span>
-                    <strong>Suresh Agro Traders</strong> (Seller • Hubballi)
-                  </span>
-                </div>
-                <span className="text-[10px] bg-white px-2 py-0.5 rounded shadow-sm font-bold text-amber-800">
-                  Login →
-                </span>
+                <Store className="w-3.5 h-3.5 text-[#17652B]" />
+                <span>Demo Trader</span>
               </button>
             </div>
           </div>
 
-          {/* Register Prompt */}
-          <div className="text-center pt-2 text-xs text-gray-600">
-            {language === 'en' ? "Don't have an account yet?" : 'ಇನ್ನೂ ನೋಂದಣಿ ಮಾಡಿಲ್ಲವೇ?'}{' '}
+          <div className="text-center pt-2 text-xs text-stone-600">
+            {language === 'en' ? "Don't have an account yet?" : 'ಖಾತೆ ಇಲ್ಲವೇ?'}{' '}
             <Link
               href={`/auth/register?role=${role}`}
-              className="font-bold text-[#1B5E20] hover:underline"
+              className="font-black text-[#17652B] hover:underline"
             >
-              {language === 'en' ? 'Register here' : 'ಇಲ್ಲಿ ನೋಂದಣಿ ಮಾಡಿ'}
+              {language === 'en' ? 'Register Now' : 'ಇಲ್ಲಿ ನೋಂದಣಿ ಮಾಡಿ'}
             </Link>
           </div>
         </div>
@@ -218,7 +227,13 @@ function LoginFormContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#FFF8E1] flex items-center justify-center p-8 text-gray-500 font-semibold">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FFF8E5] flex items-center justify-center text-stone-500 font-bold">
+          Loading login form...
+        </div>
+      }
+    >
       <LoginFormContent />
     </Suspense>
   );

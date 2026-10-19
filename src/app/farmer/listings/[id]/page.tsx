@@ -97,10 +97,10 @@ export default function FarmerListingDetailPage() {
 
   if (fetching || !listing) {
     return (
-      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
+      <div className="min-h-screen bg-[#FFF8E5] flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
-          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-[#17652B] border-t-transparent rounded-full animate-spin" />
           <p>{language === 'en' ? 'Loading crop lot details...' : 'ವಿವರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
@@ -118,7 +118,7 @@ export default function FarmerListingDetailPage() {
   const currentPhoto = images[activePhotoIdx] || images[0];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
+    <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -131,7 +131,7 @@ export default function FarmerListingDetailPage() {
             <ArrowLeft className="w-5 h-5 text-stone-800" />
           </Link>
           <div>
-            <h1 className="text-2xl font-black text-[#0E3911]">
+            <h1 className="text-2xl font-black text-[#17652B]">
               {language === 'en' ? listing.crop?.name_en : listing.crop?.name_kn}
             </h1>
             <p className="text-xs text-stone-500">
@@ -166,7 +166,7 @@ export default function FarmerListingDetailPage() {
                       onClick={() => setActivePhotoIdx(idx)}
                       className={`w-16 h-16 rounded-2xl overflow-hidden border-2 shrink-0 transition cursor-pointer ${
                         activePhotoIdx === idx
-                          ? 'border-[#0E3911] ring-2 ring-green-600 scale-105'
+                          ? 'border-[#17652B] ring-2 ring-[#17652B] scale-105'
                           : 'border-stone-200 opacity-70 hover:opacity-100'
                       }`}
                     >
@@ -185,20 +185,20 @@ export default function FarmerListingDetailPage() {
                     {language === 'en' ? listing.crop?.name_en : listing.crop?.name_kn}
                   </h2>
                   <div className="text-xs text-stone-600 flex items-center space-x-2 mt-1">
-                    <MapPin className="w-3.5 h-3.5 text-[#14532D]" />
+                    <MapPin className="w-3.5 h-3.5 text-[#17652B]" />
                     <span>
                       {listing.farmer?.profile?.full_name?.split(' ')[0] || 'Farmer'}, {listing.farmer?.village || 'Village'}, {listing.farmer?.district || 'Karnataka'}
                     </span>
                   </div>
                 </div>
 
-                <span className="text-xs font-black uppercase tracking-wider bg-green-100 text-[#0E3911] px-3.5 py-1.5 rounded-full border border-green-300">
+                <span className="text-xs font-black uppercase tracking-wider bg-green-100 text-[#17652B] px-3.5 py-1.5 rounded-full border border-green-300">
                   {listing.status}
                 </span>
               </div>
 
               {/* Price & Quantity Breakdown */}
-              <div className="grid grid-cols-2 gap-3 bg-[#FCFAF2] p-4 rounded-2xl border border-stone-200 text-xs">
+              <div className="grid grid-cols-2 gap-3 bg-[#FFF8E5] p-4 rounded-2xl border border-stone-200 text-xs">
                 <div>
                   <div className="text-stone-500 font-bold uppercase text-[10px]">Total Lot Quantity:</div>
                   <div className="font-black text-stone-900 text-base mt-0.5">
@@ -210,7 +210,7 @@ export default function FarmerListingDetailPage() {
                 </div>
                 <div>
                   <div className="text-stone-500 font-bold uppercase text-[10px]">Farmer Expected Rate:</div>
-                  <div className="font-black text-[#0E3911] text-base mt-0.5">
+                  <div className="font-black text-[#17652B] text-base mt-0.5">
                     ₹{listing.price_per_kg}/kg{' '}
                     <span className="text-xs font-semibold text-stone-500">
                       (₹{listing.entered_price}/{listing.entered_price_unit})
@@ -219,7 +219,7 @@ export default function FarmerListingDetailPage() {
                 </div>
                 <div className="col-span-2 pt-2 border-t border-stone-200/80 flex items-center justify-between text-xs">
                   <span className="text-stone-600 font-medium">Estimated Total Lot Value:</span>
-                  <span className="font-black text-[#0E3911] text-sm">
+                  <span className="font-black text-[#17652B] text-sm">
                     ₹{(totalKg * listing.price_per_kg).toLocaleString('en-IN')}
                   </span>
                 </div>
@@ -248,13 +248,13 @@ export default function FarmerListingDetailPage() {
               <div className="space-y-1.5 pt-2">
                 <div className="flex justify-between text-xs font-bold">
                   <span className="text-stone-600">Quantity Sold vs Available:</span>
-                  <span className="text-[#0E3911]">
+                  <span className="text-[#17652B]">
                     {allocatedKg} kg confirmed / {remainingKg} kg available
                   </span>
                 </div>
                 <div className="w-full bg-stone-200 h-3 rounded-full overflow-hidden">
                   <div
-                    className="bg-[#0E3911] h-full transition-all duration-500 rounded-full"
+                    className="bg-[#17652B] h-full transition-all duration-500 rounded-full"
                     style={{ width: `${(allocatedKg / totalKg) * 100}%` }}
                   />
                 </div>
@@ -278,28 +278,28 @@ export default function FarmerListingDetailPage() {
                   </p>
                 </div>
               </div>
-              <span className="bg-[#0E3911] text-amber-300 text-xs font-black px-4 py-1.5 rounded-full shadow-sm">
+              <span className="bg-[#17652B] text-[#FFBF24] text-xs font-black px-4 py-1.5 rounded-full shadow-sm">
                 {listing.quality_assessment.grade}
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+              <div className="bg-[#FFF8E5] p-3.5 rounded-2xl border border-stone-200">
                 <span className="text-stone-500 block font-bold uppercase text-[10px]">Freshness & Ripeness:</span>
                 <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.freshness}</span>
               </div>
-              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+              <div className="bg-[#FFF8E5] p-3.5 rounded-2xl border border-stone-200">
                 <span className="text-stone-500 block font-bold uppercase text-[10px]">Size Uniformity:</span>
                 <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.uniformity}</span>
               </div>
-              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+              <div className="bg-[#FFF8E5] p-3.5 rounded-2xl border border-stone-200">
                 <span className="text-stone-500 block font-bold uppercase text-[10px]">Pest / Damage Condition:</span>
                 <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.defects}</span>
               </div>
             </div>
 
             <div className="bg-green-50/80 p-4 rounded-2xl border border-green-200 text-xs text-stone-800 leading-relaxed">
-              <strong className="text-[#0E3911]">Grade Explanation: </strong>
+              <strong className="text-[#17652B]">Grade Explanation: </strong>
               {listing.quality_assessment.explanation}
             </div>
 
@@ -365,7 +365,7 @@ export default function FarmerListingDetailPage() {
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                       <div className="space-y-2 flex-1">
                         <div className="flex items-center space-x-2">
-                          <Store className="w-4 h-4 text-[#0E3911]" />
+                          <Store className="w-4 h-4 text-[#17652B]" />
                           <h4 className="font-black text-lg text-stone-900">
                             {offer.seller?.shop_name || 'APMC Commission Shop'}
                           </h4>
@@ -375,11 +375,11 @@ export default function FarmerListingDetailPage() {
                         </div>
 
                         <div className="text-xs text-stone-700 flex flex-wrap gap-x-3 gap-y-1.5 items-center">
-                          <span className="text-xl font-black text-[#0E3911]">
+                          <span className="text-xl font-black text-[#17652B]">
                             ₹{offer.price_per_kg}/kg
                           </span>
                           <span className={`font-black px-2 py-0.5 rounded-md text-[11px] ${
-                            priceDiff >= 0 ? 'bg-green-100 text-[#0E3911]' : 'bg-amber-100 text-amber-950'
+                            priceDiff >= 0 ? 'bg-green-100 text-[#17652B]' : 'bg-amber-100 text-amber-950'
                           }`}>
                             {priceDiff >= 0 ? `+₹${priceDiff} vs asking` : `-₹${Math.abs(priceDiff)} vs asking`}
                           </span>
@@ -395,7 +395,7 @@ export default function FarmerListingDetailPage() {
                         </div>
 
                         {offer.message && (
-                          <p className="text-xs text-stone-600 italic bg-[#FCFAF2] p-2.5 rounded-xl border border-stone-200">
+                          <p className="text-xs text-stone-600 italic bg-[#FFF8E5] p-2.5 rounded-xl border border-stone-200">
                             "{offer.message}"
                           </p>
                         )}
@@ -417,7 +417,7 @@ export default function FarmerListingDetailPage() {
                             </div>
                             <Link
                               href="/visits"
-                              className="inline-flex items-center text-[11px] font-bold text-[#0E3911] hover:underline pt-0.5"
+                              className="inline-flex items-center text-[11px] font-bold text-[#17652B] hover:underline pt-0.5"
                             >
                               <span>View Mandi Gate QR Pass →</span>
                             </Link>
@@ -431,9 +431,9 @@ export default function FarmerListingDetailPage() {
                             <button
                               disabled={actionLoading || !canAccept}
                               onClick={() => handleOfferStatus(offer.id, 'accepted')}
-                              className="min-h-[46px] px-5 py-2.5 bg-[#0E3911] hover:bg-[#14532D] text-white text-xs font-bold rounded-xl shadow-md transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center space-x-1.5 cursor-pointer"
+                              className="min-h-[46px] px-5 py-2.5 bg-gradient-to-r from-[#17652B] to-[#2E8B43] hover:from-[#1F7D37] hover:to-[#3FA657] text-white text-xs font-bold rounded-xl shadow-md transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center space-x-1.5 cursor-pointer border border-green-800"
                             >
-                              <CheckCircle2 className="w-4 h-4 text-amber-300" />
+                              <CheckCircle2 className="w-4 h-4 text-[#FFBF24]" />
                               <span>Accept Deal</span>
                             </button>
 

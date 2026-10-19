@@ -193,7 +193,7 @@ export default function AddCropPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
+    <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
       <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -206,10 +206,10 @@ export default function AddCropPage() {
             <ArrowLeft className="w-5 h-5 text-stone-800" />
           </Link>
           <div>
-            <h1 className="text-2xl font-black text-[#0E3911]">
+            <h1 className="text-2xl font-black text-[#17652B]">
               {language === 'en' ? 'Upload Crop & Quality Grading' : 'ಬೆಳೆ ಪೋಸ್ಟ್ & ಗುಣಮಟ್ಟ ಶ್ರೇಣಿ'}
             </h1>
-            <p className="text-xs text-stone-500">
+            <p className="text-xs text-stone-600">
               {language === 'en'
                 ? 'Upload 1–5 clear photos showing freshness, size, and condition.'
                 : 'ಬೆಳೆಯ ತಾಜಾತನ, ಗಾತ್ರ ಮತ್ತು ಸ್ಥಿತಿ ತೋರಿಸುವ 1–5 ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.'}
@@ -231,7 +231,7 @@ export default function AddCropPage() {
                   onClick={() => setSelectedCropId(c.id)}
                   className={`p-3 rounded-xl border text-center transition flex flex-col items-center justify-center space-y-1 cursor-pointer ${
                     selectedCropId === c.id
-                      ? 'bg-green-50 border-[#1B5E20] ring-2 ring-[#1B5E20] text-green-950 font-bold'
+                      ? 'bg-green-50 border-[#17652B] ring-2 ring-[#17652B] text-green-950 font-bold'
                       : 'bg-stone-50 border-gray-200 text-gray-700 hover:bg-stone-100'
                   }`}
                 >
@@ -277,8 +277,8 @@ export default function AddCropPage() {
 
               {photos.length < 5 && (
                 <label className="aspect-square rounded-xl border-2 border-dashed border-green-600/60 bg-green-50/50 hover:bg-green-100/50 flex flex-col items-center justify-center cursor-pointer transition text-center p-2">
-                  <Camera className="w-6 h-6 text-[#1B5E20] mb-1" />
-                  <span className="text-[10px] font-bold text-[#1B5E20]">
+                  <Camera className="w-6 h-6 text-[#17652B] mb-1" />
+                  <span className="text-[10px] font-bold text-[#17652B]">
                     {language === 'en' ? '+ Add Photo' : '+ ಫೋಟೋ'}
                   </span>
                   <input
@@ -315,12 +315,12 @@ export default function AddCropPage() {
                     value={enteredQuantity}
                     onChange={(e) => setEnteredQuantity(e.target.value === '' ? '' : Number(e.target.value))}
                     placeholder="500"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-base font-bold text-gray-900 focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-xl text-base font-bold text-gray-900 focus:ring-2 focus:ring-[#17652B] outline-none"
                   />
                   <select
                     value={enteredUnit}
                     onChange={(e) => setEnteredUnit(e.target.value as WeightUnit)}
-                    className="w-28 px-2 py-3 border border-gray-300 rounded-xl text-xs sm:text-sm font-semibold bg-stone-50 focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                    className="w-28 px-2 py-3 border border-gray-300 rounded-xl text-xs sm:text-sm font-semibold bg-stone-50 focus:ring-2 focus:ring-[#17652B] outline-none"
                   >
                     <option value="kg">kg (ಕೆ.ಜಿ)</option>
                     <option value="quintal">Quintal</option>
@@ -345,13 +345,13 @@ export default function AddCropPage() {
                       value={enteredPrice}
                       onChange={(e) => setEnteredPrice(e.target.value === '' ? '' : Number(e.target.value))}
                       placeholder="22"
-                      className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl text-base font-bold text-[#1B5E20] focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                      className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl text-base font-bold text-[#17652B] focus:ring-2 focus:ring-[#17652B] outline-none"
                     />
                   </div>
                   <select
                     value={enteredPriceUnit}
                     onChange={(e) => setEnteredPriceUnit(e.target.value as WeightUnit)}
-                    className="w-28 px-2 py-3 border border-gray-300 rounded-xl text-xs sm:text-sm font-semibold bg-stone-50 focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                    className="w-28 px-2 py-3 border border-gray-300 rounded-xl text-xs sm:text-sm font-semibold bg-stone-50 focus:ring-2 focus:ring-[#17652B] outline-none"
                   >
                     <option value="kg">per kg</option>
                     <option value="quintal">per Quintal</option>
@@ -376,7 +376,7 @@ export default function AddCropPage() {
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value === '' ? '' : Number(e.target.value))}
                     placeholder="e.g. 20"
-                    className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-600"
+                    className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-[#17652B]"
                   />
                 </div>
               </div>
@@ -387,7 +387,7 @@ export default function AddCropPage() {
                   id="negotiable"
                   checked={isNegotiable}
                   onChange={(e) => setIsNegotiable(e.target.checked)}
-                  className="w-5 h-5 text-[#1B5E20] rounded focus:ring-green-500 cursor-pointer"
+                  className="w-5 h-5 text-[#17652B] rounded focus:ring-green-500 cursor-pointer"
                 />
                 <label htmlFor="negotiable" className="text-xs font-bold text-gray-800 cursor-pointer">
                   {language === 'en' ? 'Price is negotiable (ಚರ್ಚೆಗೆ ಮುಕ್ತ)' : 'ದರ ಚರ್ಚೆಗೆ ಮುಕ್ತವಾಗಿದೆ'}
@@ -403,7 +403,7 @@ export default function AddCropPage() {
                   {language === 'en' ? 'Estimated Total Value:' : 'ಅಂದಾಜು ಒಟ್ಟು ಮೌಲ್ಯ:'}
                 </span>
               </div>
-              <span className="text-xl font-extrabold text-[#1B5E20]">
+              <span className="text-xl font-extrabold text-[#17652B]">
                 ₹{calculatedTotal.toLocaleString('en-IN')}
               </span>
             </div>
@@ -459,7 +459,7 @@ export default function AddCropPage() {
               <label className="block text-xs font-bold text-gray-800 flex items-center space-x-1">
                 <span>{language === 'en' ? 'Preliminary Visual Quality Assessment' : 'ಪೂರ್ವಭಾವಿ ದೃಶ್ಯ ಗುಣಮಟ್ಟ ಮೌಲ್ಯಮಾಪನ'}</span>
               </label>
-              <span className="text-[11px] font-bold text-[#1B5E20] bg-green-100 px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-[#17652B] bg-green-100 px-2 py-0.5 rounded-full">
                 {selectedGrade}
               </span>
             </div>
@@ -477,7 +477,7 @@ export default function AddCropPage() {
                   onClick={() => setSelectedGrade(g.grade as any)}
                   className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${
                     selectedGrade === g.grade
-                      ? 'bg-green-50 border-[#1B5E20] ring-2 ring-[#1B5E20]'
+                      ? 'bg-green-50 border-[#17652B] ring-2 ring-[#17652B]'
                       : 'bg-stone-50 border-gray-200 hover:bg-stone-100'
                   }`}
                 >
@@ -512,7 +512,7 @@ export default function AddCropPage() {
                   value={selectedMarketId}
                   onChange={(e) => setSelectedMarketId(e.target.value)}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm font-medium bg-white focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm font-medium bg-white focus:ring-2 focus:ring-[#17652B] outline-none"
                 >
                   {markets.map((m) => (
                     <option key={m.id} value={m.id}>
@@ -531,7 +531,7 @@ export default function AddCropPage() {
                   required
                   value={harvestDate}
                   onChange={(e) => setHarvestDate(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-[#17652B] outline-none"
                 />
               </div>
             </div>
@@ -546,7 +546,7 @@ export default function AddCropPage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe visible colour, freshness, firmness, and packaging..."
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-[#17652B] outline-none"
               />
             </div>
           </div>
@@ -555,9 +555,9 @@ export default function AddCropPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full min-h-[52px] bg-[#1B5E20] hover:bg-green-900 active:scale-[0.99] text-white font-bold rounded-xl shadow-md flex items-center justify-center space-x-2 transition cursor-pointer disabled:opacity-50"
+            className="w-full min-h-[52px] bg-gradient-to-r from-[#17652B] to-[#2E8B43] hover:from-[#1F7D37] hover:to-[#3FA657] active:scale-[0.99] text-white font-bold rounded-2xl shadow-md flex items-center justify-center space-x-2 transition cursor-pointer disabled:opacity-50 border border-green-800"
           >
-            <Sparkles className="w-5 h-5 text-amber-300" />
+            <Sparkles className="w-5 h-5 text-[#FFBF24]" />
             <span>
               {submitting
                 ? (language === 'en' ? 'Publishing & Grading...' : 'ಪ್ರಕಟಿಸಲಾಗುತ್ತಿದೆ...')

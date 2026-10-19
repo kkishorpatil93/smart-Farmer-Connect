@@ -127,10 +127,10 @@ export default function FarmerDashboard() {
 
   if (loading || fetching) {
     return (
-      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
+      <div className="min-h-screen bg-[#FFF8E5] flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
-          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-[#17652B] border-t-transparent rounded-full animate-spin" />
           <p>{language === 'en' ? 'Loading Farmer Hub...' : 'ರೈತರ ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
@@ -138,30 +138,30 @@ export default function FarmerDashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
+    <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Profile Card & Prominent Upload Action */}
-        <section className="bg-gradient-to-r from-white via-white to-[#FBF8EE] rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <section className="bg-gradient-to-r from-white via-white to-[#FFF8E5] rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0E3911] to-[#1B5E20] text-amber-300 flex items-center justify-center text-2xl shadow">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#17652B] to-[#2E8B43] text-[#FFBF24] flex items-center justify-center text-2xl shadow">
                 🌾
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-black text-[#0E3911]">
+                <h1 className="text-2xl sm:text-3xl font-black text-[#17652B]">
                   {user?.profile?.full_name}
                 </h1>
                 <div className="flex items-center space-x-2 text-xs font-medium text-stone-600 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5 text-[#14532D]" />
+                  <MapPin className="w-3.5 h-3.5 text-[#17652B]" />
                   <span>
                     {user?.farmerProfile?.village || 'Village'},{' '}
                     {user?.farmerProfile?.taluk || 'Taluk'},{' '}
                     {user?.farmerProfile?.district || 'Karnataka'}
                   </span>
                   <span className="text-stone-300">•</span>
-                  <span className="text-[#14532D] font-bold">
+                  <span className="text-[#17652B] font-bold">
                     {user?.profile?.phone}
                   </span>
                 </div>
@@ -182,9 +182,9 @@ export default function FarmerDashboard() {
 
             <Link
               href="/farmer/add-crop"
-              className="min-h-[52px] px-6 py-3 rounded-2xl bg-gradient-to-r from-[#0E3911] to-[#1B5E20] hover:from-[#14532D] hover:to-[#2E7D32] text-white font-extrabold text-sm shadow-md hover:shadow-lg flex items-center justify-center space-x-2.5 transition border border-green-800"
+              className="min-h-[52px] px-6 py-3 rounded-2xl bg-gradient-to-r from-[#17652B] to-[#2E8B43] hover:from-[#1F7D37] hover:to-[#3FA657] text-white font-black text-sm shadow-md hover:shadow-lg flex items-center justify-center space-x-2.5 transition border border-[#17652B]"
             >
-              <PlusCircle className="w-5 h-5 text-amber-300" />
+              <PlusCircle className="w-5 h-5 text-[#FFBF24]" />
               <span>
                 {language === 'en' ? 'Upload New Crop Lot' : 'ಹೊಸ ಬೆಳೆ ಸೇರಿಸಿ'}
               </span>
@@ -200,7 +200,7 @@ export default function FarmerDashboard() {
               <span>{language === 'en' ? 'Active Listings' : 'ಸಕ್ರಿಯ ಬೆಳೆಗಳು'}</span>
               <Sprout className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="text-3xl font-black text-[#0E3911] mt-2">
+            <div className="text-3xl font-black text-[#17652B] mt-2">
               {totalActiveLots}
             </div>
             <div className="text-[11px] text-stone-500 mt-1">
@@ -217,7 +217,7 @@ export default function FarmerDashboard() {
               <span>{language === 'en' ? 'Offers Received' : 'ಬಂದಿರುವ ಆಫರ್‌ಗಳು'}</span>
               <IndianRupee className="w-4 h-4 text-amber-600" />
             </div>
-            <div className="text-3xl font-black text-amber-600 mt-2">
+            <div className="text-3xl font-black text-[#FFBF24] mt-2">
               {totalOffersCount}
             </div>
             <div className="text-[11px] text-amber-700 font-bold mt-1 group-hover:underline flex items-center space-x-1">
@@ -234,7 +234,7 @@ export default function FarmerDashboard() {
               <span>{language === 'en' ? 'Confirmed Visits' : 'ಖಚಿತ ಭೇಟಿಗಳು'}</span>
               <CalendarDays className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="text-3xl font-black text-[#14532D] mt-2">
+            <div className="text-3xl font-black text-[#2E8B43] mt-2">
               {confirmedVisitsCount}
             </div>
             <div className="text-[11px] text-emerald-700 font-bold mt-1 group-hover:underline flex items-center space-x-1">
@@ -261,7 +261,7 @@ export default function FarmerDashboard() {
         <section className="space-y-5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <div>
-              <h2 className="text-2xl font-black text-[#0E3911] tracking-tight">
+              <h2 className="text-2xl font-black text-[#17652B] tracking-tight">
                 {language === 'en' ? 'My Crop Lots for Sale' : 'ನನ್ನ ಮಾರಾಟದ ಬೆಳೆಗಳು'}
               </h2>
               <p className="text-xs text-stone-500">
@@ -278,7 +278,7 @@ export default function FarmerDashboard() {
 
           {listings.length === 0 ? (
             <div className="bg-white rounded-3xl p-10 text-center border border-stone-200 space-y-4">
-              <div className="w-16 h-16 rounded-full bg-green-50 text-[#0E3911] flex items-center justify-center mx-auto text-3xl">
+              <div className="w-16 h-16 rounded-full bg-green-50 text-[#17652B] flex items-center justify-center mx-auto text-3xl">
                 🌾
               </div>
               <h3 className="text-xl font-bold text-stone-900">
@@ -291,9 +291,9 @@ export default function FarmerDashboard() {
               </p>
               <Link
                 href="/farmer/add-crop"
-                className="inline-flex items-center space-x-2 bg-[#0E3911] hover:bg-[#14532D] text-white px-6 py-3 rounded-2xl font-bold text-sm shadow transition"
+                className="inline-flex items-center space-x-2 bg-[#17652B] hover:bg-[#1F7D37] text-white px-6 py-3 rounded-2xl font-bold text-sm shadow transition"
               >
-                <PlusCircle className="w-5 h-5 text-amber-300" />
+                <PlusCircle className="w-5 h-5 text-[#FFBF24]" />
                 <span>{language === 'en' ? 'Post My First Crop Lot' : 'ಮೊದಲ ಬೆಳೆ ಸೇರಿಸಿ'}</span>
               </Link>
             </div>
@@ -338,7 +338,7 @@ export default function FarmerDashboard() {
 
                           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-600">
                             <span className="flex items-center">
-                              <Store className="w-3.5 h-3.5 mr-1 text-[#14532D]" />
+                              <Store className="w-3.5 h-3.5 mr-1 text-[#17652B]" />
                               {marketName}
                             </span>
                             <span>•</span>
@@ -349,8 +349,8 @@ export default function FarmerDashboard() {
                           </div>
 
                           <div className="pt-0.5">
-                            <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-green-100 text-[#0E3911] border border-green-300">
-                              <Sparkles className="w-3 h-3 text-[#14532D]" />
+                            <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-green-100 text-[#17652B] border border-green-300">
+                              <Sparkles className="w-3 h-3 text-[#17652B]" />
                               <span>{grade}</span>
                             </span>
                           </div>
@@ -358,7 +358,7 @@ export default function FarmerDashboard() {
                       </div>
 
                       {/* Quantity & Rate Breakdown */}
-                      <div className="grid grid-cols-2 gap-3 bg-[#FCFAF2] p-3 rounded-2xl border border-stone-200/80 text-xs">
+                      <div className="grid grid-cols-2 gap-3 bg-[#FFF8E5] p-3 rounded-2xl border border-stone-200 text-xs">
                         <div>
                           <div className="text-stone-500 font-bold uppercase text-[10px]">
                             {language === 'en' ? 'Available Quantity' : 'ಲಭ್ಯವಿರುವ ಪ್ರಮಾಣ'}
@@ -375,7 +375,7 @@ export default function FarmerDashboard() {
                           <div className="text-stone-500 font-bold uppercase text-[10px]">
                             {language === 'en' ? 'Expected Farmer Rate' : 'ನಿರೀಕ್ಷಿತ ದರ'}
                           </div>
-                          <div className="font-black text-[#0E3911] text-sm mt-0.5">
+                          <div className="font-black text-[#17652B] text-sm mt-0.5">
                             ₹{l.price_per_kg}/kg{' '}
                             <span className="text-[11px] font-medium text-stone-500">
                               (₹{l.entered_price}/{l.entered_price_unit})
@@ -397,13 +397,13 @@ export default function FarmerDashboard() {
 
                       <Link
                         href="/farmer/offers"
-                        className="min-h-[44px] px-4 py-2 bg-[#0E3911] hover:bg-[#14532D] text-white rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition shadow-sm"
+                        className="min-h-[44px] px-4 py-2 bg-[#17652B] hover:bg-[#1F7D37] text-white rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition shadow-sm"
                       >
-                        <IndianRupee className="w-3.5 h-3.5 text-amber-300" />
+                        <IndianRupee className="w-3.5 h-3.5 text-[#FFBF24]" />
                         <span>
                           {language === 'en' ? 'Compare Offers' : 'ಆಫರ್ ಹೋಲಿಸಿ'} ({offersCount})
                         </span>
-                        <ChevronRight className="w-4 h-4 text-amber-300" />
+                        <ChevronRight className="w-4 h-4 text-[#FFBF24]" />
                       </Link>
                     </div>
                   </div>
@@ -427,7 +427,7 @@ export default function FarmerDashboard() {
               {notifications.slice(0, 5).map((n) => (
                 <div key={n.id} className="py-3 flex items-start justify-between gap-4">
                   <div className="flex items-start space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-green-100 text-[#0E3911] flex items-center justify-center text-sm shrink-0 mt-0.5">
+                    <div className="w-8 h-8 rounded-full bg-green-100 text-[#17652B] flex items-center justify-center text-sm shrink-0 mt-0.5">
                       ✓
                     </div>
                     <div>

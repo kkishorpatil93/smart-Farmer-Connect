@@ -32,7 +32,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#1B5E20',
+  themeColor: '#17652B',
 };
 
 export default function RootLayout({
@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${notoKannada.variable}`}>
-      <body className="font-sans antialiased bg-[#FFF8E1] min-h-screen flex flex-col selection:bg-amber-300">
+      <body className="font-sans antialiased bg-[#FFF8E5] text-[#17251B] min-h-screen flex flex-col selection:bg-[#FFBF24]">
         <Providers>{children}</Providers>
       </body>
     </html>

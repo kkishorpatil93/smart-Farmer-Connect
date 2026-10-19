@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
 import { Market, Crop } from '@/types/database';
-import { Sprout, Store, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Sprout, Store, ArrowRight, ShieldCheck, MapPin, Phone, User, FileText, CheckCircle2 } from 'lucide-react';
 
 function RegisterFormContent() {
   const router = useRouter();
@@ -93,231 +93,241 @@ function RegisterFormContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF8E1]">
+    <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-lg w-full mx-auto px-4 py-8 space-y-6">
+      <main className="flex-1 max-w-xl w-full mx-auto px-4 py-10 space-y-6">
         {/* Role Selector Tabs */}
         <div className="bg-white p-1.5 rounded-2xl shadow-sm border border-stone-200 flex">
           <button
             type="button"
             onClick={() => setRole('farmer')}
-            className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 transition ${
+            className={`flex-1 py-3 px-4 rounded-xl font-black text-sm flex items-center justify-center space-x-2 transition cursor-pointer ${
               role === 'farmer'
-                ? 'bg-[#1B5E20] text-white shadow'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-[#17652B] text-white shadow'
+                : 'text-stone-600 hover:text-stone-900'
             }`}
           >
-            <Sprout className="w-4 h-4 text-amber-300" />
+            <Sprout className="w-4 h-4 text-[#FFBF24]" />
             <span>{language === 'en' ? 'Farmer Registration' : 'ರೈತರ ನೋಂದಣಿ'}</span>
           </button>
 
           <button
             type="button"
             onClick={() => setRole('seller')}
-            className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center space-x-2 transition ${
+            className={`flex-1 py-3 px-4 rounded-xl font-black text-sm flex items-center justify-center space-x-2 transition cursor-pointer ${
               role === 'seller'
-                ? 'bg-[#1B5E20] text-white shadow'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-[#17652B] text-white shadow'
+                : 'text-stone-600 hover:text-stone-900'
             }`}
           >
-            <Store className="w-4 h-4 text-amber-300" />
+            <Store className="w-4 h-4 text-[#FFBF24]" />
             <span>{language === 'en' ? 'APMC Seller' : 'ವ್ಯಾಪಾರಿ ನೋಂದಣಿ'}</span>
           </button>
         </div>
 
         {/* Form Container */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-stone-200 space-y-5">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-6">
           <div className="text-center space-y-1">
-            <h2 className="text-xl font-extrabold text-[#1B5E20]">
+            <h1 className="text-2xl font-black text-[#17652B]">
               {role === 'farmer'
                 ? (language === 'en' ? 'Create Farmer Account' : 'ಹೊಸ ರೈತರ ನೋಂದಣಿ')
                 : (language === 'en' ? 'Register APMC Commission Shop' : 'ಎಪಿಎಂಸಿ ಮಳಿಗೆ ನೋಂದಣಿ')}
-            </h2>
-            <p className="text-xs text-gray-500">
+            </h1>
+            <p className="text-xs text-stone-500">
               {language === 'en'
-                ? 'Join thousands of farmers & traders across Karnataka.'
-                : 'ಕರ್ನಾಟಕದ ಸಾವಿರಾರು ರೈತರು ಮತ್ತು ವ್ಯಾಪಾರಿಗಳ ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸೇರಿ.'}
+                ? 'Join verified farmers and APMC traders across Karnataka.'
+                : 'ಕರ್ನಾಟಕದ ನೊಂದಾಯಿತ ರೈತರು ಮತ್ತು ವ್ಯಾಪಾರಿಗಳ ನೆಟ್‌ವರ್ಕ್‌ಗೆ ಸೇರಿ.'}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Full Name */}
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">
-                {language === 'en' ? 'Full Name *' : 'ಪೂರ್ಣ ಹೆಸರು *'}
+              <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1">
+                {language === 'en' ? 'Full Name' : 'ಪೂರ್ಣ ಹೆಸರು'} *
               </label>
-              <input
-                type="text"
-                required
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder={role === 'farmer' ? 'Basavaraj Patil' : 'Suresh Kumar'}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-[#1B5E20] outline-none"
-              />
+              <div className="relative">
+                <User className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder={role === 'farmer' ? 'Basavaraj Patil' : 'Suresh Traders'}
+                  required
+                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/40 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B] focus:bg-white"
+                />
+              </div>
             </div>
 
+            {/* Mobile Phone */}
             <div>
-              <label className="block text-xs font-bold text-gray-700 mb-1">
-                {language === 'en' ? 'Mobile Number *' : 'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ *'}
+              <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1">
+                {language === 'en' ? 'Mobile Phone Number' : 'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ'} *
               </label>
-              <input
-                type="tel"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+91 98450 12345"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl font-mono text-base focus:ring-2 focus:ring-[#1B5E20] outline-none"
-              />
+              <div className="relative">
+                <Phone className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+919845012345"
+                  required
+                  className="w-full pl-11 pr-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/40 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B] focus:bg-white"
+                />
+              </div>
             </div>
 
-            {/* Farmer Specific Fields */}
-            {role === 'farmer' && (
-              <>
-                <div className="grid grid-cols-2 gap-3">
+            {/* Role-Specific Fields */}
+            {role === 'farmer' ? (
+              <div className="space-y-4 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 mb-1">
-                      {language === 'en' ? 'Village *' : 'ಗ್ರಾಮ *'}
+                    <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1">
+                      {language === 'en' ? 'Village / ಹಳ್ಳಿ' : 'ಹಳ್ಳಿ'} *
                     </label>
                     <input
                       type="text"
-                      required
                       value={village}
                       onChange={(e) => setVillage(e.target.value)}
-                      placeholder="e.g. Konnur"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                      placeholder="e.g. Sutagatti"
+                      required
+                      className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/40 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B]"
                     />
                   </div>
+
                   <div>
-                    <label className="block text-xs font-bold text-gray-700 mb-1">
-                      {language === 'en' ? 'Taluk *' : 'ತಾಲೂಕು *'}
+                    <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1">
+                      {language === 'en' ? 'Taluk / ತಾಲೂಕು' : 'ತಾಲೂಕು'} *
                     </label>
                     <input
                       type="text"
-                      required
                       value={taluk}
                       onChange={(e) => setTaluk(e.target.value)}
-                      placeholder="e.g. Gokak"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                      placeholder="e.g. Bailhongal"
+                      required
+                      className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/40 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    {language === 'en' ? 'District *' : 'ಜಿಲ್ಲೆ *'}
+                  <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1">
+                    {language === 'en' ? 'District' : 'ಜಿಲ್ಲೆ'} *
                   </label>
                   <select
                     value={district}
                     onChange={(e) => setDistrict(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base bg-white focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                    className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/40 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B]"
                   >
                     <option value="Belagavi">Belagavi (ಬೆಳಗಾವಿ)</option>
-                    <option value="Dharwad">Dharwad (ಧಾರವಾಡ)</option>
-                    <option value="Mysuru">Mysuru (ಮೈಸೂರು)</option>
-                    <option value="Bengaluru Urban">Bengaluru (ಬೆಂಗಳೂರು)</option>
+                    <option value="Dharwad">Dharwad / Hubballi (ಧಾರವಾಡ)</option>
+                    <option value="Haveri">Haveri (ಹಾವೇರಿ)</option>
                     <option value="Gadag">Gadag (ಗದಗ)</option>
+                    <option value="Bagalkot">Bagalkot (ಬಾಗಲಕೋಟೆ)</option>
                     <option value="Davanagere">Davanagere (ದಾವಣಗೆರೆ)</option>
-                    <option value="Shivamogga">Shivamogga (ಶಿವಮೊಗ್ಗ)</option>
-                    <option value="Kalaburagi">Kalaburagi (ಕಲಬುರಗಿ)</option>
                   </select>
                 </div>
-              </>
-            )}
-
-            {/* Seller Specific Fields */}
-            {role === 'seller' && (
-              <>
+              </div>
+            ) : (
+              <div className="space-y-4 pt-1">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    {language === 'en' ? 'Shop / Firm Name *' : 'ಅಂಗಡಿ / ಸಂಸ್ಥೆಯ ಹೆಸರು *'}
+                  <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1">
+                    {language === 'en' ? 'APMC Stall / Shop Name' : 'ಮಳಿಗೆ ಹೆಸರು'} *
                   </label>
                   <input
                     type="text"
-                    required
                     value={shopName}
                     onChange={(e) => setShopName(e.target.value)}
-                    placeholder="e.g. Suresh Agro Traders"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                    placeholder="e.g. Mahaveer & Co. Commission Agency"
+                    required
+                    className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/40 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    {language === 'en' ? 'APMC License Number (Optional)' : 'ಎಪಿಎಂಸಿ ಪರವಾನಗಿ ಸಂಖ್ಯೆ'}
+                  <label className="block text-xs font-black text-stone-800 uppercase tracking-wider mb-1">
+                    {language === 'en' ? 'APMC Trader License Number' : 'ಎಪಿಎಂಸಿ ಲೈಸೆನ್ಸ್ ಸಂಖ್ಯೆ'} *
                   </label>
                   <input
                     type="text"
                     value={licenseNo}
                     onChange={(e) => setLicenseNo(e.target.value)}
-                    placeholder="e.g. APMC-HUB-2024-88"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                    placeholder="e.g. APMC-HUB-2024-C92"
+                    required
+                    className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-[#FFF8E5]/40 text-sm font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#17652B]"
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    {language === 'en' ? 'Subscribed APMC Markets *' : 'ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಮಾರುಕಟ್ಟೆಗಳು *'}
+                {/* Subscribed Markets */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-black text-stone-800 uppercase tracking-wider">
+                    {language === 'en' ? 'Operating APMC Mandis' : 'ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಮಾರುಕಟ್ಟೆಗಳು'}
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-44 overflow-y-auto p-2 border border-gray-200 rounded-xl">
+                  <div className="flex flex-wrap gap-2">
                     {markets.map((m) => (
-                      <label
-                        key={m.id}
-                        className={`flex items-center space-x-2 p-2 rounded-lg text-xs font-medium cursor-pointer border transition ${
-                          selectedMarkets.includes(m.id)
-                            ? 'bg-green-50 border-green-400 text-green-950 font-bold'
-                            : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedMarkets.includes(m.id)}
-                          onChange={() => handleMarketToggle(m.id)}
-                          className="rounded text-[#1B5E20] focus:ring-green-500"
-                        />
-                        <span>{language === 'en' ? m.name_en : m.name_kn}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    {language === 'en' ? 'Preferred Crops' : 'ಆಸಕ್ತಿಯ ಬೆಳೆಗಳು'}
-                  </label>
-                  <div className="flex flex-wrap gap-1.5">
-                    {crops.map((c) => (
                       <button
+                        key={m.id}
                         type="button"
-                        key={c.id}
-                        onClick={() => handleCropToggle(c.name_en)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-                          selectedCrops.includes(c.name_en)
-                            ? 'bg-[#1B5E20] text-white border-[#1B5E20]'
-                            : 'bg-stone-50 text-gray-700 border-gray-300 hover:bg-stone-100'
+                        onClick={() => handleMarketToggle(m.id)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                          selectedMarkets.includes(m.id)
+                            ? 'bg-[#17652B] text-white shadow'
+                            : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                         }`}
                       >
-                        {c.icon_name} {language === 'en' ? c.name_en : c.name_kn}
+                        {m.name_en}
                       </button>
                     ))}
                   </div>
                 </div>
-              </>
+
+                {/* Preferred Crops */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-black text-stone-800 uppercase tracking-wider">
+                    {language === 'en' ? 'Procurement Interests (Preferred Crops)' : 'ಆಸಕ್ತಿಯ ಬೆಳೆಗಳು'}
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {crops.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => handleCropToggle(c.name_en)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                          selectedCrops.includes(c.name_en)
+                            ? 'bg-[#FFBF24] text-stone-950 shadow'
+                            : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                        }`}
+                      >
+                        {c.name_en}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             )}
 
             <button
               type="submit"
               disabled={submitting}
-              className="w-full min-h-[50px] bg-[#1B5E20] hover:bg-green-900 active:scale-[0.99] text-white font-bold rounded-xl shadow transition flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+              className="w-full min-h-[50px] bg-gradient-to-r from-[#17652B] to-[#2E8B43] hover:from-[#1F7D37] hover:to-[#3FA657] text-white font-black text-sm rounded-2xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer border border-[#17652B] disabled:opacity-50 mt-4"
             >
-              <span>{submitting ? 'Registering...' : (language === 'en' ? 'Complete Registration' : 'ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ')}</span>
-              <ArrowRight className="w-5 h-5 text-amber-300" />
+              <span>
+                {submitting
+                  ? (language === 'en' ? 'Creating Account...' : 'ಖಾತೆ ಸೃಷ್ಟಿಸಲಾಗುತ್ತಿದೆ...')
+                  : (language === 'en' ? 'Complete Free Registration' : 'ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ')}
+              </span>
+              <ArrowRight className="w-4 h-4 text-[#FFBF24]" />
             </button>
           </form>
 
-          <div className="text-center pt-2 text-xs text-gray-600">
-            {language === 'en' ? 'Already have an account?' : 'ಈಗಾಗಲೇ ಖಾತೆ ಹೊಂದಿದ್ದೀರಾ?'}{' '}
-            <Link href="/auth/login" className="font-bold text-[#1B5E20] hover:underline">
-              {language === 'en' ? 'Login here' : 'ಇಲ್ಲಿ ಲಾಗಿನ್ ಆಗಿ'}
+          <div className="text-center pt-2 text-xs text-stone-600">
+            {language === 'en' ? 'Already registered?' : 'ಈಗಾಗಲೇ ಖಾತೆ ಹೊಂದಿದ್ದೀರಾ?'}{' '}
+            <Link
+              href={`/auth/login?role=${role}`}
+              className="font-black text-[#17652B] hover:underline"
+            >
+              {language === 'en' ? 'Sign In Here' : 'ಇಲ್ಲಿ ಲಾಗಿನ್ ಮಾಡಿ'}
             </Link>
           </div>
         </div>
@@ -328,7 +338,13 @@ function RegisterFormContent() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#FFF8E1] flex items-center justify-center p-8 text-gray-500 font-semibold">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FFF8E5] flex items-center justify-center text-stone-500 font-bold">
+          Loading registration form...
+        </div>
+      }
+    >
       <RegisterFormContent />
     </Suspense>
   );

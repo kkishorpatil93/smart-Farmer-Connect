@@ -9,33 +9,41 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: "#1B5E20", // Deep green
-          light: "#2E7D32",
-          dark: "#0E3911",
-          hover: "#154c19",
+        forest: {
+          DEFAULT: "#17652B", // Forest green
+          light: "#1F7D37",
+          dark: "#114D20",
         },
         fresh: {
-          DEFAULT: "#4CAF50", // Fresh agricultural green
-          light: "#81C784",
-          dark: "#388E3C",
+          DEFAULT: "#2E8B43", // Fresh green
+          light: "#3FA657",
+          dark: "#236B33",
         },
-        amber: {
-          DEFAULT: "#FFB300", // Warm amber accent
-          light: "#FFC107",
-          dark: "#FFA000",
+        harvest: {
+          DEFAULT: "#FFBF24", // Harvest yellow
+          light: "#FFCC4D",
+          dark: "#E5A81A",
         },
-        surface: {
-          DEFAULT: "#FFFFFF",
-          cream: "#FFF8E1", // Light warm yellow background for high readability in sunlight
-          muted: "#F5F5F0",
+        cream: {
+          DEFAULT: "#FFF8E5", // Warm cream
+          dark: "#F5EDD5",
+        },
+        dark: {
+          DEFAULT: "#17251B", // Dark text
+          muted: "#4A5B4E",
+        },
+        primary: {
+          DEFAULT: "#17652B",
+          light: "#2E8B43",
+          dark: "#114D20",
+          hover: "#1F7D37",
         },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "var(--font-noto-kannada)", "system-ui", "sans-serif"],
       },
       minHeight: {
-        touch: "48px", // Ensures minimum 48px mobile touch targets
+        touch: "48px",
       },
       minWidth: {
         touch: "48px",
