@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
-import { CropListing } from '@/types/database';
+import { CropListing, NotificationItem } from '@/types/database';
 import {
   Sprout,
   PlusCircle,
@@ -16,6 +16,15 @@ import {
   TrendingUp,
   ChevronRight,
   AlertCircle,
+  CheckCircle2,
+  CalendarDays,
+  IndianRupee,
+  Scale,
+  Sparkles,
+  Bell,
+  ArrowRight,
+  ShieldCheck,
+  Eye,
 } from 'lucide-react';
 
 export default function FarmerDashboard() {
@@ -24,6 +33,7 @@ export default function FarmerDashboard() {
   const router = useRouter();
 
   const [listings, setListings] = useState<CropListing[]>([]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
@@ -33,62 +43,82 @@ export default function FarmerDashboard() {
     }
 
     if (user?.farmerProfile?.id) {
-      fetchListings();
+      loadDashboardData();
     }
   }, [user, loading]);
 
-  const fetchListings = async () => {
+  const loadDashboardData = async () => {
     if (!user?.farmerProfile?.id) return;
     try {
-      const res = await fetch(`/api/listings?farmer_id=${user.farmerProfile.id}`);
-      const data = await res.json();
-      if (data.listings) {
-        setListings(data.listings);
+      const [listingsRes, notifRes] = await Promise.all([
+        fetch(`/api/listings?farmer_id=${user.farmerProfile.id}`),
+        fetch(`/api/notifications?userId=${user.profile.id}`),
+      ]);
+
+      const listingsData = await listingsRes.json();
+      if (listingsData.listings) {
+        setListings(listingsData.listings);
+      }
+
+      const notifData = await notifRes.json();
+      if (notifData.notifications) {
+        setNotifications(notifData.notifications);
       }
     } catch (e) {
-      console.error('Failed to load listings', e);
+      console.error('Failed to load farmer dashboard data', e);
     } finally {
       setFetching(false);
     }
   };
 
+  // Real Database Metrics (Never invented!)
+  const totalActiveLots = listings.length;
   const totalOffersCount = listings.reduce((sum, l) => sum + (l.offers?.length || 0), 0);
+  const confirmedVisitsCount = listings.filter((l) => l.status === 'visit_confirmed').length;
+  const totalAvailableKg = listings.reduce(
+    (sum, l) => sum + (l.quantity_remaining_kg ?? l.quantity_kg ?? 0),
+    0
+  );
+  const totalAvailableQuintals = (totalAvailableKg / 100).toFixed(1);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'posted':
         return (
-          <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-blue-200">
-            {language === 'en' ? 'Posted • Awaiting Offers' : 'ಪೋಸ್ಟ್ ಆಗಿದೆ • ಆಫರ್‌ಗಳ ನಿರೀಕ್ಷೆ'}
+          <span className="inline-flex items-center space-x-1 bg-blue-100 text-blue-900 text-xs font-bold px-3 py-1 rounded-full border border-blue-200">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse mr-1" />
+            {language === 'en' ? 'Awaiting Mandi Bids' : 'ಆಫರ್‌ಗಳ ನಿರೀಕ್ಷೆ'}
           </span>
         );
       case 'buyer_interested':
         return (
-          <span className="bg-amber-100 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-300 animate-pulse">
+          <span className="inline-flex items-center space-x-1 bg-amber-100 text-amber-950 text-xs font-extrabold px-3 py-1 rounded-full border border-amber-300 animate-bounce">
+            <Sparkles className="w-3.5 h-3.5 text-amber-600 mr-1" />
             {language === 'en' ? 'Offers Received!' : 'ಆಫರ್‌ಗಳು ಬಂದಿವೆ!'}
           </span>
         );
       case 'visit_confirmed':
         return (
-          <span className="bg-green-100 text-green-900 text-xs font-bold px-2.5 py-0.5 rounded-full border border-green-300">
+          <span className="inline-flex items-center space-x-1 bg-emerald-100 text-emerald-900 text-xs font-bold px-3 py-1 rounded-full border border-emerald-300">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mr-1" />
             {language === 'en' ? 'Visit Confirmed' : 'ಭೇಟಿ ಖಚಿತಗೊಂಡಿದೆ'}
           </span>
         );
       case 'partially_sold':
         return (
-          <span className="bg-purple-100 text-purple-900 text-xs font-bold px-2.5 py-0.5 rounded-full border border-purple-200">
+          <span className="inline-flex items-center space-x-1 bg-purple-100 text-purple-900 text-xs font-bold px-3 py-1 rounded-full border border-purple-200">
             {language === 'en' ? 'Partially Sold' : 'ಭಾಗಶಃ ಮಾರಾಟವಾಗಿದೆ'}
           </span>
         );
       case 'sold':
         return (
-          <span className="bg-stone-200 text-stone-800 text-xs font-bold px-2.5 py-0.5 rounded-full">
-            {language === 'en' ? 'Sold' : 'ಮಾರಾಟ ಪೂರ್ಣ'}
+          <span className="inline-flex items-center space-x-1 bg-stone-200 text-stone-800 text-xs font-bold px-3 py-1 rounded-full">
+            {language === 'en' ? 'Sold & Settled' : 'ಮಾರಾಟ ಪೂರ್ಣ'}
           </span>
         );
       default:
         return (
-          <span className="bg-gray-100 text-gray-800 text-xs font-bold px-2.5 py-0.5 rounded-full">
+          <span className="inline-flex items-center space-x-1 bg-gray-100 text-gray-800 text-xs font-bold px-3 py-1 rounded-full">
             {status}
           </span>
         );
@@ -97,166 +127,332 @@ export default function FarmerDashboard() {
 
   if (loading || fetching) {
     return (
-      <div className="min-h-screen bg-[#FFF8E1] flex flex-col">
+      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center p-8 text-gray-500 font-semibold">
-          {language === 'en' ? 'Loading Farmer Hub...' : 'ಲೋಡ್ ಆಗುತ್ತಿದೆ...'}
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
+          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <p>{language === 'en' ? 'Loading Farmer Hub...' : 'ರೈತರ ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF8E1]">
+    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
       <Navbar />
 
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 space-y-6">
-        {/* Welcome & Profile Card */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center space-x-2">
-              <span className="text-xl">🌾</span>
-              <h2 className="text-xl font-bold text-gray-900">
-                {user?.profile?.full_name}
-              </h2>
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Profile Card & Prominent Upload Action */}
+        <section className="bg-gradient-to-r from-white via-white to-[#FBF8EE] rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0E3911] to-[#1B5E20] text-amber-300 flex items-center justify-center text-2xl shadow">
+                🌾
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-black text-[#0E3911]">
+                  {user?.profile?.full_name}
+                </h1>
+                <div className="flex items-center space-x-2 text-xs font-medium text-stone-600 mt-0.5">
+                  <MapPin className="w-3.5 h-3.5 text-[#14532D]" />
+                  <span>
+                    {user?.farmerProfile?.village || 'Village'},{' '}
+                    {user?.farmerProfile?.taluk || 'Taluk'},{' '}
+                    {user?.farmerProfile?.district || 'Karnataka'}
+                  </span>
+                  <span className="text-stone-300">•</span>
+                  <span className="text-[#14532D] font-bold">
+                    {user?.profile?.phone}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center space-x-2 text-xs text-gray-600">
-              <MapPin className="w-3.5 h-3.5 text-[#1B5E20]" />
+          </div>
+
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <Link
+              href="/farmer/offers"
+              className="min-h-[52px] px-5 py-3 rounded-2xl bg-amber-100 hover:bg-amber-200 text-stone-950 font-bold text-sm border border-amber-300 flex items-center justify-center space-x-2 transition"
+            >
+              <IndianRupee className="w-5 h-5 text-amber-800" />
               <span>
-                {user?.farmerProfile?.village}, {user?.farmerProfile?.taluk} Taluk,{' '}
-                {user?.farmerProfile?.district} District
+                {language === 'en' ? 'Review Offers' : 'ಆಫರ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಿ'} ({totalOffersCount})
               </span>
+            </Link>
+
+            <Link
+              href="/farmer/add-crop"
+              className="min-h-[52px] px-6 py-3 rounded-2xl bg-gradient-to-r from-[#0E3911] to-[#1B5E20] hover:from-[#14532D] hover:to-[#2E7D32] text-white font-extrabold text-sm shadow-md hover:shadow-lg flex items-center justify-center space-x-2.5 transition border border-green-800"
+            >
+              <PlusCircle className="w-5 h-5 text-amber-300" />
+              <span>
+                {language === 'en' ? 'Upload New Crop Lot' : 'ಹೊಸ ಬೆಳೆ ಸೇರಿಸಿ'}
+              </span>
+            </Link>
+          </div>
+        </section>
+
+        {/* 4-Metric Real Statistics Bar */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {/* 1. Total Active Crop Listings */}
+          <div className="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs">
+            <div className="flex items-center justify-between text-stone-500 text-xs font-bold uppercase tracking-wider">
+              <span>{language === 'en' ? 'Active Listings' : 'ಸಕ್ರಿಯ ಬೆಳೆಗಳು'}</span>
+              <Sprout className="w-4 h-4 text-emerald-600" />
+            </div>
+            <div className="text-3xl font-black text-[#0E3911] mt-2">
+              {totalActiveLots}
+            </div>
+            <div className="text-[11px] text-stone-500 mt-1">
+              {language === 'en' ? 'Currently live for traders' : 'ವ್ಯಾಪಾರಿಗಳಿಗೆ ಲಭ್ಯವಿವೆ'}
             </div>
           </div>
 
-          <Link
-            href="/farmer/add-crop"
-            className="w-full sm:w-auto min-h-[48px] bg-[#1B5E20] hover:bg-green-900 text-white font-bold px-5 py-2.5 rounded-xl shadow-md flex items-center justify-center space-x-2 transition cursor-pointer"
-          >
-            <PlusCircle className="w-5 h-5 text-amber-300" />
-            <span>
-              {language === 'en' ? 'Post New Crop Lot' : 'ಹೊಸ ಬೆಳೆ ಸೇರಿಸಿ'}
-            </span>
-          </Link>
-        </div>
-
-        {/* Overview Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-sm text-center">
-            <div className="text-xs text-gray-500 font-semibold">
-              {language === 'en' ? 'My Active Lots' : 'ನನ್ನ ಸಕ್ರಿಯ ಬೆಳೆಗಳು'}
-            </div>
-            <div className="text-2xl font-extrabold text-[#1B5E20] mt-1">
-              {listings.length}
-            </div>
-          </div>
-
+          {/* 2. Offers Received */}
           <Link
             href="/farmer/offers"
-            className="group bg-white p-4 rounded-xl border border-stone-200 shadow-sm text-center hover:border-amber-500 hover:shadow transition block cursor-pointer"
+            className="group bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs hover:border-amber-500 hover:shadow-md transition block"
           >
-            <div className="text-xs text-gray-500 font-semibold group-hover:text-amber-800 transition">
-              {language === 'en' ? 'Bids / Offers' : 'ಬಂದಿರುವ ಆಫರ್‌ಗಳು'}
+            <div className="flex items-center justify-between text-stone-500 text-xs font-bold uppercase tracking-wider group-hover:text-amber-800 transition">
+              <span>{language === 'en' ? 'Offers Received' : 'ಬಂದಿರುವ ಆಫರ್‌ಗಳು'}</span>
+              <IndianRupee className="w-4 h-4 text-amber-600" />
             </div>
-            <div className="text-2xl font-extrabold text-amber-600 mt-1">
+            <div className="text-3xl font-black text-amber-600 mt-2">
               {totalOffersCount}
             </div>
-            <span className="text-[10px] text-amber-700 font-bold block pt-0.5 group-hover:underline">
-              {language === 'en' ? 'Compare Offers →' : 'ಆಫರ್ ಹೋಲಿಸಿ →'}
-            </span>
+            <div className="text-[11px] text-amber-700 font-bold mt-1 group-hover:underline flex items-center space-x-1">
+              <span>{language === 'en' ? 'Compare & Accept →' : 'ಹೋಲಿಸಿ ಒಪ್ಪಿಕೊಳ್ಳಿ →'}</span>
+            </div>
           </Link>
 
-          <div className="col-span-2 sm:col-span-1 bg-white p-4 rounded-xl border border-stone-200 shadow-sm text-center">
-            <div className="text-xs text-gray-500 font-semibold">
-              {language === 'en' ? 'Connected Mandis' : 'ಸಂಪರ್ಕಿತ ಎಪಿಎಂಸಿ'}
+          {/* 3. Confirmed Seller Visits */}
+          <Link
+            href="/visits"
+            className="group bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs hover:border-emerald-500 hover:shadow-md transition block"
+          >
+            <div className="flex items-center justify-between text-stone-500 text-xs font-bold uppercase tracking-wider group-hover:text-emerald-800 transition">
+              <span>{language === 'en' ? 'Confirmed Visits' : 'ಖಚಿತ ಭೇಟಿಗಳು'}</span>
+              <CalendarDays className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="text-sm font-bold text-gray-800 mt-2">
-              Hubballi & Belagavi
+            <div className="text-3xl font-black text-[#14532D] mt-2">
+              {confirmedVisitsCount}
+            </div>
+            <div className="text-[11px] text-emerald-700 font-bold mt-1 group-hover:underline flex items-center space-x-1">
+              <span>{language === 'en' ? 'Mandi Gate QR Pass →' : 'ಗೇಟ್ ಪಾಸ್ ಕ್ಯೂಆರ್ ನೋಡಿ →'}</span>
+            </div>
+          </Link>
+
+          {/* 4. Quantity Available for Sale */}
+          <div className="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-xs">
+            <div className="flex items-center justify-between text-stone-500 text-xs font-bold uppercase tracking-wider">
+              <span>{language === 'en' ? 'Available for Sale' : 'ಮಾರಾಟಕ್ಕೆ ಲಭ್ಯವಿರುವ ಪ್ರಮಾಣ'}</span>
+              <Scale className="w-4 h-4 text-teal-600" />
+            </div>
+            <div className="text-3xl font-black text-teal-800 mt-2">
+              {totalAvailableQuintals} <span className="text-sm font-semibold text-stone-500">qtl</span>
+            </div>
+            <div className="text-[11px] text-stone-500 mt-1">
+              {totalAvailableKg.toLocaleString('en-IN')} kg total crop weight
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Listings Section */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="font-extrabold text-lg text-gray-900 flex items-center space-x-2">
-              <span>{language === 'en' ? 'My Crop Listings' : 'ನನ್ನ ಬೆಳೆಗಳ ವಿವರ'}</span>
-            </h3>
-            <span className="text-xs text-gray-500">
-              {listings.length} {language === 'en' ? 'lots' : 'ಬೆಳೆಗಳು'}
+        {/* Crop Lots Grid Section */}
+        <section className="space-y-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div>
+              <h2 className="text-2xl font-black text-[#0E3911] tracking-tight">
+                {language === 'en' ? 'My Crop Lots for Sale' : 'ನನ್ನ ಮಾರಾಟದ ಬೆಳೆಗಳು'}
+              </h2>
+              <p className="text-xs text-stone-500">
+                {language === 'en'
+                  ? 'Manage your pre-harvest postings, inspect trader bids, and track confirmed arrivals.'
+                  : 'ನಿಮ್ಮ ಬೆಳೆಗಳು, ಬಂದಿರುವ ಆಫರ್‌ಗಳು ಮತ್ತು ಮಂಡಿ ಭೇಟಿಯನ್ನು ನಿರ್ವಹಿಸಿ.'}
+              </p>
+            </div>
+
+            <span className="text-xs font-bold text-stone-600 bg-stone-100 px-3 py-1 rounded-full border border-stone-200">
+              {listings.length} {language === 'en' ? 'Active Postings' : 'ಬೆಳೆಗಳು'}
             </span>
           </div>
 
           {listings.length === 0 ? (
-            <div className="bg-white rounded-2xl p-8 text-center border border-stone-200 space-y-3">
-              <Sprout className="w-12 h-12 text-gray-300 mx-auto" />
-              <h4 className="font-bold text-gray-800">
+            <div className="bg-white rounded-3xl p-10 text-center border border-stone-200 space-y-4">
+              <div className="w-16 h-16 rounded-full bg-green-50 text-[#0E3911] flex items-center justify-center mx-auto text-3xl">
+                🌾
+              </div>
+              <h3 className="text-xl font-bold text-stone-900">
                 {language === 'en' ? 'No crops posted yet' : 'ಇನ್ನೂ ಯಾವುದೇ ಬೆಳೆ ಸೇರಿಸಿಲ್ಲ'}
-              </h4>
-              <p className="text-xs text-gray-500 max-w-sm mx-auto">
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto">
                 {language === 'en'
-                  ? 'Post your harvested crop now so matching APMC traders can make offers before you travel.'
-                  : 'ನಿಮ್ಮ ಕೊಯ್ಲು ಮಾಡಿದ ಬೆಳೆಯ ವಿವರಗಳನ್ನು ಪೋಸ್ಟ್ ಮಾಡಿ, ವ್ಯಾಪಾರಿಗಳಿಂದ ದರ ಆಫರ್ ಪಡೆಯಿರಿ.'}
+                  ? 'Post your harvested or near-harvest crop lot now. Registered APMC traders in Hubballi and Belagavi will send direct price bids.'
+                  : 'ನಿಮ್ಮ ಬೆಳೆಯ ವಿವರಗಳನ್ನು ಪೋಸ್ಟ್ ಮಾಡಿ. ಹುಬ್ಬಳ್ಳಿ ಮತ್ತು ಬೆಳಗಾವಿ ಎಪಿಎಂಸಿ ವ್ಯಾಪಾರಿಗಳಿಂದ ನೇರ ಆಫರ್ ಪಡೆಯಿರಿ.'}
               </p>
               <Link
                 href="/farmer/add-crop"
-                className="inline-flex items-center space-x-2 bg-[#1B5E20] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow hover:bg-green-900"
+                className="inline-flex items-center space-x-2 bg-[#0E3911] hover:bg-[#14532D] text-white px-6 py-3 rounded-2xl font-bold text-sm shadow transition"
               >
-                <PlusCircle className="w-4 h-4 text-amber-300" />
-                <span>{language === 'en' ? 'Post First Crop' : 'ಮೊದಲ ಬೆಳೆ ಸೇರಿಸಿ'}</span>
+                <PlusCircle className="w-5 h-5 text-amber-300" />
+                <span>{language === 'en' ? 'Post My First Crop Lot' : 'ಮೊದಲ ಬೆಳೆ ಸೇರಿಸಿ'}</span>
               </Link>
             </div>
           ) : (
-            <div className="space-y-3">
-              {listings.map((l) => (
-                <Link
-                  key={l.id}
-                  href={`/farmer/listings/${l.id}`}
-                  className="block bg-white rounded-2xl p-4 shadow-sm border border-stone-200 hover:border-green-600 transition"
-                >
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-14 h-14 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-center text-3xl shrink-0">
-                        {l.crop?.icon_name || '🌱'}
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex items-center space-x-2">
-                          <h4 className="font-bold text-base text-gray-900">
-                            {language === 'en' ? l.crop?.name_en : l.crop?.name_kn}
-                          </h4>
-                          {getStatusBadge(l.status)}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {listings.map((l) => {
+                const primaryImage = l.images?.[0]?.storage_path;
+                const cropName = language === 'en' ? l.crop?.name_en : l.crop?.name_kn;
+                const marketName = language === 'en' ? l.market?.name_en : l.market?.name_kn;
+                const offersCount = l.offers?.length || 0;
+                const grade = l.quality_assessment?.grade || 'Grade A';
+
+                return (
+                  <div
+                    key={l.id}
+                    className="bg-white rounded-3xl p-5 border border-stone-200 shadow-sm hover:shadow-md hover:border-green-600 transition flex flex-col justify-between space-y-4"
+                  >
+                    <div className="space-y-4">
+                      {/* Header with Photo & Title */}
+                      <div className="flex items-start space-x-4">
+                        <div className="w-20 h-20 rounded-2xl bg-stone-100 overflow-hidden shrink-0 border border-stone-200">
+                          {primaryImage ? (
+                            <img
+                              src={primaryImage}
+                              alt={cropName}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-4xl bg-amber-50">
+                              {l.crop?.icon_name || '🌱'}
+                            </div>
+                          )}
                         </div>
-                        <div className="text-xs text-gray-600 flex flex-wrap gap-x-3 gap-y-1">
-                          <span className="font-semibold text-gray-800">
-                            {l.entered_quantity} {l.entered_unit}
-                          </span>
-                          <span>•</span>
-                          <span className="font-bold text-[#1B5E20]">
-                            ₹{l.entered_price} / {l.entered_price_unit}
-                          </span>
-                          <span>•</span>
-                          <span className="flex items-center text-stone-600">
-                            <Store className="w-3.5 h-3.5 mr-1" />
-                            {language === 'en' ? l.market?.name_en : l.market?.name_kn}
-                          </span>
+
+                        <div className="space-y-1 flex-1">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-black text-lg text-stone-900">
+                              {cropName}
+                            </h3>
+                            {getStatusBadge(l.status)}
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-600">
+                            <span className="flex items-center">
+                              <Store className="w-3.5 h-3.5 mr-1 text-[#14532D]" />
+                              {marketName}
+                            </span>
+                            <span>•</span>
+                            <span className="flex items-center">
+                              <Clock className="w-3.5 h-3.5 mr-1 text-amber-600" />
+                              {language === 'en' ? 'Harvest:' : 'ಕೊಯ್ಲು:'} {l.harvest_date}
+                            </span>
+                          </div>
+
+                          <div className="pt-0.5">
+                            <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-green-100 text-[#0E3911] border border-green-300">
+                              <Sparkles className="w-3 h-3 text-[#14532D]" />
+                              <span>{grade}</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Quantity & Rate Breakdown */}
+                      <div className="grid grid-cols-2 gap-3 bg-[#FCFAF2] p-3 rounded-2xl border border-stone-200/80 text-xs">
+                        <div>
+                          <div className="text-stone-500 font-bold uppercase text-[10px]">
+                            {language === 'en' ? 'Available Quantity' : 'ಲಭ್ಯವಿರುವ ಪ್ರಮಾಣ'}
+                          </div>
+                          <div className="font-black text-stone-900 text-sm mt-0.5">
+                            {l.quantity_remaining_kg ?? l.quantity_kg} kg{' '}
+                            <span className="text-[11px] font-medium text-stone-500">
+                              ({l.entered_quantity} {l.entered_unit})
+                            </span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="text-stone-500 font-bold uppercase text-[10px]">
+                            {language === 'en' ? 'Expected Farmer Rate' : 'ನಿರೀಕ್ಷಿತ ದರ'}
+                          </div>
+                          <div className="font-black text-[#0E3911] text-sm mt-0.5">
+                            ₹{l.price_per_kg}/kg{' '}
+                            <span className="text-[11px] font-medium text-stone-500">
+                              (₹{l.entered_price}/{l.entered_price_unit})
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end space-x-3 pt-2 sm:pt-0 border-t sm:border-0 border-gray-100">
-                      <div className="text-right">
-                        <span className="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
-                          {l.offers?.length || 0} {language === 'en' ? 'Offers' : 'ಆಫರ್‌ಗಳು'}
+                    {/* Action Bar */}
+                    <div className="pt-2 border-t border-stone-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+                      <Link
+                        href={`/farmer/listings/${l.id}`}
+                        className="min-h-[44px] px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-900 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 transition border border-stone-200"
+                      >
+                        <Eye className="w-3.5 h-3.5 text-stone-600" />
+                        <span>{language === 'en' ? 'Crop Details & Quality' : 'ಬೆಳೆ ವಿವರ'}</span>
+                      </Link>
+
+                      <Link
+                        href="/farmer/offers"
+                        className="min-h-[44px] px-4 py-2 bg-[#0E3911] hover:bg-[#14532D] text-white rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition shadow-sm"
+                      >
+                        <IndianRupee className="w-3.5 h-3.5 text-amber-300" />
+                        <span>
+                          {language === 'en' ? 'Compare Offers' : 'ಆಫರ್ ಹೋಲಿಸಿ'} ({offersCount})
                         </span>
-                      </div>
-                      <ChevronRight className="w-5 h-5 text-gray-400" />
+                        <ChevronRight className="w-4 h-4 text-amber-300" />
+                      </Link>
                     </div>
                   </div>
-                </Link>
-              ))}
+                );
+              })}
             </div>
           )}
-        </div>
+        </section>
+
+        {/* Notifications and Activity Feed */}
+        {notifications.length > 0 && (
+          <section className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-4">
+            <div className="flex items-center space-x-2">
+              <Bell className="w-5 h-5 text-amber-500" />
+              <h2 className="text-xl font-extrabold text-stone-900">
+                {language === 'en' ? 'Recent Mandi Notifications' : 'ಇತ್ತೀಚಿನ ಸೂಚನೆಗಳು'}
+              </h2>
+            </div>
+
+            <div className="divide-y divide-stone-100">
+              {notifications.slice(0, 5).map((n) => (
+                <div key={n.id} className="py-3 flex items-start justify-between gap-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-8 h-8 rounded-full bg-green-100 text-[#0E3911] flex items-center justify-center text-sm shrink-0 mt-0.5">
+                      ✓
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-stone-900">
+                        {n.type === 'new_crop_listing'
+                          ? (language === 'en' ? 'Matching Crop Lot' : 'ಹೊಸ ಬೆಳೆ ಲಭ್ಯ')
+                          : n.type === 'offer_accepted'
+                          ? (language === 'en' ? 'Deal Confirmed by Farmer' : 'ಆಫರ್ ಒಪ್ಪಿಕೊಳ್ಳಲಾಗಿದೆ')
+                          : (language === 'en' ? 'Direct Buyer Offer Received' : 'ಹೊಸ ಆಫರ್ ಬಂದಿದೆ')}
+                      </div>
+                      <p className="text-xs text-stone-600 mt-0.5">
+                        {n.type === 'offer_accepted'
+                          ? `Offer confirmed for ${(n.payload as any)?.accepted_kg} kg. Phone number unlocked.`
+                          : `Offer from ${(n.payload as any)?.shop_name || 'APMC Trader'} at ₹${(n.payload as any)?.offered_price_per_kg || (n.payload as any)?.price_per_kg || 22}/kg.`}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] text-stone-400 shrink-0">
+                    {new Date(n.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );

@@ -20,6 +20,10 @@ import {
   TrendingUp,
   AlertCircle,
   ShieldCheck,
+  IndianRupee,
+  Scale,
+  CalendarDays,
+  Filter,
 } from 'lucide-react';
 
 export default function FarmerOffersPage() {
@@ -98,34 +102,35 @@ export default function FarmerOffersPage() {
 
   if (loading || fetching) {
     return (
-      <div className="min-h-screen bg-[#FFF8E1] flex flex-col">
+      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center p-8 text-gray-500 font-semibold">
-          {language === 'en' ? 'Loading buyer offers...' : 'ಖರೀದಿದಾರರ ಆಫರ್‌ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...'}
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
+          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <p>{language === 'en' ? 'Loading buyer offers...' : 'ಖರೀದಿದಾರರ ಆಫರ್‌ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF8E1]">
+    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
       <Navbar />
 
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 space-y-6">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Navigation & Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <Link
               href="/farmer/dashboard"
-              className="inline-flex items-center space-x-1 text-xs font-bold text-[#1B5E20] hover:underline"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#14532D] hover:underline"
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft className="w-4 h-4" />
               <span>{language === 'en' ? 'Back to Farmer Dashboard' : 'ರೈತರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಿ'}</span>
             </Link>
-            <h1 className="text-2xl font-extrabold text-gray-900">
+            <h1 className="text-2xl sm:text-3xl font-black text-[#0E3911]">
               {language === 'en' ? 'Compare Real Buyer Offers' : 'ಖರೀದಿದಾರರ ನೇರ ಆಫರ್‌ಗಳು'}
             </h1>
-            <p className="text-xs text-gray-600">
+            <p className="text-xs sm:text-sm text-stone-600">
               {language === 'en'
                 ? 'Review verified offers from licensed APMC commission traders before travelling to the mandi.'
                 : 'ಮಂಡಿಗೆ ಹೋಗುವ ಮುನ್ನ ಅಧಿಕೃತ ಎಪಿಎಂಸಿ ವ್ಯಾಪಾರಿಗಳ ನೈಜ ದರಗಳನ್ನು ಹೋಲಿಸಿ ನೋಡಿ.'}
@@ -135,66 +140,55 @@ export default function FarmerOffersPage() {
           <div className="flex items-center space-x-2">
             <Link
               href="/visits"
-              className="min-h-[44px] px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold rounded-xl shadow flex items-center space-x-2 transition"
+              className="min-h-[46px] px-5 py-2.5 bg-[#0E3911] hover:bg-[#14532D] text-white text-xs font-black rounded-2xl shadow-md flex items-center space-x-2 transition border border-green-800"
             >
-              <Calendar className="w-4 h-4 text-amber-300" />
-              <span>{language === 'en' ? 'Confirmed Visits' : 'ಖಚಿತ ಭೇಟಿಗಳು'}</span>
+              <CalendarDays className="w-4 h-4 text-amber-300" />
+              <span>
+                {language === 'en' ? 'Confirmed Deals & Gate Pass' : 'ಖಚಿತ ಭೇಟಿಗಳು & ಗೇಟ್ ಪಾಸ್'}
+              </span>
             </Link>
           </div>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-1">
-          {(['all', 'pending', 'accepted', 'declined'] as const).map((tab) => {
-            const count = tab === 'all' ? offers.length : offers.filter((o) => o.status === tab).length;
-            const labels = {
-              all: language === 'en' ? 'All Offers' : 'ಎಲ್ಲ ಆಫರ್‌ಗಳು',
-              pending: language === 'en' ? 'Pending Review' : 'ಬಾಕಿ ಉಳಿದಿರುವ',
-              accepted: language === 'en' ? 'Accepted & Confirmed' : 'ಒಪ್ಪಿಕೊಂಡ ಆಫರ್',
-              declined: language === 'en' ? 'Declined' : 'ತಿರಸ್ಕರಿಸಿದ',
-            };
-            return (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer whitespace-nowrap ${
-                  activeTab === tab
-                    ? 'bg-[#1B5E20] text-white shadow-sm'
-                    : 'bg-white text-gray-600 border border-stone-200 hover:bg-stone-50'
-                }`}
-              >
-                <span>{labels[tab]}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                    activeTab === tab ? 'bg-green-800 text-white' : 'bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+        <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none">
+          {[
+            { id: 'all', en: 'All Bids', kn: 'ಎಲ್ಲಾ ಆಫರ್‌ಗಳು' },
+            { id: 'pending', en: 'Pending Decision', kn: 'ನಿರ್ಧಾರ ಬಾಕಿ' },
+            { id: 'accepted', en: 'Accepted Deals', kn: 'ಒಪ್ಪಿಕೊಂಡ ಆಫರ್‌ಗಳು' },
+            { id: 'declined', en: 'Declined', kn: 'ತಿರಸ್ಕರಿಸಿದವು' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`min-h-[40px] px-4 py-2 rounded-2xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                activeTab === tab.id
+                  ? 'bg-[#0E3911] text-amber-300 shadow-sm'
+                  : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-50'
+              }`}
+            >
+              <span>{language === 'en' ? tab.en : tab.kn}</span>
+              <span className="ml-1.5 px-2 py-0.5 rounded-full text-[10px] bg-stone-100 text-stone-800">
+                {tab.id === 'all'
+                  ? offers.length
+                  : offers.filter((o) => o.status === tab.id).length}
+              </span>
+            </button>
+          ))}
         </div>
 
-        {/* Offers List */}
+        {/* Offers Feed */}
         {filteredOffers.length === 0 ? (
-          <div className="bg-white rounded-2xl p-10 text-center border border-stone-200 space-y-3">
-            <Clock className="w-10 h-10 text-amber-500 mx-auto" />
-            <h3 className="text-base font-bold text-gray-900">
-              {language === 'en' ? 'No offers in this category yet' : 'ಯಾವುದೇ ಆಫರ್‌ಗಳು ಲಭ್ಯವಿಲ್ಲ'}
+          <div className="bg-white rounded-3xl p-10 text-center border border-stone-200 space-y-3">
+            <Store className="w-12 h-12 text-stone-300 mx-auto" />
+            <h3 className="text-lg font-bold text-stone-800">
+              {language === 'en' ? 'No offers in this category' : 'ಯಾವುದೇ ಆಫರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ'}
             </h3>
-            <p className="text-xs text-gray-500 max-w-sm mx-auto">
+            <p className="text-xs text-stone-500 max-w-sm mx-auto">
               {language === 'en'
-                ? 'When APMC traders review your crop listings and submit rate bids, they will show up here.'
-                : 'ವ್ಯಾಪಾರಿಗಳು ನಿಮ್ಮ ಬೆಳೆಗೆ ಆಫರ್ ನೀಡಿದಾಗ ಇಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ.'}
+                ? 'Registered APMC traders in Hubballi and Belagavi receive instant alerts when you post crops.'
+                : 'ಬೆಳೆ ಪೋಸ್ಟ್ ಮಾಡಿದಾಗ ನೊಂದಾಯಿತ ವ್ಯಾಪಾರಿಗಳಿಗೆ ಮಾಹಿತಿ ತಲುಪುತ್ತದೆ.'}
             </p>
-            <Link
-              href="/farmer/add-crop"
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-white bg-[#1B5E20] px-4 py-2.5 rounded-xl hover:bg-green-900 transition"
-            >
-              <span>{language === 'en' ? 'Post New Crop Lot' : 'ಹೊಸ ಬೆಳೆ ಪೋಸ್ಟ್ ಮಾಡಿ'}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
           </div>
         ) : (
           <div className="space-y-4">
@@ -202,161 +196,127 @@ export default function FarmerOffersPage() {
               const isAccepted = offer.status === 'accepted';
               const isDeclined = offer.status === 'declined';
               const listing = offer.listing;
-              const expectedPrice = listing?.price_per_kg || 0;
-              const priceDiff = Number((offer.price_per_kg - expectedPrice).toFixed(2));
-              const totalValue = Number((offer.quantity_kg * offer.price_per_kg).toFixed(2));
+              const remainingKg = listing?.quantity_remaining_kg ?? listing?.quantity_kg ?? 0;
+              const canAccept = offer.quantity_kg <= remainingKg;
+              const priceDiff = listing
+                ? Number((offer.price_per_kg - listing.price_per_kg).toFixed(2))
+                : 0;
 
               return (
                 <div
                   key={offer.id}
-                  className={`bg-white rounded-2xl p-5 shadow-sm border transition ${
+                  className={`bg-white rounded-3xl p-6 shadow-sm border transition-all ${
                     isAccepted
-                      ? 'border-green-500 bg-green-50/30'
+                      ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-500/20'
                       : isDeclined
-                      ? 'border-gray-200 opacity-60'
-                      : 'border-stone-200 hover:border-green-300'
+                      ? 'border-stone-200 opacity-60'
+                      : 'border-stone-200 hover:border-amber-400'
                   }`}
                 >
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    {/* Crop & Trader Details */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="space-y-2 flex-1">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xl">
-                          {listing?.crop?.icon_name || '🌾'}
-                        </span>
-                        <div>
-                          <h3 className="font-extrabold text-base text-gray-900">
-                            {language === 'en' ? listing?.crop?.name_en : listing?.crop?.name_kn}{' '}
-                            <span className="text-xs font-normal text-gray-500">
-                              ({listing?.entered_quantity} {listing?.entered_unit})
-                            </span>
-                          </h3>
-                          <div className="flex items-center space-x-2 text-xs text-gray-600">
-                            <Store className="w-3.5 h-3.5 text-[#1B5E20]" />
-                            <span className="font-semibold text-gray-900">
-                              {offer.seller?.shop_name || 'APMC Commission Shop'}
-                            </span>
-                            <span className="text-amber-600 font-bold">
-                              ★ {offer.seller?.rating_avg || 4.8}
-                            </span>
-                            <span>•</span>
-                            <span className="text-stone-500">
-                              {listing?.market?.name_en || 'APMC Yard'}
-                            </span>
-                          </div>
+                      {/* Shop Name & Crop Tag */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex items-center space-x-1.5 font-black text-lg text-stone-900">
+                          <Store className="w-5 h-5 text-[#0E3911]" />
+                          <span>{offer.seller?.shop_name || 'APMC Commission Trader'}</span>
                         </div>
+                        <span className="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+                          ★ {offer.seller?.rating_avg || 4.8} APMC Verified
+                        </span>
+
+                        {listing?.crop && (
+                          <span className="text-xs font-extrabold bg-[#FCFAF2] text-stone-800 px-3 py-0.5 rounded-full border border-stone-200">
+                            {language === 'en' ? listing.crop.name_en : listing.crop.name_kn}
+                          </span>
+                        )}
                       </div>
 
-                      {/* Financial summary */}
-                      <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
-                        <div className="bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
-                          <span className="text-gray-500 block text-[10px] uppercase font-bold">Offered Rate</span>
-                          <span className="text-base font-extrabold text-[#1B5E20]">
+                      {/* Financial & Quantity Numbers */}
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-stone-700 pt-1">
+                        <div className="flex items-center space-x-1">
+                          <span className="text-xs font-bold text-stone-500 uppercase">Offer:</span>
+                          <span className="text-xl font-black text-[#0E3911]">
                             ₹{offer.price_per_kg}/kg
                           </span>
                         </div>
 
-                        <div className="bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
-                          <span className="text-gray-500 block text-[10px] uppercase font-bold">Requested Quantity</span>
-                          <span className="text-base font-extrabold text-gray-900">
-                            {offer.quantity_kg} kg
-                          </span>
-                        </div>
-
-                        <div className="bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
-                          <span className="text-emerald-700 block text-[10px] uppercase font-bold">Total Deal Value</span>
-                          <span className="text-base font-extrabold text-emerald-950">
-                            ₹{totalValue.toLocaleString('en-IN')}
-                          </span>
-                        </div>
-
-                        <span
-                          className={`font-bold px-2 py-1 rounded text-xs ${
-                            priceDiff >= 0
-                              ? 'bg-green-100 text-green-900 border border-green-200'
-                              : 'bg-amber-100 text-amber-900 border border-amber-200'
-                          }`}
-                        >
-                          {priceDiff >= 0
-                            ? `+₹${priceDiff}/kg higher than your expected rate`
-                            : `-₹${Math.abs(priceDiff)}/kg vs your expected rate`}
-                        </span>
-                      </div>
-
-                      {/* Visit date and message */}
-                      <div className="flex items-center space-x-3 text-xs text-gray-600 pt-1">
-                        <span className="flex items-center space-x-1">
-                          <Calendar className="w-3.5 h-3.5 text-gray-500" />
-                          <span>
-                            Proposed Visit:{' '}
-                            <strong>
-                              {offer.proposed_visit_at
-                                ? new Date(offer.proposed_visit_at).toLocaleDateString()
-                                : 'Tomorrow Morning'}
-                            </strong>
-                          </span>
-                        </span>
-                        {offer.message && (
-                          <span className="italic text-gray-500 bg-stone-50 px-2 py-0.5 rounded">
-                            "{offer.message}"
+                        {listing && (
+                          <span
+                            className={`font-black px-2.5 py-0.5 rounded-md text-[11px] ${
+                              priceDiff >= 0
+                                ? 'bg-green-100 text-[#0E3911]'
+                                : 'bg-amber-100 text-amber-950'
+                            }`}
+                          >
+                            {priceDiff >= 0 ? `+₹${priceDiff} vs asking` : `-₹${Math.abs(priceDiff)} vs asking`}
                           </span>
                         )}
+
+                        <span>•</span>
+
+                        <div>
+                          <span className="text-xs font-bold text-stone-500 uppercase">Quantity:</span>{' '}
+                          <strong className="text-stone-900">{offer.quantity_kg} kg</strong>{' '}
+                          <span className="text-[11px] text-stone-500">
+                            (₹{(offer.quantity_kg * offer.price_per_kg).toLocaleString('en-IN')})
+                          </span>
+                        </div>
+
+                        <span>•</span>
+
+                        <div className="flex items-center space-x-1 text-stone-500">
+                          <Calendar className="w-3.5 h-3.5" />
+                          <span>
+                            Visit: {offer.proposed_visit_at ? new Date(offer.proposed_visit_at).toLocaleDateString() : 'Tomorrow'}
+                          </span>
+                        </div>
                       </div>
+
+                      {offer.message && (
+                        <p className="text-xs text-stone-600 italic bg-[#FCFAF2] p-2.5 rounded-xl border border-stone-200">
+                          "{offer.message}"
+                        </p>
+                      )}
                     </div>
 
-                    {/* Action buttons & unlocked contact */}
-                    <div className="w-full md:w-auto flex flex-col items-start md:items-end justify-center space-y-2 shrink-0">
+                    {/* Actions / Phone Unlock */}
+                    <div className="w-full sm:w-auto flex items-center justify-end space-x-2">
                       {isAccepted ? (
-                        <div className="space-y-2 text-right w-full md:w-auto">
-                          <span className="inline-flex items-center text-xs font-bold text-green-800 bg-green-100 px-3 py-1 rounded-full border border-green-300">
-                            <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-green-700" />
-                            Offer Accepted & Visit Booked
+                        <div className="text-right space-y-1.5">
+                          <span className="inline-flex items-center text-xs font-black text-emerald-800 bg-emerald-100 px-3.5 py-1 rounded-full border border-emerald-300">
+                            <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-700" />
+                            Offer Confirmed
                           </span>
-
-                          <div className="p-2.5 bg-white rounded-xl border border-green-300 shadow-sm flex items-center justify-between space-x-3">
-                            <div className="text-left">
-                              <span className="text-[10px] text-gray-500 block font-bold">Trader Contact</span>
-                              <a
-                                href={`tel:${offer.seller?.profile?.phone || '+919845044444'}`}
-                                className="text-xs font-extrabold text-[#1B5E20] hover:underline flex items-center space-x-1"
-                              >
-                                <Phone className="w-3.5 h-3.5 text-green-700" />
-                                <span>{offer.seller?.profile?.phone || '+91 98450 44444'}</span>
-                              </a>
-                            </div>
-
-                            <Link
-                              href="/visits"
-                              className="px-3 py-1.5 bg-[#1B5E20] hover:bg-green-900 text-white text-[11px] font-bold rounded-lg transition"
-                            >
-                              View Booking →
-                            </Link>
+                          <div className="flex items-center text-xs font-bold text-stone-950 bg-white p-2.5 rounded-xl border border-emerald-300 shadow-sm">
+                            <Phone className="w-4 h-4 mr-1 text-emerald-700" />
+                            <a href={`tel:${offer.seller?.profile?.phone || '+919845044444'}`} className="hover:underline">
+                              {offer.seller?.profile?.phone || '+91 98450 44444'}
+                            </a>
                           </div>
                         </div>
                       ) : isDeclined ? (
-                        <span className="text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200">
-                          Offer Declined
+                        <span className="text-xs font-semibold text-stone-500 bg-stone-100 px-3.5 py-1.5 rounded-full">
+                          Declined
                         </span>
                       ) : (
-                        <div className="flex items-center space-x-2 w-full md:w-auto">
+                        <div className="flex space-x-2">
                           <button
-                            type="button"
-                            disabled={actionLoading}
+                            disabled={actionLoading || !canAccept}
                             onClick={() => handleOfferStatus(offer.id, 'accepted')}
-                            className="flex-1 md:flex-initial min-h-[44px] px-4 py-2 bg-[#1B5E20] hover:bg-green-900 text-white text-xs font-bold rounded-xl shadow transition flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                            className="min-h-[46px] px-5 py-2.5 bg-[#0E3911] hover:bg-[#14532D] text-white text-xs font-bold rounded-2xl shadow-md transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center space-x-1.5 cursor-pointer"
                           >
                             <CheckCircle2 className="w-4 h-4 text-amber-300" />
-                            <span>{language === 'en' ? 'Accept Offer' : 'ಆಫರ್ ಒಪ್ಪಿ'}</span>
+                            <span>Accept Offer</span>
                           </button>
 
                           <button
-                            type="button"
                             disabled={actionLoading}
                             onClick={() => handleOfferStatus(offer.id, 'declined')}
-                            className="min-h-[44px] px-3 py-2 bg-stone-100 hover:bg-stone-200 text-gray-700 text-xs font-bold rounded-xl border border-stone-300 transition cursor-pointer disabled:opacity-50 flex items-center space-x-1"
+                            className="min-h-[46px] px-3.5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-2xl border border-stone-300 transition cursor-pointer"
+                            title="Decline"
                           >
                             <XCircle className="w-4 h-4 text-red-500" />
-                            <span>{language === 'en' ? 'Decline' : 'ತಿರಸ್ಕರಿಸಿ'}</span>
                           </button>
                         </div>
                       )}

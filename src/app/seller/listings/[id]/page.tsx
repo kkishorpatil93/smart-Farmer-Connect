@@ -19,6 +19,11 @@ import {
   TrendingUp,
   Info,
   CheckCircle2,
+  Award,
+  IndianRupee,
+  Scale,
+  ShieldCheck,
+  ChevronRight,
 } from 'lucide-react';
 
 export default function SellerListingView() {
@@ -60,7 +65,7 @@ export default function SellerListingView() {
       const data = await res.json();
       if (data.listing) {
         setListing(data.listing);
-        setQuantityKg(data.listing.quantity_remaining_kg);
+        setQuantityKg(data.listing.quantity_remaining_kg ?? data.listing.quantity_kg);
         setPricePerKg(data.listing.price_per_kg);
       }
     } catch (e) {
@@ -82,8 +87,9 @@ export default function SellerListingView() {
       return;
     }
 
-    if (Number(quantityKg) > (listing?.quantity_remaining_kg || 0)) {
-      alert(`Cannot offer more than available ${listing?.quantity_remaining_kg} kg.`);
+    const availableKg = listing?.quantity_remaining_kg ?? listing?.quantity_kg ?? 0;
+    if (Number(quantityKg) > availableKg) {
+      alert(`Cannot offer more than available ${availableKg} kg.`);
       return;
     }
 
@@ -112,7 +118,7 @@ export default function SellerListingView() {
       setSubmittedOffer(true);
       alert(
         language === 'en'
-          ? 'Offer sent to farmer successfully! You will be notified when accepted.'
+          ? 'Direct offer submitted to farmer successfully! You will be notified upon confirmation.'
           : 'ರೈತರಿಗೆ ಆಫರ್ ತಲುಪಿದೆ! ಅವರು ಒಪ್ಪಿಗೆ ನೀಡಿದಾಗ ನಿಮಗೆ ಸಂದೇಶ ಬರಲಿದೆ.'
       );
     } catch (err: any) {
@@ -124,10 +130,11 @@ export default function SellerListingView() {
 
   if (fetching || !listing) {
     return (
-      <div className="min-h-screen bg-[#FFF8E1] flex flex-col">
+      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center p-8 text-gray-500 font-semibold">
-          {language === 'en' ? 'Loading lot...' : 'ಲೋಡ್ ಆಗುತ್ತಿದೆ...'}
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
+          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <p>{language === 'en' ? 'Loading lot details...' : 'ಬೆಳೆ ವಿವರ ಲೋಡ್ ಆಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
     );
@@ -135,56 +142,62 @@ export default function SellerListingView() {
 
   const images = listing.images && listing.images.length > 0
     ? listing.images
-    : [{ id: 'default', listing_id: listing.id, storage_path: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop&q=80', position: 1, created_at: '' }];
+    : [{ id: 'default', listing_id: listing.id, storage_path: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&auto=format&fit=crop&q=80', position: 1, created_at: '' }];
 
   const currentPhoto = images[activePhotoIdx] || images[0];
+  const calculatedTotal = (Number(quantityKg) || 0) * (Number(pricePerKg) || 0);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF8E1]">
+    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
       <Navbar />
 
-      <main className="flex-1 max-w-2xl w-full mx-auto px-4 py-6 space-y-6">
-        <div className="flex items-center space-x-2">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center space-x-3">
           <Link
             href="/seller/dashboard"
-            className="p-2 bg-white rounded-full border border-stone-200 text-gray-700 hover:bg-stone-50"
+            className="p-2.5 bg-white rounded-2xl border border-stone-200 text-stone-700 hover:bg-stone-50 transition shadow-xs"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 text-stone-800" />
           </Link>
           <div>
-            <h2 className="text-xl font-extrabold text-[#1B5E20]">
+            <h1 className="text-2xl font-black text-[#0E3911]">
               {language === 'en' ? listing.crop?.name_en : listing.crop?.name_kn}
-            </h2>
-            <p className="text-xs text-gray-500">
-              {language === 'en' ? 'Inspect Photos, Quality & Submit Mandi Bid' : 'ಫೋಟೋ, ಗುಣಮಟ್ಟ ಪರಿಶೀಲಿಸಿ ಆಫರ್ ನೀಡಿ'}
+            </h1>
+            <p className="text-xs text-stone-500">
+              {language === 'en' ? 'APMC Trader Procurement & Direct Bidding' : 'ಎಪಿಎಂಸಿ ಖರೀದಿ ಮತ್ತು ಬಿಡ್ ಸಲ್ಲಿಕೆ'}
             </p>
           </div>
         </div>
 
-        {/* 1. Lot Overview Card with Photos Gallery */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-200 space-y-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            {/* Gallery */}
-            <div className="w-full sm:w-60 space-y-2 shrink-0">
-              <div className="aspect-square w-full rounded-2xl bg-amber-50 border border-amber-200 overflow-hidden flex items-center justify-center shadow-inner">
+        {/* 1. Large Photo Gallery and Crop Profile */}
+        <section className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            {/* Gallery Section */}
+            <div className="md:col-span-5 space-y-3">
+              <div className="aspect-[4/3] w-full rounded-3xl bg-stone-100 border border-stone-200 overflow-hidden shadow-inner flex items-center justify-center relative">
                 <img
                   src={currentPhoto.storage_path}
-                  alt="Crop"
+                  alt="Crop preview"
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute top-3 left-3 bg-stone-950/70 backdrop-blur-xs text-white text-[11px] font-bold px-3 py-1 rounded-full">
+                  Photo {activePhotoIdx + 1} of {images.length}
+                </div>
               </div>
 
+              {/* Thumbnails */}
               {images.length > 1 && (
-                <div className="flex space-x-2 overflow-x-auto pb-1">
+                <div className="flex space-x-2.5 overflow-x-auto pb-1">
                   {images.map((img, idx) => (
                     <button
                       key={img.id || idx}
                       type="button"
                       onClick={() => setActivePhotoIdx(idx)}
-                      className={`w-12 h-12 rounded-xl overflow-hidden border-2 shrink-0 transition ${
+                      className={`w-16 h-16 rounded-2xl overflow-hidden border-2 shrink-0 transition cursor-pointer ${
                         activePhotoIdx === idx
-                          ? 'border-[#1B5E20] ring-2 ring-green-600'
-                          : 'border-gray-200 opacity-70 hover:opacity-100'
+                          ? 'border-[#0E3911] ring-2 ring-green-600 scale-105'
+                          : 'border-stone-200 opacity-70 hover:opacity-100'
                       }`}
                     >
                       <img src={img.storage_path} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover" />
@@ -194,206 +207,265 @@ export default function SellerListingView() {
               )}
             </div>
 
-            {/* Details */}
-            <div className="space-y-2 flex-1">
+            {/* Details Section */}
+            <div className="md:col-span-7 space-y-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-extrabold text-lg text-gray-900">
+                  <h2 className="text-2xl font-black text-stone-900">
                     {language === 'en' ? listing.crop?.name_en : listing.crop?.name_kn}
-                  </h3>
-                  <div className="text-xs text-gray-600 flex items-center space-x-1.5 mt-0.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#1B5E20]" />
+                  </h2>
+                  <div className="text-xs text-stone-600 flex items-center space-x-2 mt-1">
+                    <MapPin className="w-3.5 h-3.5 text-[#14532D]" />
                     <span>
-                      Farmer: <strong>{listing.farmer?.profile?.full_name?.split(' ')[0] || 'Farmer'}</strong>, {listing.farmer?.village || 'Karnataka'}
+                      {listing.farmer?.profile?.full_name?.split(' ')[0] || 'Farmer'}, {listing.farmer?.village || 'Village'}, {listing.farmer?.district || 'Karnataka'}
                     </span>
                   </div>
                 </div>
 
-                <span className="text-xs font-bold uppercase bg-stone-100 text-stone-700 px-2.5 py-0.5 rounded-full">
+                <span className="text-xs font-black uppercase tracking-wider bg-green-100 text-[#0E3911] px-3.5 py-1.5 rounded-full border border-green-300">
                   {listing.status}
                 </span>
               </div>
 
-              {/* Privacy Notice: Phone is locked */}
-              <div className="text-[11px] text-amber-900 bg-amber-50 px-2.5 py-1.5 rounded-lg border border-amber-200 flex items-center space-x-1.5">
-                <Lock className="w-3.5 h-3.5 text-amber-700 shrink-0" />
-                <span>Phone number unlocks as soon as farmer accepts your offer.</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 bg-stone-50 p-2.5 rounded-xl border border-stone-200 text-center text-xs">
+              {/* Price & Quantity Breakdown */}
+              <div className="grid grid-cols-2 gap-3 bg-[#FCFAF2] p-4 rounded-2xl border border-stone-200 text-xs">
                 <div>
-                  <div className="text-gray-500 font-semibold">Available Quantity</div>
-                  <div className="text-sm font-extrabold text-gray-900">
-                    {listing.quantity_remaining_kg} kg
+                  <div className="text-stone-500 font-bold uppercase text-[10px]">Available for Procurement:</div>
+                  <div className="font-black text-stone-900 text-base mt-0.5">
+                    {listing.quantity_remaining_kg ?? listing.quantity_kg} kg{' '}
+                    <span className="text-xs font-semibold text-stone-500">
+                      ({((listing.quantity_remaining_kg ?? listing.quantity_kg) / 100).toFixed(1)} qtl)
+                    </span>
                   </div>
                 </div>
                 <div>
-                  <div className="text-gray-500 font-semibold">Farmer Asking Rate</div>
-                  <div className="text-sm font-extrabold text-[#1B5E20]">
-                    ₹{listing.price_per_kg}/kg {listing.is_negotiable && '(Negotiable)'}
+                  <div className="text-stone-500 font-bold uppercase text-[10px]">Farmer Asking Rate:</div>
+                  <div className="font-black text-[#0E3911] text-base mt-0.5">
+                    ₹{listing.price_per_kg}/kg{' '}
+                    <span className="text-xs font-semibold text-stone-500">
+                      (₹{listing.entered_price}/{listing.entered_price_unit})
+                    </span>
                   </div>
+                </div>
+                <div className="col-span-2 pt-2 border-t border-stone-200/80 flex items-center justify-between text-xs">
+                  <span className="text-stone-600 font-medium">Harvest Dispatch Date:</span>
+                  <span className="font-black text-[#0E3911] text-sm">
+                    {listing.harvest_date}
+                  </span>
                 </div>
               </div>
 
+              {/* Verified Mandi Benchmark Rate */}
               {listing.market_reference && (
-                <div className="bg-amber-50 p-2 rounded-lg border border-amber-200 text-[11px] text-gray-700">
-                  <span className="font-bold text-amber-950">APMC Reference Modal Rate:</span> ₹{listing.market_reference.modal_price_per_kg}/kg
-                  <div className="text-gray-500 text-[10px]">
-                    {listing.market_reference.source_market} ({listing.market_reference.price_date})
+                <div className="bg-amber-50 p-3 rounded-2xl border border-amber-200 text-xs space-y-1">
+                  <div className="font-extrabold text-amber-950 flex items-center space-x-1.5">
+                    <TrendingUp className="w-4 h-4 text-amber-700" />
+                    <span>APMC Daily Benchmark: Modal ₹{listing.market_reference.modal_price_per_kg}/kg</span>
+                  </div>
+                  <div className="text-[11px] text-stone-600">
+                    Mandi Range: ₹{listing.market_reference.min_price_per_kg} - ₹{listing.market_reference.max_price_per_kg}/kg • {listing.market_reference.source_market} ({listing.market_reference.price_date})
                   </div>
                 </div>
               )}
+
+              {listing.description && (
+                <p className="text-xs text-stone-600 italic bg-stone-50 p-3 rounded-xl border border-stone-200">
+                  "{listing.description}"
+                </p>
+              )}
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* 2. Shared Quality Assessment Details */}
+        {/* 2. Visual Quality Assessment Card */}
         {listing.quality_assessment && (
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-200 space-y-3">
-            <div className="flex items-center justify-between border-b pb-2">
-              <div className="flex items-center space-x-1.5 font-extrabold text-sm text-gray-900">
-                <Sparkles className="w-4 h-4 text-[#1B5E20]" />
-                <span>Crop Quality Assessment</span>
+          <section className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-4">
+            <div className="flex items-center justify-between border-b border-stone-200 pb-4">
+              <div className="flex items-center space-x-2.5">
+                <Award className="w-6 h-6 text-amber-500" />
+                <div>
+                  <h3 className="font-black text-lg text-stone-900">
+                    {language === 'en' ? 'Quality Grade & Visual Analysis' : 'ಬೆಳೆ ಗುಣಮಟ್ಟ ಮತ್ತು ಗ್ರೇಡ್ ವಿವರ'}
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Preliminary AI quality assessment based on uploaded farm photos
+                  </p>
+                </div>
               </div>
-              <span className="bg-[#1B5E20] text-white text-xs font-extrabold px-3 py-0.5 rounded-full">
+              <span className="bg-[#0E3911] text-amber-300 text-xs font-black px-4 py-1.5 rounded-full shadow-sm">
                 {listing.quality_assessment.grade}
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 text-xs">
-              <div className="bg-stone-50 p-2 rounded-lg border border-stone-200">
-                <span className="text-gray-400 block text-[10px]">Freshness:</span>
-                <span className="font-bold text-gray-800">{listing.quality_assessment.freshness}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+                <span className="text-stone-500 block font-bold uppercase text-[10px]">Freshness & Ripeness:</span>
+                <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.freshness}</span>
               </div>
-              <div className="bg-stone-50 p-2 rounded-lg border border-stone-200">
-                <span className="text-gray-400 block text-[10px]">Size/Uniformity:</span>
-                <span className="font-bold text-gray-800">{listing.quality_assessment.uniformity}</span>
+              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+                <span className="text-stone-500 block font-bold uppercase text-[10px]">Size Uniformity:</span>
+                <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.uniformity}</span>
               </div>
-              <div className="bg-stone-50 p-2 rounded-lg border border-stone-200">
-                <span className="text-gray-400 block text-[10px]">Visible Defects:</span>
-                <span className="font-bold text-gray-800">{listing.quality_assessment.defects}</span>
+              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+                <span className="text-stone-500 block font-bold uppercase text-[10px]">Pest / Damage Condition:</span>
+                <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.defects}</span>
               </div>
             </div>
 
-            <p className="text-xs text-gray-700 bg-stone-50 p-2.5 rounded-xl border border-stone-200">
-              <strong>Quality Explanation:</strong> {listing.quality_assessment.explanation}
-            </p>
-          </div>
+            <div className="bg-green-50/80 p-4 rounded-2xl border border-green-200 text-xs text-stone-800 leading-relaxed">
+              <strong className="text-[#0E3911]">Grade Explanation: </strong>
+              {listing.quality_assessment.explanation}
+            </div>
+
+            <div className="text-[11px] text-stone-500 flex items-start space-x-2 pt-1 bg-stone-50 p-2.5 rounded-xl border border-stone-200">
+              <Info className="w-4 h-4 text-stone-400 shrink-0 mt-0.5" />
+              <span>
+                <strong>Preliminary Visual Assessment:</strong> Photos provide lot guidance. Mandi gate weighment and moisture/refraction checks apply upon physical lot arrival.
+              </span>
+            </div>
+          </section>
         )}
 
-        {/* 3. Offer Form */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-stone-200 space-y-4">
-          <div className="border-b pb-3">
-            <h3 className="font-extrabold text-base text-gray-900">
-              {language === 'en' ? 'Submit Your Purchase Offer' : 'ನಿಮ್ಮ ಖರೀದಿ ಆಫರ್ ಸಲ್ಲಿಸಿ'}
-            </h3>
-            <p className="text-xs text-gray-500">
-              {language === 'en'
-                ? 'Specify the quantity you want, your bid rate per kg, and proposed visit date.'
-                : 'ಅಗತ್ಯವಿರುವ ಪ್ರಮಾಣ, ಪ್ರತಿ ಕೆ.ಜಿ ದರ ಮತ್ತು ಮಂಡಿ ಭೇಟಿಯ ದಿನಾಂಕ ನಮೂದಿಸಿ.'}
-            </p>
+        {/* 3. Direct Offer Submission Form */}
+        <section className="bg-gradient-to-br from-white to-[#FBF8EE] rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-6">
+          <div className="flex items-center space-x-3 border-b border-stone-200 pb-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#0E3911] text-amber-300 flex items-center justify-center font-bold text-xl shadow">
+              💰
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-[#0E3911]">
+                {language === 'en' ? 'Submit Pre-Harvest Purchase Offer' : 'ಖರೀದಿ ಆಫರ್ ಸಲ್ಲಿಸಿ'}
+              </h3>
+              <p className="text-xs text-stone-500">
+                {language === 'en'
+                  ? 'Your offer is sent directly to the farmer. Once accepted, visit booking is confirmed with gate pass.'
+                  : 'ನಿಮ್ಮ ಆಫರ್ ನೇರವಾಗಿ ರೈತರಿಗೆ ತಲುಪುತ್ತದೆ. ಅವರು ಒಪ್ಪಿಕೊಂಡಾಗ ಗೇಟ್ ಪಾಸ್ ಸೃಷ್ಟಿಯಾಗುತ್ತದೆ.'}
+              </p>
+            </div>
           </div>
 
           {submittedOffer ? (
-            <div className="p-6 text-center space-y-3 bg-green-50 rounded-xl border border-green-200">
-              <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
-              <h4 className="font-bold text-green-950 text-base">Offer Submitted Successfully!</h4>
-              <p className="text-xs text-green-800">
-                The farmer has been notified. As soon as the farmer accepts, contact details will unlock.
+            <div className="bg-emerald-50 border border-emerald-300 rounded-2xl p-6 text-center space-y-3">
+              <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+              <h4 className="font-black text-lg text-emerald-950">
+                {language === 'en' ? 'Offer Successfully Sent to Farmer' : 'ಆಫರ್ ರೈತರಿಗೆ ತಲುಪಿದೆ'}
+              </h4>
+              <p className="text-xs text-emerald-800 max-w-md mx-auto">
+                {language === 'en'
+                  ? 'You proposed ₹' + pricePerKg + '/kg for ' + quantityKg + ' kg. When the farmer accepts, you will receive an alert to view their confirmed phone number and APMC gate pass.'
+                  : 'ನಿಮ್ಮ ಆಫರ್ ದಾಖಲಾಗಿದೆ. ರೈತರು ಒಪ್ಪಿಕೊಂಡಾಗ ನಿಮಗೆ ಸೂಚನೆ ಬರಲಿದೆ.'}
               </p>
               <Link
-                href="/seller/dashboard"
-                className="inline-block mt-2 px-5 py-2 bg-[#1B5E20] text-white text-xs font-bold rounded-xl shadow"
+                href="/visits"
+                className="inline-flex items-center space-x-2 bg-[#0E3911] text-white px-5 py-2.5 rounded-xl font-bold text-xs"
               >
-                Back to Mandi Feed
+                <span>{language === 'en' ? 'View Confirmed Deals & Visits' : 'ಖಚಿತ ಭೇಟಿಗಳನ್ನು ನೋಡಿ'}</span>
+                <ChevronRight className="w-4 h-4 text-amber-300" />
               </Link>
             </div>
           ) : (
-            <form onSubmit={handleOfferSubmit} className="space-y-4">
+            <form onSubmit={handleOfferSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    {language === 'en' ? 'Proposed Purchase Quantity (kg) *' : 'ಖರೀದಿಸಲಿಚ್ಛಿಸುವ ಪ್ರಮಾಣ (ಕೆ.ಜಿ) *'}
+                {/* Quantity */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-extrabold text-stone-800 uppercase tracking-wider">
+                    {language === 'en' ? 'Offered Quantity (kg)' : 'ಖರೀದಿಸುವ ಪ್ರಮಾಣ (ಕೆಜಿ)'} *
                   </label>
                   <input
                     type="number"
-                    required
                     min="1"
-                    max={listing.quantity_remaining_kg}
+                    max={listing.quantity_remaining_kg ?? listing.quantity_kg}
                     value={quantityKg}
                     onChange={(e) => setQuantityKg(e.target.value === '' ? '' : Number(e.target.value))}
-                    placeholder="300"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl font-bold text-gray-900 focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                    required
+                    className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-600"
                   />
-                  <span className="text-[11px] text-gray-400">
-                    Max: {listing.quantity_remaining_kg} kg
+                  <span className="text-[11px] text-stone-500">
+                    Max available: {listing.quantity_remaining_kg ?? listing.quantity_kg} kg
                   </span>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1">
-                    {language === 'en' ? 'Your Proposed Rate (₹ / kg) *' : 'ನಿಮ್ಮ ಆಫರ್ ದರ (₹ / ಕೆ.ಜಿ) *'}
+                {/* Price per kg */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-extrabold text-stone-800 uppercase tracking-wider">
+                    {language === 'en' ? 'Offered Price (₹/kg)' : 'ಆಫರ್ ದರ (₹/ಕೆಜಿ)'} *
                   </label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-3.5 text-gray-500 font-bold">₹</span>
-                    <input
-                      type="number"
-                      required
-                      min="1"
-                      step="0.5"
-                      value={pricePerKg}
-                      onChange={(e) => setPricePerKg(e.target.value === '' ? '' : Number(e.target.value))}
-                      placeholder="23"
-                      className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-xl font-bold text-[#1B5E20] focus:ring-2 focus:ring-[#1B5E20] outline-none"
-                    />
+                  <input
+                    type="number"
+                    step="0.5"
+                    min="1"
+                    value={pricePerKg}
+                    onChange={(e) => setPricePerKg(e.target.value === '' ? '' : Number(e.target.value))}
+                    required
+                    className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-600"
+                  />
+                  <span className="text-[11px] text-stone-500">
+                    Farmer expected: ₹{listing.price_per_kg}/kg
+                  </span>
+                </div>
+
+                {/* Visit / Delivery Date */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-extrabold text-stone-800 uppercase tracking-wider">
+                    {language === 'en' ? 'Proposed Mandi Arrival Date' : 'ಮಂಡಿ ಆಗಮನದ ದಿನಾಂಕ'} *
+                  </label>
+                  <input
+                    type="date"
+                    value={visitDate}
+                    onChange={(e) => setVisitDate(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white font-semibold text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-600"
+                  />
+                </div>
+
+                {/* Live Value Calculation Preview */}
+                <div className="bg-[#FCFAF2] p-4 rounded-2xl border border-stone-200 flex flex-col justify-center">
+                  <span className="text-[10px] font-bold uppercase text-stone-500">
+                    Total Estimated Transaction:
+                  </span>
+                  <div className="text-2xl font-black text-[#0E3911] mt-0.5">
+                    ₹{calculatedTotal.toLocaleString('en-IN')}
                   </div>
-                  <span className="text-[11px] text-gray-400">
-                    Asking: ₹{listing.price_per_kg}/kg
+                  <span className="text-[11px] text-stone-500">
+                    Full payment settled upon yard weighment verification
                   </span>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">
-                  {language === 'en' ? 'Intended Visit Date *' : 'ಉದ್ದೇಶಿತ ಭೇಟಿ ದಿನಾಂಕ *'}
-                </label>
-                <input
-                  type="date"
-                  required
-                  value={visitDate}
-                  onChange={(e) => setVisitDate(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl font-medium focus:ring-2 focus:ring-[#1B5E20] outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">
+              {/* Note / Message */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-extrabold text-stone-800 uppercase tracking-wider">
                   {language === 'en' ? 'Message to Farmer (Optional)' : 'ರೈತರಿಗೆ ಸಂದೇಶ (ಐಚ್ಛಿಕ)'}
                 </label>
                 <textarea
                   rows={2}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="e.g. Can take delivery tomorrow morning at Amaragol APMC Yard."
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-[#1B5E20] outline-none"
+                  placeholder={
+                    language === 'en'
+                      ? 'e.g. Prompt payment at Hubballi APMC Yard Gate 2, immediate weighment.'
+                      : 'ಉದಾ: ಹುಬ್ಬಳ್ಳಿ ಎಪಿಎಂಸಿ ಗೇಟ್ 2 ರಲ್ಲಿ ತಕ್ಷಣ ತೂಕ ಮತ್ತು ಹಣ ಪಾವತಿ ಮಾಡಲಾಗುವುದು.'
+                  }
+                  className="w-full px-4 py-3 rounded-2xl border border-stone-200 bg-white text-xs text-stone-900 focus:outline-none focus:ring-2 focus:ring-green-600"
                 />
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full min-h-[50px] bg-[#1B5E20] hover:bg-green-900 active:scale-[0.99] text-white font-bold rounded-xl shadow transition flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+                className="w-full min-h-[52px] bg-gradient-to-r from-[#0E3911] to-[#1B5E20] hover:from-[#14532D] hover:to-[#2E7D32] text-white font-black text-sm rounded-2xl shadow-md hover:shadow-lg transition flex items-center justify-center space-x-2 cursor-pointer border border-green-800 disabled:opacity-50"
               >
                 <Send className="w-4 h-4 text-amber-300" />
                 <span>
                   {submitting
-                    ? 'Submitting Offer...'
+                    ? (language === 'en' ? 'Submitting Offer...' : 'ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ...')
                     : (language === 'en' ? 'Send Offer to Farmer' : 'ರೈತರಿಗೆ ಆಫರ್ ಕಳುಹಿಸಿ')}
                 </span>
               </button>
             </form>
           )}
-        </div>
+        </section>
       </main>
     </div>
   );

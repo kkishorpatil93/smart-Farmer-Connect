@@ -193,23 +193,23 @@ export default function AddCropPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF8E1]">
+    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
       <Navbar />
 
-      <main className="flex-1 max-w-2xl w-full mx-auto px-4 py-6 space-y-6">
+      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         {/* Navigation title */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <Link
             href="/farmer/dashboard"
-            className="p-2 bg-white rounded-full border border-stone-200 text-gray-700 hover:bg-stone-50"
+            className="p-2.5 bg-white rounded-2xl border border-stone-200 text-stone-700 hover:bg-stone-50 transition shadow-xs"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 text-stone-800" />
           </Link>
           <div>
-            <h2 className="text-xl font-extrabold text-[#1B5E20]">
+            <h1 className="text-2xl font-black text-[#0E3911]">
               {language === 'en' ? 'Upload Crop & Quality Grading' : 'ಬೆಳೆ ಪೋಸ್ಟ್ & ಗುಣಮಟ್ಟ ಶ್ರೇಣಿ'}
-            </h2>
-            <p className="text-xs text-gray-500">
+            </h1>
+            <p className="text-xs text-stone-500">
               {language === 'en'
                 ? 'Upload 1–5 clear photos showing freshness, size, and condition.'
                 : 'ಬೆಳೆಯ ತಾಜಾತನ, ಗಾತ್ರ ಮತ್ತು ಸ್ಥಿತಿ ತೋರಿಸುವ 1–5 ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.'}
@@ -217,7 +217,7 @@ export default function AddCropPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 shadow-sm border border-stone-200 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-6">
           {/* 1. Crop Selection */}
           <div className="space-y-2">
             <label className="block text-xs font-bold text-gray-800">

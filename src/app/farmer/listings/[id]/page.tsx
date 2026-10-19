@@ -21,6 +21,10 @@ import {
   TrendingUp,
   AlertTriangle,
   Info,
+  CalendarDays,
+  IndianRupee,
+  Scale,
+  Award,
 } from 'lucide-react';
 
 export default function FarmerListingDetailPage() {
@@ -93,73 +97,77 @@ export default function FarmerListingDetailPage() {
 
   if (fetching || !listing) {
     return (
-      <div className="min-h-screen bg-[#FFF8E1] flex flex-col">
+      <div className="min-h-screen bg-[#FCFAF2] flex flex-col">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center p-8 text-gray-500 font-semibold">
-          {language === 'en' ? 'Loading crop lot details...' : 'ವಿವರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...'}
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
+          <div className="w-10 h-10 border-4 border-[#0E3911] border-t-transparent rounded-full animate-spin" />
+          <p>{language === 'en' ? 'Loading crop lot details...' : 'ವಿವರಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...'}</p>
         </div>
       </div>
     );
   }
 
-  const remainingKg = listing.quantity_remaining_kg;
+  const remainingKg = listing.quantity_remaining_kg ?? listing.quantity_kg;
   const totalKg = listing.quantity_kg;
   const allocatedKg = totalKg - remainingKg;
 
   const images = listing.images && listing.images.length > 0
     ? listing.images
-    : [{ id: 'default', listing_id: listing.id, storage_path: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop&q=80', position: 1, created_at: '' }];
+    : [{ id: 'default', listing_id: listing.id, storage_path: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&auto=format&fit=crop&q=80', position: 1, created_at: '' }];
 
   const currentPhoto = images[activePhotoIdx] || images[0];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF8E1]">
+    <div className="min-h-screen flex flex-col bg-[#FCFAF2] text-stone-900">
       <Navbar />
 
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 space-y-6">
-        {/* Navigation */}
-        <div className="flex items-center space-x-2">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center space-x-3">
           <Link
             href="/farmer/dashboard"
-            className="p-2 bg-white rounded-full border border-stone-200 text-gray-700 hover:bg-stone-50"
+            className="p-2.5 bg-white rounded-2xl border border-stone-200 text-stone-700 hover:bg-stone-50 transition shadow-xs"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5 text-stone-800" />
           </Link>
           <div>
-            <h2 className="text-xl font-extrabold text-[#1B5E20]">
+            <h1 className="text-2xl font-black text-[#0E3911]">
               {language === 'en' ? listing.crop?.name_en : listing.crop?.name_kn}
-            </h2>
-            <p className="text-xs text-gray-500">
-              {language === 'en' ? 'Crop Quality & Buyer Offers' : 'ಬೆಳೆ ಗುಣಮಟ್ಟ ಮತ್ತು ಖರೀದಿದಾರರ ಆಫರ್‌ಗಳು'}
+            </h1>
+            <p className="text-xs text-stone-500">
+              {language === 'en' ? 'Pre-Harvest Lot & Buyer Offers' : 'ಬೆಳೆ ಗುಣಮಟ್ಟ ಮತ್ತು ಖರೀದಿದಾರರ ಆಫರ್‌ಗಳು'}
             </p>
           </div>
         </div>
 
-        {/* 1. Crop Lot Card with 1-5 Photos Gallery */}
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-200 space-y-4">
-          <div className="flex flex-col sm:flex-row gap-4">
+        {/* 1. Large Photo Gallery and Crop Profile */}
+        <section className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             {/* Gallery Section */}
-            <div className="w-full sm:w-64 space-y-2 shrink-0">
-              <div className="aspect-square w-full rounded-2xl bg-amber-50 border border-amber-200 overflow-hidden shadow-inner flex items-center justify-center">
+            <div className="md:col-span-5 space-y-3">
+              <div className="aspect-[4/3] w-full rounded-3xl bg-stone-100 border border-stone-200 overflow-hidden shadow-inner flex items-center justify-center relative">
                 <img
                   src={currentPhoto.storage_path}
-                  alt="Crop main"
+                  alt="Crop preview"
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute top-3 left-3 bg-stone-950/70 backdrop-blur-xs text-white text-[11px] font-bold px-3 py-1 rounded-full">
+                  Photo {activePhotoIdx + 1} of {images.length}
+                </div>
               </div>
 
-              {/* Thumbnails if multiple photos */}
+              {/* Thumbnails */}
               {images.length > 1 && (
-                <div className="flex space-x-2 overflow-x-auto pb-1">
+                <div className="flex space-x-2.5 overflow-x-auto pb-1">
                   {images.map((img, idx) => (
                     <button
                       key={img.id || idx}
                       type="button"
                       onClick={() => setActivePhotoIdx(idx)}
-                      className={`w-14 h-14 rounded-xl overflow-hidden border-2 shrink-0 transition ${
+                      className={`w-16 h-16 rounded-2xl overflow-hidden border-2 shrink-0 transition cursor-pointer ${
                         activePhotoIdx === idx
-                          ? 'border-[#1B5E20] ring-2 ring-green-600'
-                          : 'border-gray-200 opacity-70 hover:opacity-100'
+                          ? 'border-[#0E3911] ring-2 ring-green-600 scale-105'
+                          : 'border-stone-200 opacity-70 hover:opacity-100'
                       }`}
                     >
                       <img src={img.storage_path} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover" />
@@ -170,229 +178,252 @@ export default function FarmerListingDetailPage() {
             </div>
 
             {/* Details Section */}
-            <div className="space-y-3 flex-1">
+            <div className="md:col-span-7 space-y-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-extrabold text-xl text-gray-900">
+                  <h2 className="text-2xl font-black text-stone-900">
                     {language === 'en' ? listing.crop?.name_en : listing.crop?.name_kn}
-                  </h3>
-                  <div className="text-xs text-gray-600 flex items-center space-x-1.5 mt-0.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#1B5E20]" />
+                  </h2>
+                  <div className="text-xs text-stone-600 flex items-center space-x-2 mt-1">
+                    <MapPin className="w-3.5 h-3.5 text-[#14532D]" />
                     <span>
                       {listing.farmer?.profile?.full_name?.split(' ')[0] || 'Farmer'}, {listing.farmer?.village || 'Village'}, {listing.farmer?.district || 'Karnataka'}
                     </span>
                   </div>
                 </div>
 
-                <span className="text-xs font-bold uppercase tracking-wide bg-green-100 text-[#1B5E20] px-3 py-1 rounded-full border border-green-300">
+                <span className="text-xs font-black uppercase tracking-wider bg-green-100 text-[#0E3911] px-3.5 py-1.5 rounded-full border border-green-300">
                   {listing.status}
                 </span>
               </div>
 
-              {/* Price & Quantity Grid */}
-              <div className="grid grid-cols-2 gap-2 bg-stone-50 p-3 rounded-xl border border-stone-200 text-xs">
+              {/* Price & Quantity Breakdown */}
+              <div className="grid grid-cols-2 gap-3 bg-[#FCFAF2] p-4 rounded-2xl border border-stone-200 text-xs">
                 <div>
-                  <div className="text-gray-500 font-semibold">Total Quantity:</div>
-                  <div className="font-bold text-gray-900 text-sm">
-                    {listing.entered_quantity} {listing.entered_unit} ({totalKg} kg)
+                  <div className="text-stone-500 font-bold uppercase text-[10px]">Total Lot Quantity:</div>
+                  <div className="font-black text-stone-900 text-base mt-0.5">
+                    {listing.entered_quantity} {listing.entered_unit}{' '}
+                    <span className="text-xs font-semibold text-stone-500">
+                      ({(totalKg / 100).toFixed(1)} qtl / {totalKg} kg)
+                    </span>
                   </div>
                 </div>
                 <div>
-                  <div className="text-gray-500 font-semibold">Farmer Expected Rate:</div>
-                  <div className="font-extrabold text-[#1B5E20] text-sm">
-                    ₹{listing.entered_price} / {listing.entered_price_unit} (₹{listing.price_per_kg}/kg)
+                  <div className="text-stone-500 font-bold uppercase text-[10px]">Farmer Expected Rate:</div>
+                  <div className="font-black text-[#0E3911] text-base mt-0.5">
+                    ₹{listing.price_per_kg}/kg{' '}
+                    <span className="text-xs font-semibold text-stone-500">
+                      (₹{listing.entered_price}/{listing.entered_price_unit})
+                    </span>
                   </div>
                 </div>
-                <div className="col-span-2 pt-1 border-t border-gray-200 flex items-center justify-between">
-                  <span className="text-gray-500 font-medium">Estimated Total Value:</span>
-                  <span className="font-bold text-gray-900">
+                <div className="col-span-2 pt-2 border-t border-stone-200/80 flex items-center justify-between text-xs">
+                  <span className="text-stone-600 font-medium">Estimated Total Lot Value:</span>
+                  <span className="font-black text-[#0E3911] text-sm">
                     ₹{(totalKg * listing.price_per_kg).toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
 
-              {/* Market Reference Rate */}
+              {/* Verified Mandi Benchmark Rate */}
               {listing.market_reference && (
-                <div className="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200 text-xs space-y-0.5">
-                  <div className="font-bold text-amber-950 flex items-center space-x-1">
-                    <TrendingUp className="w-3.5 h-3.5 text-amber-700" />
-                    <span>APMC Reference Market Rate: ₹{listing.market_reference.modal_price_per_kg}/kg</span>
+                <div className="bg-amber-50 p-3 rounded-2xl border border-amber-200 text-xs space-y-1">
+                  <div className="font-extrabold text-amber-950 flex items-center space-x-1.5">
+                    <TrendingUp className="w-4 h-4 text-amber-700" />
+                    <span>Verified APMC Reference Modal Rate: ₹{listing.market_reference.modal_price_per_kg}/kg</span>
                   </div>
-                  <div className="text-[11px] text-gray-600">
-                    Range: ₹{listing.market_reference.min_price_per_kg} - ₹{listing.market_reference.max_price_per_kg}/kg • {listing.market_reference.source_market} ({listing.market_reference.price_date})
+                  <div className="text-[11px] text-stone-600">
+                    Mandatory APMC yard range: ₹{listing.market_reference.min_price_per_kg} - ₹{listing.market_reference.max_price_per_kg}/kg • {listing.market_reference.source_market} ({listing.market_reference.price_date})
                   </div>
                 </div>
               )}
 
               {listing.description && (
-                <p className="text-xs text-gray-600 italic">"{listing.description}"</p>
+                <p className="text-xs text-stone-600 italic bg-stone-50 p-3 rounded-xl border border-stone-200">
+                  "{listing.description}"
+                </p>
               )}
-            </div>
-          </div>
 
-          {/* Allocation Progress */}
-          <div className="pt-2 border-t border-gray-100 space-y-1.5">
-            <div className="flex justify-between text-xs font-bold">
-              <span className="text-gray-700">Quantity Allocation:</span>
-              <span className="text-[#1B5E20]">
-                {allocatedKg} kg allocated / {remainingKg} kg remaining
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
-              <div
-                className="bg-[#1B5E20] h-full transition-all duration-500"
-                style={{ width: `${(allocatedKg / totalKg) * 100}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* 2. Visual Quality Assessment Card */}
-        {listing.quality_assessment && (
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-200 space-y-3">
-            <div className="flex items-center justify-between border-b pb-2.5">
-              <div className="flex items-center space-x-2">
-                <Sparkles className="w-5 h-5 text-[#1B5E20]" />
-                <h3 className="font-extrabold text-base text-gray-900">
-                  {language === 'en' ? 'Crop Quality Assessment' : 'ಬೆಳೆ ಗುಣಮಟ್ಟ ಮೌಲ್ಯಮಾಪನ'}
-                </h3>
+              {/* Allocation Progress Bar */}
+              <div className="space-y-1.5 pt-2">
+                <div className="flex justify-between text-xs font-bold">
+                  <span className="text-stone-600">Quantity Sold vs Available:</span>
+                  <span className="text-[#0E3911]">
+                    {allocatedKg} kg confirmed / {remainingKg} kg available
+                  </span>
+                </div>
+                <div className="w-full bg-stone-200 h-3 rounded-full overflow-hidden">
+                  <div
+                    className="bg-[#0E3911] h-full transition-all duration-500 rounded-full"
+                    style={{ width: `${(allocatedKg / totalKg) * 100}%` }}
+                  />
+                </div>
               </div>
-              <span className="bg-[#1B5E20] text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-sm">
+            </div>
+          </div>
+        </section>
+
+        {/* 2. Visual Quality Assessment Card with Clear Explanation */}
+        {listing.quality_assessment && (
+          <section className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 space-y-4">
+            <div className="flex items-center justify-between border-b border-stone-200 pb-4">
+              <div className="flex items-center space-x-2.5">
+                <Award className="w-6 h-6 text-amber-500" />
+                <div>
+                  <h3 className="font-black text-lg text-stone-900">
+                    {language === 'en' ? 'Quality Grade & Visual Analysis' : 'ಬೆಳೆ ಗುಣಮಟ್ಟ ಮತ್ತು ಗ್ರೇಡ್ ವಿವರ'}
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Preliminary AI quality assessment based on uploaded farm photos
+                  </p>
+                </div>
+              </div>
+              <span className="bg-[#0E3911] text-amber-300 text-xs font-black px-4 py-1.5 rounded-full shadow-sm">
                 {listing.quality_assessment.grade}
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-              <div className="bg-stone-50 p-2.5 rounded-xl border border-stone-200">
-                <span className="text-gray-500 block font-semibold">Freshness & Colour:</span>
-                <span className="font-bold text-gray-900">{listing.quality_assessment.freshness}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+                <span className="text-stone-500 block font-bold uppercase text-[10px]">Freshness & Ripeness:</span>
+                <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.freshness}</span>
               </div>
-              <div className="bg-stone-50 p-2.5 rounded-xl border border-stone-200">
-                <span className="text-gray-500 block font-semibold">Size & Uniformity:</span>
-                <span className="font-bold text-gray-900">{listing.quality_assessment.uniformity}</span>
+              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+                <span className="text-stone-500 block font-bold uppercase text-[10px]">Size Uniformity:</span>
+                <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.uniformity}</span>
               </div>
-              <div className="bg-stone-50 p-2.5 rounded-xl border border-stone-200">
-                <span className="text-gray-500 block font-semibold">Visible Condition:</span>
-                <span className="font-bold text-gray-900">{listing.quality_assessment.defects}</span>
+              <div className="bg-[#FCFAF2] p-3.5 rounded-2xl border border-stone-200">
+                <span className="text-stone-500 block font-bold uppercase text-[10px]">Pest / Damage Condition:</span>
+                <span className="font-extrabold text-stone-900 text-sm mt-0.5 block">{listing.quality_assessment.defects}</span>
               </div>
             </div>
 
-            <p className="text-xs text-gray-700 bg-green-50 p-3 rounded-xl border border-green-200 leading-relaxed">
-              <strong>Assessment Summary:</strong> {listing.quality_assessment.explanation}
-            </p>
+            <div className="bg-green-50/80 p-4 rounded-2xl border border-green-200 text-xs text-stone-800 leading-relaxed">
+              <strong className="text-[#0E3911]">Grade Explanation: </strong>
+              {listing.quality_assessment.explanation}
+            </div>
 
-            <div className="text-[11px] text-gray-500 flex items-start space-x-1 pt-1">
-              <Info className="w-3.5 h-3.5 text-gray-400 shrink-0 mt-0.5" />
+            <div className="text-[11px] text-stone-500 flex items-start space-x-2 pt-1 bg-stone-50 p-2.5 rounded-xl border border-stone-200">
+              <Info className="w-4 h-4 text-stone-400 shrink-0 mt-0.5" />
               <span>
-                Preliminary visual inspection. A photo cannot determine pesticide residues, internal damage, or official lab parameters. Confirmed by farmer.
+                <strong>Preliminary Quality Notice:</strong> This preliminary grade is derived from camera photos to provide baseline guidance. Final grade is officially confirmed at the APMC weighbridge yard upon delivery.
               </span>
             </div>
-          </div>
+          </section>
         )}
 
-        {/* 3. Compare Buyer Offers */}
-        <div className="space-y-4">
+        {/* 3. Compare Buyer Offers with Accept / Decline */}
+        <section className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-extrabold text-lg text-gray-900">
-              {language === 'en' ? 'Compare Buyer Offers' : 'ಖರೀದಿದಾರರ ಆಫರ್‌ಗಳು'}
-            </h3>
-            <span className="text-xs font-bold bg-amber-100 text-amber-900 px-2.5 py-1 rounded-full">
-              {listing.offers?.length || 0} {language === 'en' ? 'Offers' : 'ಆಫರ್‌ಗಳು'}
+            <div>
+              <h3 className="font-black text-xl text-stone-900">
+                {language === 'en' ? 'Direct APMC Trader Bids on this Lot' : 'ಬಂದಿರುವ ವ್ಯಾಪಾರಿಗಳ ಆಫರ್‌ಗಳು'}
+              </h3>
+              <p className="text-xs text-stone-500">
+                {language === 'en'
+                  ? 'Accepting an offer locks the deal, confirms the visit, and unlocks the trader phone number.'
+                  : 'ಆಫರ್ ಒಪ್ಪಿಕೊಂಡರೆ ವ್ಯಾಪಾರಿಯ ಫೋನ್ ಸಂಖ್ಯೆ ಲಭ್ಯವಾಗುತ್ತದೆ ಮತ್ತು ಭೇಟಿ ಖಚಿತಗೊಳ್ಳುತ್ತದೆ.'}
+              </p>
+            </div>
+
+            <span className="text-xs font-black bg-amber-100 text-amber-950 px-3 py-1 rounded-full border border-amber-300">
+              {listing.offers?.length || 0} {language === 'en' ? 'Bids Received' : 'ಆಫರ್‌ಗಳು'}
             </span>
           </div>
 
           {(!listing.offers || listing.offers.length === 0) ? (
-            <div className="bg-white rounded-2xl p-8 text-center border border-stone-200 space-y-2">
-              <Clock className="w-10 h-10 text-amber-500 mx-auto animate-spin" />
-              <h4 className="font-bold text-gray-800">
-                {language === 'en' ? 'Waiting for Mandi Trader Bids' : 'ವ್ಯಾಪಾರಿಗಳ ಆಫರ್‌ಗೆ ಕಾಯಲಾಗುತ್ತಿದೆ'}
+            <div className="bg-white rounded-3xl p-10 text-center border border-stone-200 space-y-3">
+              <Clock className="w-12 h-12 text-amber-500 mx-auto" />
+              <h4 className="font-extrabold text-stone-800 text-base">
+                {language === 'en' ? 'Waiting for APMC Trader Bids' : 'ವ್ಯಾಪಾರಿಗಳ ಆಫರ್‌ಗೆ ಕಾಯಲಾಗುತ್ತಿದೆ'}
               </h4>
-              <p className="text-xs text-gray-500 max-w-sm mx-auto">
+              <p className="text-xs text-stone-500 max-w-sm mx-auto">
                 {language === 'en'
                   ? 'Traders in your APMC market have been alerted. Received bids will be listed here side-by-side with prices and requested quantities.'
                   : 'ಮಾರುಕಟ್ಟೆ ವ್ಯಾಪಾರಿಗಳಿಗೆ ಮಾಹಿತಿ ತಲುಪಿದೆ. ಆಫರ್‌ಗಳು ಬಂದ ತಕ್ಷಣ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.'}
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {listing.offers.map((offer) => {
                 const isAccepted = offer.status === 'accepted';
                 const isDeclined = offer.status === 'declined';
                 const canAccept = offer.quantity_kg <= remainingKg;
-
-                // Price difference vs farmer expected price
                 const priceDiff = Number((offer.price_per_kg - listing.price_per_kg).toFixed(2));
 
                 return (
                   <div
                     key={offer.id}
-                    className={`bg-white rounded-2xl p-5 shadow-sm border transition ${
+                    className={`bg-white rounded-3xl p-6 shadow-sm border transition-all ${
                       isAccepted
-                        ? 'border-green-500 bg-green-50/40'
+                        ? 'border-emerald-500 bg-emerald-50/30 ring-2 ring-emerald-500/20'
                         : isDeclined
-                        ? 'border-gray-200 opacity-60'
-                        : 'border-stone-200'
+                        ? 'border-stone-200 opacity-60'
+                        : 'border-stone-200 hover:border-amber-400'
                     }`}
                   >
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                      <div className="space-y-1 flex-1">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                      <div className="space-y-2 flex-1">
                         <div className="flex items-center space-x-2">
-                          <Store className="w-4 h-4 text-[#1B5E20]" />
-                          <h4 className="font-bold text-base text-gray-900">
+                          <Store className="w-4 h-4 text-[#0E3911]" />
+                          <h4 className="font-black text-lg text-stone-900">
                             {offer.seller?.shop_name || 'APMC Commission Shop'}
                           </h4>
-                          <span className="text-xs font-semibold text-amber-600">
+                          <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
                             ★ {offer.seller?.rating_avg || 4.8}
                           </span>
                         </div>
 
-                        <div className="text-xs text-gray-700 flex flex-wrap gap-x-3 gap-y-1 pt-1 items-center">
-                          <span className="text-base font-extrabold text-[#1B5E20]">
+                        <div className="text-xs text-stone-700 flex flex-wrap gap-x-3 gap-y-1.5 items-center">
+                          <span className="text-xl font-black text-[#0E3911]">
                             ₹{offer.price_per_kg}/kg
                           </span>
-                          <span className={`font-bold px-1.5 py-0.5 rounded text-[11px] ${
-                            priceDiff >= 0 ? 'bg-green-100 text-green-900' : 'bg-amber-100 text-amber-900'
+                          <span className={`font-black px-2 py-0.5 rounded-md text-[11px] ${
+                            priceDiff >= 0 ? 'bg-green-100 text-[#0E3911]' : 'bg-amber-100 text-amber-950'
                           }`}>
-                            {priceDiff >= 0 ? `+₹${priceDiff} vs expected` : `-₹${Math.abs(priceDiff)} vs expected`}
+                            {priceDiff >= 0 ? `+₹${priceDiff} vs asking` : `-₹${Math.abs(priceDiff)} vs asking`}
                           </span>
                           <span>•</span>
-                          <span className="font-bold text-gray-900">
-                            Quantity: {offer.quantity_kg} kg
+                          <span className="font-extrabold text-stone-900">
+                            Offered: {offer.quantity_kg} kg (₹{(offer.quantity_kg * offer.price_per_kg).toLocaleString('en-IN')})
                           </span>
                           <span>•</span>
-                          <span className="text-gray-500 flex items-center">
+                          <span className="text-stone-500 flex items-center">
                             <Calendar className="w-3.5 h-3.5 mr-1" />
-                            {offer.proposed_visit_at
-                              ? new Date(offer.proposed_visit_at).toLocaleDateString()
-                              : 'Tomorrow'}
+                            Visit: {offer.proposed_visit_at ? new Date(offer.proposed_visit_at).toLocaleDateString() : 'Tomorrow'}
                           </span>
                         </div>
 
                         {offer.message && (
-                          <p className="text-xs text-gray-600 italic bg-stone-50 p-2 rounded-lg mt-1">
+                          <p className="text-xs text-stone-600 italic bg-[#FCFAF2] p-2.5 rounded-xl border border-stone-200">
                             "{offer.message}"
                           </p>
                         )}
                       </div>
 
-                      {/* Action / Phone Unlock */}
-                      <div className="w-full sm:w-auto flex items-center justify-end space-x-2 pt-2 sm:pt-0">
+                      {/* Action Bar */}
+                      <div className="w-full sm:w-auto flex items-center justify-end space-x-2">
                         {isAccepted ? (
-                          <div className="text-right space-y-1">
-                            <span className="inline-flex items-center text-xs font-bold text-green-800 bg-green-100 px-3 py-1 rounded-full border border-green-300">
-                              <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-green-700" />
-                              Offer Accepted
+                          <div className="text-right space-y-1.5">
+                            <span className="inline-flex items-center text-xs font-black text-emerald-800 bg-emerald-100 px-3.5 py-1.5 rounded-full border border-emerald-300">
+                              <CheckCircle2 className="w-4 h-4 mr-1 text-emerald-700" />
+                              Deal Confirmed
                             </span>
-                            {/* UNLOCKED PHONE NUMBER */}
-                            <div className="flex items-center text-xs font-bold text-green-950 bg-white p-2 rounded-lg border border-green-300 shadow-sm">
-                              <Phone className="w-3.5 h-3.5 mr-1 text-green-700" />
+                            <div className="flex items-center text-xs font-bold text-stone-950 bg-white p-2.5 rounded-xl border border-emerald-300 shadow-sm">
+                              <Phone className="w-4 h-4 mr-1 text-emerald-700" />
                               <a href={`tel:${offer.seller?.profile?.phone || '+919845044444'}`} className="hover:underline">
                                 {offer.seller?.profile?.phone || '+91 98450 44444'}
                               </a>
                             </div>
+                            <Link
+                              href="/visits"
+                              className="inline-flex items-center text-[11px] font-bold text-[#0E3911] hover:underline pt-0.5"
+                            >
+                              <span>View Mandi Gate QR Pass →</span>
+                            </Link>
                           </div>
                         ) : isDeclined ? (
-                          <span className="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                          <span className="text-xs font-semibold text-stone-500 bg-stone-100 px-3 py-1.5 rounded-full">
                             Declined
                           </span>
                         ) : (
@@ -400,16 +431,17 @@ export default function FarmerListingDetailPage() {
                             <button
                               disabled={actionLoading || !canAccept}
                               onClick={() => handleOfferStatus(offer.id, 'accepted')}
-                              className="min-h-[44px] px-4 py-2 bg-[#1B5E20] hover:bg-green-900 text-white text-xs font-bold rounded-xl shadow transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center space-x-1 cursor-pointer"
+                              className="min-h-[46px] px-5 py-2.5 bg-[#0E3911] hover:bg-[#14532D] text-white text-xs font-bold rounded-xl shadow-md transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center space-x-1.5 cursor-pointer"
                             >
                               <CheckCircle2 className="w-4 h-4 text-amber-300" />
-                              <span>Accept Offer</span>
+                              <span>Accept Deal</span>
                             </button>
 
                             <button
                               disabled={actionLoading}
                               onClick={() => handleOfferStatus(offer.id, 'declined')}
-                              className="min-h-[44px] px-3 py-2 bg-stone-100 hover:bg-stone-200 text-gray-700 text-xs font-semibold rounded-xl border border-stone-300 transition cursor-pointer"
+                              className="min-h-[46px] px-3.5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-xl border border-stone-300 transition cursor-pointer"
+                              title="Decline"
                             >
                               <XCircle className="w-4 h-4 text-red-500" />
                             </button>
@@ -419,10 +451,10 @@ export default function FarmerListingDetailPage() {
                     </div>
 
                     {!canAccept && !isAccepted && !isDeclined && (
-                      <div className="mt-2 text-[11px] text-amber-800 bg-amber-50 p-2 rounded-lg border border-amber-200 flex items-center space-x-1">
-                        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                      <div className="mt-3 text-xs text-amber-900 bg-amber-50 p-2.5 rounded-xl border border-amber-200 flex items-center space-x-1.5">
+                        <AlertTriangle className="w-4 h-4 shrink-0 text-amber-700" />
                         <span>
-                          Cannot accept: requests {offer.quantity_kg} kg, but only {remainingKg} kg remains available.
+                          Cannot accept: requested {offer.quantity_kg} kg, but only {remainingKg} kg remains available.
                         </span>
                       </div>
                     )}
@@ -431,7 +463,7 @@ export default function FarmerListingDetailPage() {
               })}
             </div>
           )}
-        </div>
+        </section>
       </main>
     </div>
   );
