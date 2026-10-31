@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
 import { Market, Crop, WeightUnit } from '@/types/database';
 import { calculateTotalValue, normalizeToKg, normalizePricePerKg } from '@/lib/utils/units';
 import { getMarketReferencePrice, calculatePriceComparison } from '@/lib/services/mandi-price';
@@ -196,7 +198,7 @@ export default function AddCropPage() {
     <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12 space-y-8">
         {/* Navigation title */}
         <div className="flex items-center space-x-3">
           <Link
@@ -566,6 +568,8 @@ export default function AddCropPage() {
           </button>
         </form>
       </main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
 import { WhyConnectSection } from '@/components/home/WhyConnectSection';
 import { CropListing } from '@/types/database';
 import {
@@ -298,7 +300,7 @@ export default function HomePage() {
       </section>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12 space-y-12">
         {/* 2. Elevated Hero Section (Two-column desktop grid with real Indian Farmer Photo) */}
         <section className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-stone-200 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-green-50 to-amber-50 rounded-full blur-3xl pointer-events-none -z-0" />
@@ -866,76 +868,8 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* 9. Mobile-Friendly Footer with Contact & Help Links */}
-      <footer className="bg-[#17251B] text-stone-300 text-xs py-10 px-4 border-t border-stone-800 mt-12">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 border-b border-stone-800 pb-8">
-          {/* Col 1: About */}
-          <div className="space-y-3">
-            <div className="flex items-center space-x-2 text-white font-black text-base">
-              <span className="text-2xl">🌾</span>
-              <span>Smart Farmer Connect</span>
-            </div>
-            <p className="text-stone-400 text-xs leading-relaxed">
-              Karnataka's dedicated pre-harvest agricultural marketplace connecting farmers directly to licensed APMC traders.
-            </p>
-            <div className="text-[#FFBF24] font-bold text-xs">
-              {t.demoFooter}
-            </div>
-          </div>
-
-          {/* Col 2: Marketplace Quick Links */}
-          <div className="space-y-2.5">
-            <h4 className="font-extrabold text-white uppercase tracking-wider text-xs">
-              {language === 'en' ? 'Marketplace' : 'ಮಾರುಕಟ್ಟೆ'}
-            </h4>
-            <ul className="space-y-1.5 text-stone-400">
-              <li><Link href="/marketplace" className="hover:text-white">All Crop Lots (ಎಲ್ಲಾ ಬೆಳೆಗಳು)</Link></li>
-              <li><Link href="/farmer/dashboard" className="hover:text-white">Farmer Hub (ರೈತ ಪುಟ)</Link></li>
-              <li><Link href="/seller/dashboard" className="hover:text-white">Trader Mandi Feed (ವ್ಯಾಪಾರಿ ಫೀಡ್)</Link></li>
-              <li><Link href="/visits" className="hover:text-white">Visits & Gate Passes (ಗೇಟ್ ಪಾಸ್)</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 3: Karnataka APMC Markets */}
-          <div className="space-y-2.5">
-            <h4 className="font-extrabold text-white uppercase tracking-wider text-xs">
-              {language === 'en' ? 'Covered APMC Yards' : 'ಎಪಿಎಂಸಿ ಮಾರುಕಟ್ಟೆಗಳು'}
-            </h4>
-            <ul className="space-y-1.5 text-stone-400">
-              <li>Hubballi APMC Yard, Amaragol</li>
-              <li>Belagavi APMC Yard, Kangrali</li>
-              <li>Yeshwanthpur APMC, Bengaluru</li>
-              <li>Davanagere APMC Market</li>
-            </ul>
-          </div>
-
-          {/* Col 4: Help & Contact */}
-          <div className="space-y-2.5">
-            <h4 className="font-extrabold text-white uppercase tracking-wider text-xs">
-              {language === 'en' ? 'Help & Support' : 'ಸಹಾಯ & ಸಂಪರ್ಕ'}
-            </h4>
-            <div className="space-y-1 text-stone-400 text-xs">
-              <p>Karnataka Mandi Support Helpline:</p>
-              <p className="font-bold text-white text-sm">1800-425-1552 / +91 80 2286 4280</p>
-              <p className="pt-1">Email: support@smartfarmerconnect.in</p>
-              <div className="pt-2">
-                <Link
-                  href="/help"
-                  className="inline-flex items-center space-x-1 text-[#FFBF24] font-bold hover:underline"
-                >
-                  <HelpCircle className="w-3.5 h-3.5" />
-                  <span>{language === 'en' ? 'View Help & FAQs →' : 'ಸಹಾಯ ಮತ್ತು ವಿವರಗಳು →'}</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-stone-500 text-xs">
-          <p>© 2026 Smart Farmer Connect. Built for Karnataka APMC Mandi ecosystem.</p>
-          <p>Preserves all authentic farmer listings and KSAMB benchmark rates.</p>
-        </div>
-      </footer>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

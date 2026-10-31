@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
+import { DashboardNav } from '@/components/common/DashboardNav';
 import { CropListing } from '@/types/database';
 import {
   Store,
@@ -103,6 +106,7 @@ export default function SellerDashboard() {
     return (
       <div className="min-h-screen bg-[#FFF8E5] flex flex-col">
         <Navbar />
+      <DashboardNav role="seller" />
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
           <div className="w-10 h-10 border-4 border-[#17652B] border-t-transparent rounded-full animate-spin" />
           <p>{language === 'en' ? 'Loading Mandi Trader Feed...' : 'ಮಂಡಿ ಫೀಡ್ ಲೋಡ್ ಆಗುತ್ತಿದೆ...'}</p>
@@ -115,7 +119,7 @@ export default function SellerDashboard() {
     <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12 space-y-8">
         {/* Trader Profile Banner */}
         <section className="bg-gradient-to-r from-white via-white to-[#FFF8E5] rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -423,6 +427,8 @@ export default function SellerDashboard() {
           )}
         </section>
       </main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

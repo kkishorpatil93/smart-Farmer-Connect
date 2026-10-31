@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
 import { CropListing, BuyerOffer } from '@/types/database';
 import {
   ArrowLeft,
@@ -121,7 +123,7 @@ export default function FarmerListingDetailPage() {
     <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12 space-y-8">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center space-x-3">
           <Link
@@ -465,6 +467,8 @@ export default function FarmerListingDetailPage() {
           )}
         </section>
       </main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

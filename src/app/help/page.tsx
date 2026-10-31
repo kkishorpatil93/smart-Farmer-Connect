@@ -4,6 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
 import {
   HelpCircle,
   Phone,
@@ -51,7 +53,7 @@ export default function HelpPage() {
     <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12 space-y-8">
         {/* Header Title */}
         <div className="space-y-1">
           <Link
@@ -179,6 +181,8 @@ export default function HelpPage() {
           </div>
         </div>
       </main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

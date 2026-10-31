@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
+import { DashboardNav } from '@/components/common/DashboardNav';
 import { BuyerOffer } from '@/types/database';
 import {
   ArrowLeft,
@@ -104,6 +107,7 @@ export default function FarmerOffersPage() {
     return (
       <div className="min-h-screen bg-[#FFF8E5] flex flex-col">
         <Navbar />
+      <DashboardNav role="farmer" />
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 font-semibold space-y-3">
           <div className="w-10 h-10 border-4 border-[#17652B] border-t-transparent rounded-full animate-spin" />
           <p>{language === 'en' ? 'Loading buyer offers...' : 'ಖರೀದಿದಾರರ ಆಫರ್‌ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...'}</p>
@@ -116,7 +120,7 @@ export default function FarmerOffersPage() {
     <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12 space-y-8">
         {/* Navigation & Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
@@ -328,6 +332,8 @@ export default function FarmerOffersPage() {
           </div>
         )}
       </main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

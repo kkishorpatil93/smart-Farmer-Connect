@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
+import { PageHeader } from '@/components/common/PageHeader';
 import { CropListing } from '@/types/database';
 import {
   Sprout,
@@ -80,7 +83,7 @@ export default function MarketplacePage() {
     <div className="min-h-screen flex flex-col bg-[#FFF8E5] text-[#17251B]">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12 space-y-8">
         {/* Header Title */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-stone-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1">
@@ -338,6 +341,8 @@ export default function MarketplacePage() {
           </div>
         )}
       </main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

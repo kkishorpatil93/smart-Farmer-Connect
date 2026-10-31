@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { Navbar } from '@/components/common/Navbar';
+import { Footer } from '@/components/common/Footer';
+import { BottomNav } from '@/components/common/BottomNav';
 import { NotificationItem } from '@/types/database';
 import {
   Bell,
@@ -253,6 +255,8 @@ export default function NotificationsPage() {
           </div>
         )}
       </main>
+      <Footer />
+      <BottomNav />
     </div>
   );
 }

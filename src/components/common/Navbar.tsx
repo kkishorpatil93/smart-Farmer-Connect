@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import {
@@ -27,6 +27,7 @@ export function Navbar() {
   const { user, logout } = useAuth();
   const { language, toggleLanguage } = useLanguage();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -69,6 +70,13 @@ export function Navbar() {
 
   const unreadCount = notifications.filter((n) => !n.read_at).length;
 
+  const isHomeActive = pathname === '/';
+  const isMarketplaceActive = pathname.startsWith('/marketplace');
+  const isFarmerActive = pathname.startsWith('/farmer');
+  const isSellerActive = pathname.startsWith('/seller');
+  const isVisitsActive = pathname.startsWith('/visits');
+  const isHelpActive = pathname.startsWith('/help');
+
   return (
     <header className="bg-gradient-to-r from-[#17652B] via-[#1F7D37] to-[#114D20] text-white sticky top-0 z-50 shadow-md border-b border-green-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,14 +107,22 @@ export function Navbar() {
           <nav className="hidden lg:flex items-center space-x-1 font-bold text-sm">
             <Link
               href="/"
-              className="px-3 py-2 rounded-xl text-green-100 hover:text-white hover:bg-white/10 transition"
+              className={`px-3 py-2 rounded-xl transition ${
+                isHomeActive
+                  ? 'bg-white/20 text-[#FFBF24] shadow-inner font-black'
+                  : 'text-green-100 hover:text-white hover:bg-white/10'
+              }`}
             >
               {language === 'en' ? 'Home' : 'ಮುಖಪುಟ'}
             </Link>
 
             <Link
               href="/marketplace"
-              className="px-3 py-2 rounded-xl text-green-100 hover:text-white hover:bg-white/10 transition flex items-center space-x-1"
+              className={`px-3 py-2 rounded-xl transition flex items-center space-x-1.5 ${
+                isMarketplaceActive
+                  ? 'bg-white/20 text-[#FFBF24] shadow-inner font-black'
+                  : 'text-green-100 hover:text-white hover:bg-white/10'
+              }`}
             >
               <ShoppingBag className="w-4 h-4 text-[#FFBF24]" />
               <span>{language === 'en' ? 'Marketplace' : 'ಮಾರುಕಟ್ಟೆ'}</span>
@@ -114,7 +130,11 @@ export function Navbar() {
 
             <Link
               href={user?.profile?.role === 'farmer' ? '/farmer/dashboard' : '/auth/login?role=farmer'}
-              className="px-3 py-2 rounded-xl text-green-100 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5"
+              className={`px-3 py-2 rounded-xl transition flex items-center space-x-1.5 ${
+                isFarmerActive
+                  ? 'bg-white/20 text-[#FFBF24] shadow-inner font-black'
+                  : 'text-green-100 hover:text-white hover:bg-white/10'
+              }`}
             >
               <Sprout className="w-4 h-4 text-emerald-300" />
               <span>{language === 'en' ? 'Farmer Hub' : 'ರೈತ ಪುಟ'}</span>
@@ -122,7 +142,11 @@ export function Navbar() {
 
             <Link
               href={user?.profile?.role === 'seller' ? '/seller/dashboard' : '/auth/login?role=seller'}
-              className="px-3 py-2 rounded-xl text-green-100 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5"
+              className={`px-3 py-2 rounded-xl transition flex items-center space-x-1.5 ${
+                isSellerActive
+                  ? 'bg-white/20 text-[#FFBF24] shadow-inner font-black'
+                  : 'text-green-100 hover:text-white hover:bg-white/10'
+              }`}
             >
               <Store className="w-4 h-4 text-[#FFBF24]" />
               <span>{language === 'en' ? 'APMC Mandi Feed' : 'ಮಂಡಿ ಫೀಡ್'}</span>
@@ -130,7 +154,11 @@ export function Navbar() {
 
             <Link
               href={user ? '/visits' : '/auth/login?redirect=/visits'}
-              className="px-3 py-2 rounded-xl text-green-100 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5"
+              className={`px-3 py-2 rounded-xl transition flex items-center space-x-1.5 ${
+                isVisitsActive
+                  ? 'bg-white/20 text-[#FFBF24] shadow-inner font-black'
+                  : 'text-green-100 hover:text-white hover:bg-white/10'
+              }`}
             >
               <CalendarDays className="w-4 h-4 text-teal-300" />
               <span>{language === 'en' ? 'Visits & Deals' : 'ಭೇಟಿ & ವ್ಯವಹಾರ'}</span>
@@ -138,7 +166,11 @@ export function Navbar() {
 
             <Link
               href="/help"
-              className="px-3 py-2 rounded-xl text-green-100 hover:text-white hover:bg-white/10 transition flex items-center space-x-1"
+              className={`px-3 py-2 rounded-xl transition flex items-center space-x-1 ${
+                isHelpActive
+                  ? 'bg-white/20 text-[#FFBF24] shadow-inner font-black'
+                  : 'text-green-100 hover:text-white hover:bg-white/10'
+              }`}
             >
               <HelpCircle className="w-4 h-4 text-amber-200" />
               <span>{language === 'en' ? 'Help' : 'ಸಹಾಯ'}</span>
@@ -199,7 +231,7 @@ export function Navbar() {
                           </Link>
                           <button
                             onClick={() => setShowNotifications(false)}
-                            className="text-white/80 hover:text-white p-1"
+                            className="text-white/80 hover:text-white p-1 cursor-pointer"
                           >
                             <X className="w-5 h-5" />
                           </button>
@@ -324,11 +356,13 @@ export function Navbar() {
 
         {/* Responsive Mobile Drawer Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-green-800 space-y-2 animate-in slide-in-from-top-2 duration-150">
+          <div className="lg:hidden py-4 border-t border-green-800 space-y-1.5 animate-in slide-in-from-top-2 duration-150">
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-2 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-semibold text-sm"
+              className={`flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-sm font-bold transition ${
+                isHomeActive ? 'bg-white/20 text-[#FFBF24]' : 'hover:bg-white/10 text-white'
+              }`}
             >
               <span>🏠</span>
               <span>{language === 'en' ? 'Home' : 'ಮುಖಪುಟ'}</span>
@@ -337,7 +371,9 @@ export function Navbar() {
             <Link
               href="/marketplace"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-2 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-semibold text-sm"
+              className={`flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-sm font-bold transition ${
+                isMarketplaceActive ? 'bg-white/20 text-[#FFBF24]' : 'hover:bg-white/10 text-white'
+              }`}
             >
               <ShoppingBag className="w-4 h-4 text-[#FFBF24]" />
               <span>{language === 'en' ? 'Crop Marketplace' : 'ಬೆಳೆ ಮಾರುಕಟ್ಟೆ'}</span>
@@ -346,7 +382,9 @@ export function Navbar() {
             <Link
               href={user?.profile?.role === 'farmer' ? '/farmer/dashboard' : '/auth/login?role=farmer'}
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-2 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-semibold text-sm"
+              className={`flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-sm font-bold transition ${
+                isFarmerActive ? 'bg-white/20 text-[#FFBF24]' : 'hover:bg-white/10 text-white'
+              }`}
             >
               <Sprout className="w-4 h-4 text-emerald-300" />
               <span>{language === 'en' ? 'Farmer Hub' : 'ರೈತ ಪುಟ'}</span>
@@ -355,7 +393,9 @@ export function Navbar() {
             <Link
               href={user?.profile?.role === 'seller' ? '/seller/dashboard' : '/auth/login?role=seller'}
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-2 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-semibold text-sm"
+              className={`flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-sm font-bold transition ${
+                isSellerActive ? 'bg-white/20 text-[#FFBF24]' : 'hover:bg-white/10 text-white'
+              }`}
             >
               <Store className="w-4 h-4 text-[#FFBF24]" />
               <span>{language === 'en' ? 'APMC Mandi Feed' : 'ವ್ಯಾಪಾರಿ ಮಂಡಿ ಫೀಡ್'}</span>
@@ -364,7 +404,9 @@ export function Navbar() {
             <Link
               href={user ? '/visits' : '/auth/login?redirect=/visits'}
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-2 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-semibold text-sm"
+              className={`flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-sm font-bold transition ${
+                isVisitsActive ? 'bg-white/20 text-[#FFBF24]' : 'hover:bg-white/10 text-white'
+              }`}
             >
               <CalendarDays className="w-4 h-4 text-teal-300" />
               <span>{language === 'en' ? 'Visits & Payments' : 'ಖಚಿತ ಭೇಟಿ & ಪಾವತಿಗಳು'}</span>
@@ -373,7 +415,7 @@ export function Navbar() {
             <Link
               href="/notifications"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-2 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-semibold text-sm"
+              className="flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-bold text-sm transition"
             >
               <Bell className="w-4 h-4 text-[#FFBF24]" />
               <span>{language === 'en' ? 'Notification Centre' : 'ಸೂಚನಾ ಕೇಂದ್ರ'}</span>
@@ -382,7 +424,9 @@ export function Navbar() {
             <Link
               href="/help"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center space-x-2 px-3 py-2.5 rounded-xl hover:bg-white/10 text-white font-semibold text-sm"
+              className={`flex items-center space-x-2.5 px-3 py-2.5 rounded-xl text-sm font-bold transition ${
+                isHelpActive ? 'bg-white/20 text-[#FFBF24]' : 'hover:bg-white/10 text-white'
+              }`}
             >
               <HelpCircle className="w-4 h-4 text-amber-200" />
               <span>{language === 'en' ? 'Help & Mandi Directory' : 'ಸಹಾಯ & ಎಪಿಎಂಸಿ ವಿವರ'}</span>
@@ -392,7 +436,7 @@ export function Navbar() {
               <Link
                 href="/farmer/add-crop"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center space-x-2 px-3 py-2.5 rounded-xl bg-[#FFBF24] text-stone-950 font-bold text-sm"
+                className="flex items-center space-x-2 px-3 py-2.5 rounded-xl bg-[#FFBF24] text-stone-950 font-black text-sm shadow-md"
               >
                 <PlusCircle className="w-4 h-4" />
                 <span>{language === 'en' ? 'Post New Harvest Lot' : 'ಹೊಸ ಬೆಳೆ ಸೇರಿಸಿ'}</span>
